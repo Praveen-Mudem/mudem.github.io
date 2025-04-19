@@ -15,6 +15,7 @@ import { UploadImgVideoComponent } from './components/upload-img-video/upload-im
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { Ng7LargeFilesUploadLibComponent, Ng7LargeFilesUploadLibModule } from 'ng7-large-files-upload-lib';
 import { FormsModule } from '@angular/forms';
+import { HomeMpkComponent } from './home-mpk/home-mpk.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { FormsModule } from '@angular/forms';
     VideopopComponent,
     ImagepopupComponent,
     UploadImgVideoComponent,
+    HomeMpkComponent,
    
     
   ],
