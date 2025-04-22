@@ -1,0 +1,67 @@
+<div class="container mt-5"> 
+
+    <div class="top-content-section text-center">
+        <h1>Contact Us</h1>
+    </div>
+
+    <div class="overflow-hiden mt-4 mb-2">
+        <form (submit)="sendMail()">
+            <div class="row pb-3">
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" name="FirstName"
+                            [(ngModel)]="commonSer.ContactViewInfo.ContactInfo.FirstName" placeholder="Your full name">
+                        <label for="inputName">Your Name</label>
+                    </div>
+                </div>
+
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="inputSurname" name="Surname"
+                            [(ngModel)]="commonSer.ContactViewInfo.ContactInfo.Surname" placeholder="Your Surname">
+                        <label for="inputName">Your Surname</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row pb-3">
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input type="email" class="form-control" name="EMail"
+                            [(ngModel)]="commonSer.ContactViewInfo.ContactInfo.EMail" id="inputEMail"
+                            placeholder="mail@address.com">
+                        <label for="inputEMail">Your email address</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row pb-3">
+
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" name="CountryCode"
+                            [(ngModel)]="commonSer.ContactViewInfo.ContactInfo.CountryCode" id="inputCountryCode"
+                            placeholder="+91">
+                        <label for="inputCountryCode">Your CountryCode</label>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" name="MobileNo"
+                            [(ngModel)]="commonSer.ContactViewInfo.ContactInfo.MobileNo" id="inputMobileNo"
+                            placeholder="0123456789">
+                        <label for="inputEMail">Your MobileNo</label>
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-floating">
+                <textarea class="form-control" type="text" name="Description"
+                    [(ngModel)]="commonSer.ContactViewInfo.ContactInfo.Description" placeholder="Leave a comment here"
+                    id="txtComments" style="height: 100px"></textarea>
+                <label for="txtComments">Comments</label>
+            </div>
+            <div class="text-center py-3">
+                <button class="btn btn-primary w-25 h-15" type="submit">Send</button>
+            </div>
+        </form>
+    </div>
+</div>

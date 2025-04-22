@@ -16,6 +16,10 @@ import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { Ng7LargeFilesUploadLibComponent, Ng7LargeFilesUploadLibModule } from 'ng7-large-files-upload-lib';
 import { FormsModule } from '@angular/forms';
 import { HomeMpkComponent } from './home-mpk/home-mpk.component';
+import { HeaderComponent } from './layout/header/header.component';
+import { FooterComponent } from './layout/footer/footer.component';
+import { ContactusComponent } from './components/contactus/contactus.component';
+import { GalaryComponent } from './components/galary/galary.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +31,10 @@ import { HomeMpkComponent } from './home-mpk/home-mpk.component';
     ImagepopupComponent,
     UploadImgVideoComponent,
     HomeMpkComponent,
+    HeaderComponent,
+    FooterComponent,
+    ContactusComponent,
+    GalaryComponent,
    
     
   ],

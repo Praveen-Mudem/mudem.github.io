@@ -1,14 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AboutComponent } from './about/about.component';
+import { AboutComponent } from './components/about/about.component';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { HomeMpkComponent } from './home-mpk/home-mpk.component';
+import { ContactusComponent } from './components/contactus/contactus.component';
+import { GalaryComponent } from './components/galary/galary.component';
 
 const routes: Routes = [
   // {path:"", component:HomeComponent},
   {path:"home", component:HomeMpkComponent},
   {path:"about", component:AboutComponent},
+  {path:"contact", component:ContactusComponent},
+  {path:"galary", component:GalaryComponent},
   {path:'', redirectTo: '/home', pathMatch: 'full'}
 ];
 
