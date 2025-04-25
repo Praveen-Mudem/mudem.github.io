@@ -20,6 +20,7 @@ import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { ContactusComponent } from './components/contactus/contactus.component';
 import { GalaryComponent } from './components/galary/galary.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { GalaryComponent } from './components/galary/galary.component';
     FooterComponent,
     ContactusComponent,
     GalaryComponent,
+    LoginComponent,
    
     
   ],

@@ -1,0 +1,124 @@
+
+.navbar-nav {
+    padding: 8px 9px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    gap: 1rem;
+
+    .nav-link {
+        font-size: 16px;
+        color: #f1f5f9;
+        padding: 6px 8px;
+
+        &:hover {
+            font-size: 16px;
+            background-color: #60a5fa;
+            border-radius: 20px;
+        }
+
+        &.active {
+            font-size: 16px;
+            background-color: #3b82f6;
+            border-radius: 20px;
+            // background-color: $color4;
+        }
+    }
+
+}
+
+span{
+    color: #fff !important;
+    font-size: 28px;
+}
+.navbar-toggler:focus {
+    box-shadow: none !important;
+}
+.navbar {
+    @media (min-width:501px){
+        padding: 40px 80px;
+    }
+
+
+    .navbar-brand {
+        color: #fff;
+     
+    }
+
+    .list-group-item {
+        font-size: 24px;
+    }
+}
+
+// .navbar-nav .show > .nav-link, .navbar-nav .nav-link.active {
+//     color: #fff;
+// }
+
+
+.list-group-horizontal {
+    .list-group-item {
+        background: transparent;
+        color: #18c2cb;
+        cursor: pointer;
+        border: none;
+
+        &:hover {
+            color: #fff;
+
+        }
+    }
+
+}
+
+.top-content-section {
+    // top: 50%;
+    // left: 50%;
+    // transform: translate(-50%, -50%);
+    // width: 90%;
+    color: #f1f5f9;
+
+    ul {
+        gap: 1rem;
+        list-style: none;
+
+        li {
+            padding: 6px 8px;
+            font-size: 16px;
+            color: #f1f5f9;
+            padding: 6px 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+
+            &:hover {
+                font-size: 16px;
+                background-color: #60a5fa;
+                border-radius: 20px;
+            }
+
+            &.active {
+                font-size: 16px;
+                background-color: #3b82f6;
+                border-radius: 20px;
+            }
+        }
+    }
+}
+@media (min-width: 0px) and (max-width: 500px) {
+    #navbarTogglerDemo02{
+        position: absolute;
+        top: 0%;
+        right: 50%;
+        transform: translate(50%, 16%);
+        z-index: 9999;
+        background: rgb(33, 36, 45);
+        width: 100%;
+        ul{
+            border: none;
+            background: transparent;
+        }
+        .horizontal-list{
+            display: flex;
+            justify-content:space-around;
+        }
+    }
+    
+}
