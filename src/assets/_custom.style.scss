@@ -17,64 +17,64 @@
 }
 
 
-.navbar-nav {
-    padding: 8px 9px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    gap: 1rem;
+// .navbar-nav {
+//     padding: 8px 9px;
+//     background-color: rgba(255, 255, 255, 0.1);
+//     border: 1px solid rgba(255, 255, 255, 0.15);
+//     gap: 1rem;
 
-    .nav-link {
-        font-size: 16px;
-        color: #f1f5f9;
-        padding: 6px 8px;
+//     .nav-link {
+//         font-size: 16px;
+//         color: #f1f5f9;
+//         padding: 6px 8px;
 
-        &:hover {
-            font-size: 16px;
-            background-color: #60a5fa;
-            border-radius: 20px;
-        }
+//         &:hover {
+//             font-size: 16px;
+//             background-color: #60a5fa;
+//             border-radius: 20px;
+//         }
 
-        &.active {
-            font-size: 16px;
-            background-color: #3b82f6;
-            border-radius: 20px;
-            // background-color: $color4;
-        }
-    }
+//         &.active {
+//             font-size: 16px;
+//             background-color: #3b82f6;
+//             border-radius: 20px;
+//             // background-color: $color4;
+//         }
+//     }
 
-    @media (min-width: 0px) and (max-width: 500px) {
-        #navbarTogglerDemo02{
-            position: absolute;
-            top: 0%;
-            right: 50%;
-            transform: translate(50%, 16%);
-            z-index: 9999;
-            background: rgb(33, 36, 45);
-            width: 100%;
-            ul{
-                border: none;
-                background: transparent;
-            }
-            .horizontal-list{
-                display: flex;
-                justify-content:space-around;
-            }
-        }
+//     @media (min-width: 0px) and (max-width: 500px) {
+//         #navbarTogglerDemo02{
+//             position: absolute;
+//             top: 0%;
+//             right: 50%;
+//             transform: translate(50%, 16%);
+//             z-index: 9999;
+//             background: rgb(33, 36, 45);
+//             width: 100%;
+//             ul{
+//                 border: none;
+//                 background: transparent;
+//             }
+//             .horizontal-list{
+//                 display: flex;
+//                 justify-content:space-around;
+//             }
+//         }
         
-    }
+//     }
 
-}
+// }
 
-.navbar {
+// .navbar {
 
-    .navbar-brand {
-        color: #fff;
-    }
+//     .navbar-brand {
+//         color: #fff;
+//     }
 
-    .list-group-item {
-        font-size: 24px;
-    }
-}
+//     .list-group-item {
+//         font-size: 24px;
+//     }
+// }
 
 // .navbar-nav .show > .nav-link, .navbar-nav .nav-link.active {
 //     color: #fff;

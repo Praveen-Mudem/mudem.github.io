@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "assets/custom.style";
+@import "assets/_variable";
+@import "assets/_custom.style";
+@import "assets/_custom.modal";
+@import "assets/_preloader";
 @import "~bootstrap/dist/css/bootstrap.css";
-@import "assets/custom.modal";
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");

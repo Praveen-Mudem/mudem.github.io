@@ -34,7 +34,9 @@ export class HomeComponent implements OnInit {
 
   imgList:any[];
   list:any[];
-  imageUrl:any;
+  imageUrl: any = null;
+  selectedFile: File | null = null;
+  uploadMessage: string = '';
   afuConfig = {
     uploadAPI: {
       url:"https://example-file-upload-api",
@@ -45,9 +47,7 @@ url:any;
   format:any;
 FileInfo:GallaryFileInfo = new GallaryFileInfo();
 videoList:any;
-handleFileInput(event){
 
-}
 OnSubmit(filedata:any){
 
 }
@@ -166,5 +166,42 @@ OnSubmit(filedata:any){
     this.commonSer.getmyimagefiles().subscribe((res:any)=>{
       this.imgList=res
     })
+  }
+  handleFileInput(event: any) {
+    const file = event.target.files && event.target.files[0];
+    this.selectedFile = file;
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        if (file.type.startsWith('image')) {
+          this.imageUrl = e.target.result;
+        } else {
+          this.imageUrl = null;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  uploadFile() {
+    if (!this.selectedFile) {
+      this.uploadMessage = 'No file selected.';
+      return;
+    }
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+    // You can append more fields if your API expects them, e.g.:
+    // formData.append('description', 'Some description');
+    this.commonSer.uploadDocument(formData).subscribe({
+      next: (res: any) => {
+        this.uploadMessage = 'Upload successful!';
+        // Optionally refresh images/videos list
+        this.getmyimages();
+        this.getmyvideofiles();
+      },
+      error: (err) => {
+        this.uploadMessage = 'Upload failed.';
+      }
+    });
   }
 }

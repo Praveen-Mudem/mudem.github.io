@@ -31,5 +31,7 @@ export class CommonService {
    savecontactinfo(){
     return this.http.post(this.baseUrl+'/savecontactinfo',this.ContactViewInfo);
    }
-   
+   uploadDocument(formData: FormData) {
+    return this.http.post(this.baseUrl + '/uploadDocuments', formData);
+  }
 }

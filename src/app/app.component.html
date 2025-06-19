@@ -1,6 +1,16 @@
-<div class="main">
+<div *ngIf="isLoading" class="preloader">
+  <div class="spinner"></div>
+</div>
+<ng-container *ngIf="!loginService.isLoggedIn(); else loggedInBlock">
+  <div class="main">
     <app-header></app-header>
     <router-outlet></router-outlet>
-
-</div>
+  </div>
+</ng-container>
+<ng-template #loggedInBlock>
+  <div>
+    <app-dashboard-header></app-dashboard-header>
+    <router-outlet></router-outlet>
+  </div>
+</ng-template>
 <app-footer></app-footer>

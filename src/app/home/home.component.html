@@ -176,11 +176,12 @@
             <div class="text-center">
               <!-- <angular-file-uploader [config]="afuConfig">
                 </angular-file-uploader> -->
-              <mb-large-files-uploader (updatedAttachmentsEmitter)="largefileschange($event)" name="FileId"
-                (updatedResponseEmitter)="filesuploaded($event)" title="Upload video" [canUpload]="true"
-                [canSendData]="true" saveButtonText="save" saveButton="false">
-              </mb-large-files-uploader>
-              
+              <input type="file" class="form-control" (change)="handleFileInput($event)" accept="image/*,video/*">
+              <div *ngIf="imageUrl" class="mt-2">
+                <img [src]="imageUrl" alt="Preview" class="img-fluid" style="max-width: 200px; max-height: 200px;" *ngIf="selectedFile && selectedFile.type.startsWith('image')">
+              </div>
+              <button class="btn btn-primary mt-2" (click)="uploadFile()">Upload</button>
+              <div *ngIf="uploadMessage" class="mt-2 text-success">{{uploadMessage}}</div>
             </div>
           </div>
         </div>
@@ -193,7 +194,7 @@
 
   <div>
     <footer class="text-center bg-theam-1 py-3 text-white">
-      Copy rights @2023
+      Copy rights &#64;2023
       <!-- Website source available <a href="">here</a> and <a href="">here</a> |
   Powered by <a href="" target="_blank">GitHub pages</a>, <a href="">Heroku</a> and <a href="">Cloudflare</a> -->
     </footer>

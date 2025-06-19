@@ -28,14 +28,9 @@
 
    
 
-<!-- 
 <div class="form-group mb-0" >
 
-    <mb-large-files-uploader (updatedAttachmentsEmitter)="largefileschange($event)"
-    name="FileId"
-    (updatedResponseEmitter)="filesuploaded($event)"
-    title="Upload video"  [canUpload]="true"
-    [canSendData]="true" [saveButtonText]="" saveButton="false">
-</mb-large-files-uploader>
+    <input type="file" class="form-control" (change)="handleFileInput($event)" accept="image/*,video/*">
+    <!-- You can add a preview and upload button as needed -->
 
-</div> -->
+</div>
