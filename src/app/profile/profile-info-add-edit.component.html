@@ -1,0 +1,16 @@
+<form (ngSubmit)="onSubmit()" #profileForm="ngForm">
+  <div class="mb-3">
+    <label class="form-label">Name</label>
+    <input class="form-control" [(ngModel)]="profile.Name" name="name" required minlength="2" #name="ngModel" />
+    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger">
+      <div *ngIf="name.errors?.['required']">Name is required.</div>
+      <div *ngIf="name.errors?.['minlength']">Name must be at least 2 characters.</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Date of Birth</label>
+    <input type="date" class="form-control" [(ngModel)]="profile.DateOfBirth" name="dob" />
+  </div>
+  <button type="submit" class="btn btn-success me-2" [disabled]="profileForm.invalid">{{ isEdit ? 'Update' : 'Add' }}</button>
+  <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+</form>

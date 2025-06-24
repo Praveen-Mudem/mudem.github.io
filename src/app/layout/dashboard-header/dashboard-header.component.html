@@ -23,8 +23,19 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
             <ul class="navbar-nav d-flex align-items-center">
+                <li class="nav-item cursor-pointer" (click)="onNotificationClick()">
+                   <span>Notification</span>
+                </li>
                 <li class="nav-item">
-                    <img class="profile-pic" [src]="userPhoto" alt="User Photo" />                
+                    <select class="form-select" style="min-width: 180px;" [(ngModel)]="selectedProfileId">
+                        <option *ngFor="let profile of profileList" [value]="profile.ProfileId">
+                            {{ profile.Name }}
+                        </option>
+                    </select>
+                </li>
+                <li class="nav-item d-flex align-items-center">
+                    <img class="profile-pic" [src]="userPhoto" alt="User Photo" /> 
+                    <span class="user-name ps-2">{{ userName }}</span>               
                 </li>
                 
                 <li class="nav-item cursor-pointer" (click)="onLogout()" title="Logout">

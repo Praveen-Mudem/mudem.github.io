@@ -11,6 +11,7 @@ import { OverviewComponent } from './components/overview/overview.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
+import { NotificationComponent } from './notification/notification.component';
 
 const routes: Routes = [
   // {path:"", component:HomeComponent},
@@ -19,7 +20,8 @@ const routes: Routes = [
   {path:'login', component: LoginComponent},
   {path:'overview', component: OverviewComponent},
   {path:'profile', component: ProfileComponent, canActivate: [AuthGuard]},
-  {path:'', redirectTo: '/login', pathMatch: 'full'}
+  {path:'notification', component: NotificationComponent, canActivate: [AuthGuard]},
+  {path:'', redirectTo: '/profile', pathMatch: 'full'}
 ];
 
 @NgModule({

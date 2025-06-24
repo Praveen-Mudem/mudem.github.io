@@ -1,0 +1,35 @@
+<form (ngSubmit)="onSubmit()" #noteForm="ngForm">
+    <div class="row border">
+        <div class="col-12 mb-2">
+            <label class="form-label">Title</label>
+            <input class="form-control" [(ngModel)]="note.Title" name="title" required minlength="4" #title="ngModel" />
+            <div *ngIf="title.invalid && (title.dirty || title.touched)" class="text-danger">
+                <div *ngIf="title.errors?.['required']">Title is required.</div>
+                <div *ngIf="title.errors?.['minlength']">Title must be at least 4 characters.</div>
+            </div>
+        </div>
+        <div class="col-12 mb-2">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" [(ngModel)]="note.Description" name="description"></textarea>
+        </div>
+        <div class="col-12 col-md-4 col-xs-12 mb-2">
+            <label class="form-label">Date</label>
+            <input type="date" class="form-control" [(ngModel)]="note.Date" name="date" />
+        </div>
+        <div class="col-12 col-md-4 col-xs-12 mb-2">
+            <label class="form-label">Time</label>
+            <input type="time" class="form-control" [(ngModel)]="note.Time" name="time" />
+        </div>
+        <div class="col-12 col-md-4 col-xs-12 mb-2">
+            <label class="form-label">Remainder Type</label>
+            <select class="form-control" [(ngModel)]="note.RemainderTypeId" name="remainderTypeId">
+                <option *ngFor="let type of RemainderTypeList" [value]="type.Id">{{ type.Name }}</option>
+            </select>
+        </div>
+        <div class="col-12 text-end pt-2 pb-2 border-top">
+            <button type="submit" class="btn btn-success me-2" [disabled]="title.invalid">{{ isEdit ? 'Update' : 'Add'
+                }}</button>
+            <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+        </div>
+    </div>
+</form>

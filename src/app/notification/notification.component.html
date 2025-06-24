@@ -1,0 +1,52 @@
+<div class="container mt-4">
+  <div *ngIf="loading" class="text-center py-5">
+    <span>Loading notes...</span>
+  </div>
+  <div *ngIf="errorMsg" class="alert alert-danger text-center">
+    {{ errorMsg }}
+  </div>
+
+  <div class="row" *ngIf="!loading && !errorMsg && !showAddEdit">
+    <div class="col-12 mb-3 text-end">
+      <button class="btn btn-success" (click)="onAdd()">Add Note</button>
+    </div>
+    <div>
+        
+    </div>
+    <div class="col-12">
+      <table class="table table-bordered table-hover">
+        <thead class="table-light">
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Remainder Type</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let note of noteList">
+            <td>{{ note.Title }}</td>
+            <td>{{ note.Description }}</td>
+            <td>{{ note.Date }}</td>
+            <td>{{ note.Time }}</td>
+            <td>{{ getRemainderTypeName(note.RemainderTypeId) }}</td>
+            <td>
+              <button class="btn btn-sm btn-primary me-2" (click)="onEdit(note)">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn btn-sm btn-danger" (click)="onDelete(note)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div *ngIf="showAddEdit">
+    <app-notification-add-edit [note]="editNote" [isEdit]="isEdit" (save)="onSave($event)" (cancel)="onCancel()"></app-notification-add-edit>
+  </div>
+</div>

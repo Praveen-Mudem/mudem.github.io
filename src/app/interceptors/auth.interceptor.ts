@@ -13,10 +13,22 @@ export class AuthInterceptor implements HttpInterceptor {
     this.loaderService.show();
     const token = getToken();
     let request = req;
+    // Get ProfileId from localStorage
+    let profileId = null;
+    const userInfo = localStorage.getItem('userInfo');
+    if (userInfo) {
+      const user = JSON.parse(userInfo);
+      profileId = user.ProfileId;
+    }
+    const setHeaders: any = {};
     if (token) {
-      request = req.clone({
-        setHeaders: { Authorization: `Bearer ${token}` }
-      });
+      setHeaders['Authorization'] = `Bearer ${token}`;
+    }
+    if (profileId) {
+      setHeaders['ProfileId'] = profileId.toString();
+    }
+    if (Object.keys(setHeaders).length > 0) {
+      request = req.clone({ setHeaders });
     }
     return next.handle(request).pipe(
       finalize(() => this.loaderService.hide())

@@ -11,6 +11,8 @@ import { ProfileService } from '../../service/profile.service';
 export class DashboardHeaderComponent implements OnInit {
   userPhoto = '';
   userName = '';
+  profileList: any[] = [];
+  selectedProfileId: number | null = null;
 
   constructor(
     private loginService: LoginService,
@@ -18,24 +20,30 @@ export class DashboardHeaderComponent implements OnInit {
     private profileService: ProfileService
   ) {
     const userInfo = localStorage.getItem('userInfo');
+    // debugger
     if (userInfo) {
       const user = JSON.parse(userInfo);
-      this.userName = user.name || 'User';
-      this.userPhoto = user.photo || 'assets/images/default-avatar.png';
+      this.userName = user.UserName;
+      this.selectedProfileId = user.ProfileId || null;
+      this.userPhoto = user.photo || 'https://i.pravatar.cc/100?img=1';
     } else {
-      this.userName = 'User';
-      this.userPhoto = 'assets/images/default-avatar.png';
+      this.userPhoto = 'https://i.pravatar.cc/100?img=1';
     }
   }
 
   ngOnInit() {
-    this.profileService.getProfileList().subscribe(result => {
-      console.log('Profile List API result:', result);
+    this.profileService.getProfileList().subscribe(); // fetch and cache
+    this.profileService.profileList$.subscribe(list => {
+      this.profileList = list;
     });
   }
 
   onLogout() {
     this.loginService.logout();
     this.router.navigate(['/login']);
+  }
+
+  onNotificationClick() {
+    this.router.navigate(['/notification']);
   }
 }

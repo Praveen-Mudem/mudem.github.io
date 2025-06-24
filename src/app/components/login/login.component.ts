@@ -24,8 +24,8 @@ export class LoginComponent {
     }
     this.loginService.login(this.email, this.password).subscribe({
       next: (user) => {
-        if (user && user.token) {
-          setToken(user.token);
+        if (user && user.Token) {         
+          setToken(user.Token);
           localStorage.setItem('userInfo', JSON.stringify(user));
           this.router.navigate(['/profile']);
         } else {

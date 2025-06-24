@@ -10,85 +10,42 @@
 </div> -->
 
 
-<div class="container top-content-section  overflow-hiden">
-  <div class="row">
+<div class="container top-content-section overflow-hiden">
+  <div *ngIf="loading" class="text-center py-5">
+    <span>Loading profiles...</span>
+  </div>
+  <div *ngIf="errorMsg" class="alert alert-danger text-center">
+    {{ errorMsg }}
+  </div>
+  <div class="row mt-4" *ngIf="!loading && !errorMsg">
     <div class="col-12 col-lg-3 col-md-4 col-sm-6 col-xs-12 pb-4">
+      <div class="card h-100 d-flex flex-column justify-content-center align-items-center" style="min-height: 250px; border: 2px dashed #007bff; background: #f8f9fa;">
+        <button class="btn btn-outline-primary" (click)="onAddProfile()">
+          <i class="bi bi-plus-circle" style="font-size: 2rem;"></i><br />
+          Add New Profile
+        </button>
+      </div>
+    </div>
+    <div class="col-12 col-lg-3 col-md-4 col-sm-6 col-xs-12 pb-4" *ngFor="let profile of profileList">
       <div class="card">
         <div class="card-img-top text-center p-2">
-          <img class="profile-pic" src="https://i.pravatar.cc/100?img=1" alt="...">
+          <img class="profile-pic" [src]="profile.image || 'https://i.pravatar.cc/100?img=1'" alt="Profile Image">
         </div>
         <div class="card-body text-center pt-0">
-          <h5 class="card-title">Card title</h5>
-          <h6 class="card-subtitle mb-2">Card subtitle</h6>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <h5 class="card-title">{{ profile.Name }}</h5>
+          <h6 class="card-subtitle mb-2">DOB: {{ profile.DateOfBirth }}</h6>         
         </div>
+         <div class="card-footer text-end">
+            <a class="btn btn-primary me-2" (click)="onEditProfile(profile)">Edit</a>
+            <a class="btn btn-danger" (click)="onDeleteProfile(profile)">Delete</a>
+          </div>       
       </div>
     </div>
+  </div>
 
-    <div class="col-12 col-lg-3 col-md-4 col-sm-6 col-xs-12 pb-4">
-      <div class="card">
-        <div class="card-img-top text-center">
-          <img class="profile-pic" src="https://i.pravatar.cc/100?img=1" alt="...">
-        </div>
-        <div class="card-body text-center">
-          <h5 class="card-title">Card title</h5>
-          <h6 class="card-subtitle mb-2">Card subtitle</h6>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
+  <div *ngIf="showAddEdit" class="row mt-4">
+    <div class="col-12 col-lg-4 col-md-6 col-sm-8 mx-auto">
+      <app-profile-info-add-edit [profile]="editProfile" [isEdit]="isEdit" (save)="onSaveProfile($event)" (cancel)="onCancelProfile()"></app-profile-info-add-edit>
     </div>
-
-    <div class="col-12 col-lg-3 col-md-4 col-sm-6 col-xs-12 pb-4">
-      <div class="card">
-        <div class="card-img-top text-center">
-          <img class="profile-pic" src="https://i.pravatar.cc/100?img=1" alt="...">
-        </div>
-        <div class="card-body text-center">
-          <h5 class="card-title">Card title</h5>
-          <h6 class="card-subtitle mb-2">Card subtitle</h6>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-lg-3 col-md-4 col-sm-6 col-xs-12 pb-4">
-      <div class="card">
-        <div class="card-img-top text-center">
-          <img class="profile-pic" src="https://i.pravatar.cc/100?img=1" alt="...">
-        </div>
-        <div class="card-body text-center">
-          <h5 class="card-title">Card title</h5>
-          <h6 class="card-subtitle mb-2">Card subtitle</h6>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-lg-3 col-md-4 col-sm-6 col-xs-12 pb-4">
-      <div class="card">
-        <div class="card-img-top text-center">
-          <img class="profile-pic" src="https://i.pravatar.cc/100?img=1" alt="...">
-        </div>
-        <div class="card-body text-center">
-          <h5 class="card-title">Card title</h5>
-          <h6 class="card-subtitle mb-2">Card subtitle</h6>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-lg-3 col-md-4 col-sm-6 col-xs-12 pb-4">
-      <div class="card">
-        <div class="card-img-top text-center">
-          <img class="profile-pic" src="https://i.pravatar.cc/100?img=1" alt="...">
-        </div>
-        <div class="card-body text-center">
-          <h5 class="card-title">Card title</h5>
-          <h6 class="card-subtitle mb-2">Card subtitle</h6>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-    </div>
-    
   </div>
 </div>
