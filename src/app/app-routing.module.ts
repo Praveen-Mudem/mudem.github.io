@@ -1,27 +1,46 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AboutComponent } from './components/about/about.component';
-import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { HomeMpkComponent } from './home-mpk/home-mpk.component';
-import { ContactusComponent } from './components/contactus/contactus.component';
-import { GalaryComponent } from './components/galary/galary.component';
-import { LoginComponent } from './components/login/login.component';
-import { OverviewComponent } from './components/overview/overview.component';
-import { ProfileComponent } from './profile/profile.component';
 import { AuthGuard } from './guards/auth.guard';
-import { RoleGuard } from './guards/role.guard';
-import { NotificationComponent } from './notification/notification.component';
 
 const routes: Routes = [
   // {path:"", component:HomeComponent},
-  {path:"home", component:HomeMpkComponent},
-  {path:"about", component:AboutComponent},
-  {path:'login', component: LoginComponent},
-  {path:'overview', component: OverviewComponent},
-  {path:'profile', component: ProfileComponent, canActivate: [AuthGuard]},
-  {path:'notification', component: NotificationComponent, canActivate: [AuthGuard]},
-  {path:'', redirectTo: '/profile', pathMatch: 'full'}
+  {
+    path: "home",
+    loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
+  },
+  {
+    path: "about",
+    loadChildren: () => import('./components/about/about.module').then(m => m.AboutModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./components/login/login.module').then(m => m.LoginModule)
+  },
+  {
+    path: 'overview',
+    loadChildren: () => import('./components/overview/overview.module').then(m => m.OverviewModule)
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'notification',
+    loadChildren: () => import('./notification/notification.module').then(m => m.NotificationModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'profile-dashboard/:profileId',
+    loadChildren: () => import('./profile/profile-dashboard/profile-dashboard.module').then(m => m.ProfileDashboardModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'profile-info-add-edit',
+    loadChildren: () => import('./profile/profile-info-add-edit/profile-info-add-edit.module').then(m => m.ProfileInfoAddEditModule),
+    canActivate: [AuthGuard]
+  },
+  { path: '', redirectTo: '/profile', pathMatch: 'full' }
 ];
 
 @NgModule({

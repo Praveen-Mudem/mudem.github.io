@@ -37,15 +37,15 @@
         </div>
          <div class="card-footer text-end">
             <a class="btn btn-primary me-2" (click)="onEditProfile(profile)">Edit</a>
-            <a class="btn btn-danger" (click)="onDeleteProfile(profile)">Delete</a>
+            <a *ngIf="profile.ProfileId != loggedInProfileId" class="btn btn-danger" (click)="onDeleteProfile(profile)">Delete</a>
           </div>       
       </div>
     </div>
   </div>
 
-  <div *ngIf="showAddEdit" class="row mt-4">
+  <!-- <div *ngIf="showAddEdit" class="row mt-4">
     <div class="col-12 col-lg-4 col-md-6 col-sm-8 mx-auto">
       <app-profile-info-add-edit [profile]="editProfile" [isEdit]="isEdit" (save)="onSaveProfile($event)" (cancel)="onCancelProfile()"></app-profile-info-add-edit>
     </div>
-  </div>
+  </div> -->
 </div>

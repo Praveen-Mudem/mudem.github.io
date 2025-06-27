@@ -23,11 +23,20 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
             <ul class="navbar-nav d-flex align-items-center">
-                <li class="nav-item cursor-pointer" (click)="onNotificationClick()">
-                   <span>Notification</span>
+                 <li class="nav-item cursor-pointer" (click)="onProfileChange()">
+                   <span>Dashboard</span>
+                </li>
+                  <li class="nav-item cursor-pointer" (click)="onNotificationClick()">
+                   <span>Files</span>
+                </li>
+                  <li class="nav-item cursor-pointer" routerLink="/notification" routerLinkActive="active">
+                   <span>Notes</span>
+                </li>
+                  <li class="nav-item cursor-pointer" routerLink="/profile" routerLinkActive="active">
+                   <span>Profiles</span>
                 </li>
                 <li class="nav-item">
-                    <select class="form-select" style="min-width: 180px;" [(ngModel)]="selectedProfileId">
+                    <select class="form-select" style="min-width: 180px;" [(ngModel)]="loggedInProfileId" (change)="onProfileChange()">
                         <option *ngFor="let profile of profileList" [value]="profile.ProfileId">
                             {{ profile.Name }}
                         </option>

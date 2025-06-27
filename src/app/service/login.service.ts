@@ -51,4 +51,24 @@ export class LoginService {
     localStorage.removeItem('userInfo');
     this.clearSubscriptions();
   }
+
+  /**
+   * Returns the logged-in user's profile ID as a string, or null if not logged in.
+   */
+  static getLoggedInProfileId(): string | null {
+    const userInfo = localStorage.getItem('userInfo');
+    if (userInfo) {
+      const user = JSON.parse(userInfo);
+      return user.ProfileId ? String(user.ProfileId) : null;
+    }
+    return null;
+  }
+
+  /**
+   * Returns true if the given profileId is the logged-in user's profile.
+   */
+  static isLoggedInUserProfile(profileId: string | number): boolean {
+    const loggedInId = LoginService.getLoggedInProfileId();
+    return loggedInId !== null && String(profileId) === loggedInId;
+  }
 }

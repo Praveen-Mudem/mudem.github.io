@@ -2,13 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NotificationService } from '../service/notification.service';
 import { ToastService } from '../service/toast.service';
 import { ConfirmDialogService } from '../service/confirm-dialog.service';
-
-const RemainderTypeList = [
-  { Id: 1, Name: 'Day' },
-  { Id: 2, Name: 'Week' },
-  { Id: 3, Name: 'Month' },
-  { Id: 4, Name: 'Year' }
-];
+import { Notification } from '../model/notification.model';
 
 @Component({
   selector: 'app-notification',
@@ -16,13 +10,13 @@ const RemainderTypeList = [
   styleUrls: ['./notification.component.scss']
 })
 export class NotificationComponent implements OnInit {
-  noteList: any[] = [];
+  noteList: Notification[] = [];
   loading = true;
   errorMsg = '';
   showAddEdit = false;
-  editNote: any = null;
+  editNote: Notification | null = null;
   isEdit = false;
-  RemainderTypeList = RemainderTypeList;
+  RemainderTypeList: any[] = [];
 
   constructor(
     private notificationService: NotificationService,
@@ -32,6 +26,7 @@ export class NotificationComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadNotes();
+    this.loadRemainderTypes();
   }
 
   loadNotes() {
@@ -48,42 +43,57 @@ export class NotificationComponent implements OnInit {
     });
   }
 
+  loadRemainderTypes() {
+    // Use getNoteInfo with noteId=0 or a dedicated API if available
+    this.notificationService.getNoteInfo(0).subscribe({
+      next: (result) => {
+        if (result && result.RemainderTypeList) {
+          this.RemainderTypeList = result.RemainderTypeList;
+        }
+      }
+    });
+  }
+
   getRemainderTypeName(id: number): string {
     const type = this.RemainderTypeList.find(t => t.Id === id);
     return type ? type.Name : '';
   }
 
   onAdd() {
-    this.editNote = { NoteId: 0, Date: '', Time: '', Title: '', Description: '', RemainderTypeId: 0 };
+    this.editNote = {
+      NoteId: 0,
+      Date: '',
+      Time: '',
+      Title: '',
+      Description: '',
+      RemainderTypeId: 0
+    };
     this.isEdit = false;
     this.showAddEdit = true;
   }
 
-  onEdit(note: any) {
+  onEdit(note: Notification) {
     this.editNote = { ...note };
     this.isEdit = true;
     this.showAddEdit = true;
   }
 
-  async onDelete(note: any) {
-    console.log('Deleting note:', note);
-    const result = await this.confirmDialog.confirm(`Are you sure you want to delete the notification \"${note.Title}\"?`);
+  async onDelete(note: Notification) {
+    const result = await this.confirmDialog.confirm(`Are you sure you want to delete the notification "${note.Title}"?`);
     if (result) {
       this.notificationService.deleteNoteInfo(note.NoteId).subscribe({
-        next: (res) => {
-          console.log('Delete response:', res);
+        next: () => {
           this.toast.show('Note deleted successfully', 'success');
           this.loadNotes();
         },
-        error: (err) => {
-          console.error('Delete error:', err);
+        error: () => {
           this.toast.show('Failed to delete note', 'error');
         }
       });
     }
   }
 
-  onSave(note: any) {
+  onSave(note: Notification) {
     this.notificationService.saveNoteInfo(note).subscribe({
       next: () => {
         this.toast.show(this.isEdit ? 'Note updated successfully' : 'Note added successfully', 'success');

@@ -16,9 +16,9 @@ export class NotificationService {
     return this.http.get(`${this.apiUrl}/getNoteList`);
   }
 
-  // Get specific note info
+  // Get specific note info (now also returns RemainderTypeList)
   getNoteInfo(noteId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/getNoteInfo`, { params: { noteId } });
+    return this.http.get(`${this.apiUrl}/getNoteInfo/`+noteId );
   }
 
   // Delete specific note (should use DELETE method, but using GET as per API)

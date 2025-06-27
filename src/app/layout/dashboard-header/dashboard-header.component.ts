@@ -12,7 +12,8 @@ export class DashboardHeaderComponent implements OnInit {
   userPhoto = '';
   userName = '';
   profileList: any[] = [];
-  selectedProfileId: number | null = null;
+  loggedInProfileId: string | null = LoginService.getLoggedInProfileId();
+  selectedProfileId: string | null = LoginService.getLoggedInProfileId(); // Set default value
 
   constructor(
     private loginService: LoginService,
@@ -24,7 +25,7 @@ export class DashboardHeaderComponent implements OnInit {
     if (userInfo) {
       const user = JSON.parse(userInfo);
       this.userName = user.UserName;
-      this.selectedProfileId = user.ProfileId || null;
+      this.loggedInProfileId = user.ProfileId || null;
       this.userPhoto = user.photo || 'https://i.pravatar.cc/100?img=1';
     } else {
       this.userPhoto = 'https://i.pravatar.cc/100?img=1';
@@ -32,9 +33,13 @@ export class DashboardHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.profileService.getProfileList().subscribe(); // fetch and cache
+    this.profileService.getProfileList().subscribe(); 
     this.profileService.profileList$.subscribe(list => {
       this.profileList = list;
+      // Ensure the selectedProfileId is set to the logged-in user by default
+      if (!this.selectedProfileId && this.loggedInProfileId && list.some(p => String(p.ProfileId) === this.loggedInProfileId)) {
+        this.selectedProfileId = this.loggedInProfileId;
+      }
     });
   }
 
@@ -45,5 +50,13 @@ export class DashboardHeaderComponent implements OnInit {
 
   onNotificationClick() {
     this.router.navigate(['/notification']);
+  }
+
+  onProfileChange() {
+    if (this.loggedInProfileId && this.loggedInProfileId === this.selectedProfileId) {
+      this.router.navigate(['/profile']);
+    } else{
+      this.router.navigate(['/profile-dashboard', this.selectedProfileId]);
+    }
   }
 }
