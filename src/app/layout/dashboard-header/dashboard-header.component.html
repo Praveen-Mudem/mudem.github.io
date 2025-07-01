@@ -26,8 +26,8 @@
                  <li class="nav-item cursor-pointer" (click)="onProfileChange()">
                    <span>Dashboard</span>
                 </li>
-                  <li class="nav-item cursor-pointer" (click)="onNotificationClick()">
-                   <span>Files</span>
+                  <li class="nav-item cursor-pointer" routerLink="/folder" routerLinkActive="active">
+                   <span>File</span>
                 </li>
                   <li class="nav-item cursor-pointer" routerLink="/notification" routerLinkActive="active">
                    <span>Notes</span>
@@ -36,8 +36,8 @@
                    <span>Profiles</span>
                 </li>
                 <li class="nav-item">
-                    <select class="form-select" style="min-width: 180px;" [(ngModel)]="loggedInProfileId" (change)="onProfileChange()">
-                        <option *ngFor="let profile of profileList" [value]="profile.ProfileId">
+                    <select class="form-select" style="min-width: 180px;" [(ngModel)]="selectedProfileId" (change)="onProfileChange()">
+                        <option *ngFor="let profile of profileList" [value]="profile.ProfileId + ''">
                             {{ profile.Name }}
                         </option>
                     </select>

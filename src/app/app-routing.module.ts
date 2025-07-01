@@ -40,7 +40,19 @@ const routes: Routes = [
     loadChildren: () => import('./profile/profile-info-add-edit/profile-info-add-edit.module').then(m => m.ProfileInfoAddEditModule),
     canActivate: [AuthGuard]
   },
-  { path: '', redirectTo: '/profile', pathMatch: 'full' }
+  {
+    path: 'folder',
+    loadChildren: () => import('./folder/folder.module').then(m => m.FolderModule),
+    canActivate: [AuthGuard]
+  },
+  { path: '', 
+    loadChildren: () => import('./components/login/login.module').then(m => m.LoginModule),
+    pathMatch: 'full'
+   },
+  //  {
+  //   path: '**',
+  //   loadChildren: () => import('./components/not-found/not-found.module').then(m => m.NotFoundModule)
+  //  }
 ];
 
 @NgModule({

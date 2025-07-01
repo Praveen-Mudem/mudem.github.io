@@ -16,6 +16,8 @@ export class CommonService {
   readonly baseUrl = CONFIG.BASE_URL+'api/Home';
   formData:FileInfo = new FileInfo();
   ContactViewInfo:ContactViewInfo = new ContactViewInfo();
+  selectedProfileName: string | null = null;
+  selectedProfileId: string | null = null;
 
   constructor(private http:HttpClient, @Inject(PLATFORM_ID) platformId: Object) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -33,5 +35,10 @@ export class CommonService {
    }
    uploadDocument(formData: FormData) {
     return this.http.post(this.baseUrl + '/uploadDocuments', formData);
+  }
+  
+  setSelectedProfileName(name: string | null,id: string | null) {
+    this.selectedProfileId = id;
+    this.selectedProfileName = name;
   }
 }

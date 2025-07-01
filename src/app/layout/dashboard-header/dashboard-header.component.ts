@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../../service/login.service';
 import { ProfileService } from '../../service/profile.service';
+import { CommonService } from '../../service/common.service';
 
 @Component({
   selector: 'app-dashboard-header',
@@ -13,12 +14,13 @@ export class DashboardHeaderComponent implements OnInit {
   userName = '';
   profileList: any[] = [];
   loggedInProfileId: string | null = LoginService.getLoggedInProfileId();
-  selectedProfileId: string | null = LoginService.getLoggedInProfileId(); // Set default value
+  selectedProfileId: string | null = LoginService.getLoggedInProfileId();
 
   constructor(
     private loginService: LoginService,
     private router: Router,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private commonService: CommonService
   ) {
     const userInfo = localStorage.getItem('userInfo');
     // debugger
@@ -36,7 +38,6 @@ export class DashboardHeaderComponent implements OnInit {
     this.profileService.getProfileList().subscribe(); 
     this.profileService.profileList$.subscribe(list => {
       this.profileList = list;
-      // Ensure the selectedProfileId is set to the logged-in user by default
       if (!this.selectedProfileId && this.loggedInProfileId && list.some(p => String(p.ProfileId) === this.loggedInProfileId)) {
         this.selectedProfileId = this.loggedInProfileId;
       }
@@ -53,10 +54,17 @@ export class DashboardHeaderComponent implements OnInit {
   }
 
   onProfileChange() {
+    const selectedProfile = this.profileList.find(p => String(p.ProfileId) === this.selectedProfileId);
+    if (selectedProfile) {
+      this.commonService.setSelectedProfileName = selectedProfile.Name;
+      this.commonService.selectedProfileId = selectedProfile.ProfileId;
+    }
     if (this.loggedInProfileId && this.loggedInProfileId === this.selectedProfileId) {
       this.router.navigate(['/profile']);
-    } else{
-      this.router.navigate(['/profile-dashboard', this.selectedProfileId]);
+    } else {
+      this.router.navigate(
+        ['/profile-dashboard', this.selectedProfileId],
+      );
     }
   }
 }
