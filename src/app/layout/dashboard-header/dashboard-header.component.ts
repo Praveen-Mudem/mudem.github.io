@@ -20,7 +20,7 @@ export class DashboardHeaderComponent implements OnInit {
     private loginService: LoginService,
     private router: Router,
     private profileService: ProfileService,
-    private commonService: CommonService
+    public commonService: CommonService
   ) {
     const userInfo = localStorage.getItem('userInfo');
     // debugger
@@ -56,8 +56,7 @@ export class DashboardHeaderComponent implements OnInit {
   onProfileChange() {
     const selectedProfile = this.profileList.find(p => String(p.ProfileId) === this.selectedProfileId);
     if (selectedProfile) {
-      this.commonService.setSelectedProfileName = selectedProfile.Name;
-      this.commonService.selectedProfileId = selectedProfile.ProfileId;
+      this.commonService.setSelectedProfileName(selectedProfile.Name, selectedProfile.ProfileId);
     }
     if (this.loggedInProfileId && this.loggedInProfileId === this.selectedProfileId) {
       this.router.navigate(['/profile']);

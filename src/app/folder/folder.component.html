@@ -1,4 +1,3 @@
-
 <div class="container top-content-section overflow-hiden">
   <div *ngIf="loading" class="text-center py-5">
     <span>Loading folders...</span>
@@ -8,7 +7,8 @@
   </div>
   <div class="row mt-4" *ngIf="!loading && !errorMsg">
     <div class="col-12 col-lg-3 col-md-4 col-sm-6 col-xs-12 pb-4">
-      <div class="card h-100 d-flex flex-column justify-content-center align-items-center" style="min-height: 250px; border: 2px dashed #007bff; background: #f8f9fa;">
+      <div class="card h-100 d-flex flex-column justify-content-center align-items-center"
+        style="min-height: 250px; border: 2px dashed #007bff; background: #f8f9fa;">
         <button class="btn btn-outline-primary" (click)="onAddFolder()">
           <i class="bi bi-plus-circle" style="font-size: 2rem;"></i><br />
           Add New Folder
@@ -18,19 +18,16 @@
     <div class="col-12 col-lg-3 col-md-4 col-sm-6 col-xs-12 pb-4" *ngFor="let folder of folderList">
       <div class="card">
         <div class="card-img-top text-center p-2">
-          <img class="folder-pic" src="assets/images/folder-icon.png" alt="Folder Image" style="width: 80px; height: 80px; object-fit: contain;" />
+          <img class="profile-pic img-fluid" src="assets/images/folder_close.png" alt="Profile Image">
         </div>
-        <div class="card-body text-center pt-0">
+        <div class="card-body text-center">
           <h5 class="card-title">{{ folder.Name }}</h5>
-          <h6 class="card-subtitle mb-2">{{ folder.Description }}</h6>
         </div>
         <div class="card-footer text-end">
-          <a class="btn btn-primary me-2" (click)="onEditFolder(folder)">Edit</a>
-          <a class="btn btn-secondary me-2" (click)="onShareFolder(folder)">Share</a>
-          <a class="btn btn-danger me-2" (click)="deleteFolder(folder.FolderId)">Delete</a>
-          <a class="btn btn-warning" (click)="removeShare(folder.FolderId)">Remove Share</a>
+          <a class="btn btn-primary me-2" (click)="onEditFolder(folder.FolderId)">Edit</a>
+          <a class="btn btn-danger" (click)="onDeleteFolder(folder.FolderId)">Delete</a>
+
         </div>
       </div>
     </div>
   </div>
-</div>

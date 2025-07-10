@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row justify-content-center mt-4">
+    <div class="col-12 col-xs-12 col-sm-6 col-md-4 border p-3">
+      <form [formGroup]="folderForm" (ngSubmit)="onSubmit()">
+        <div *ngIf="errorMsg" class="alert alert-danger text-center">{{ errorMsg }}</div>
+        <div class="mb-3">
+          <label class="form-label">Name</label>
+          <input class="form-control" formControlName="Name" required />
+          <div *ngIf="folderForm.get('Name')?.invalid && (folderForm.get('Name')?.dirty || folderForm.get('Name')?.touched)" class="text-danger">
+            <div *ngIf="folderForm.get('Name')?.errors?.['required']">Name is required.</div>
+            <div *ngIf="folderForm.get('Name')?.errors?.['minlength']">Name must be at least 2 characters.</div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Description</label>
+          <input class="form-control" formControlName="Description" required />
+          <div *ngIf="folderForm.get('Description')?.invalid && (folderForm.get('Description')?.dirty || folderForm.get('Description')?.touched)" class="text-danger">
+            <div *ngIf="folderForm.get('Description')?.errors?.['required']">Description is required.</div>
+            <div *ngIf="folderForm.get('Description')?.errors?.['minlength']">Description must be at least 2 characters.</div>
+          </div>
+        </div>
+        <div class="text-end">
+          <button type="submit" class="btn btn-success me-2" [disabled]="folderForm.invalid">{{ isEdit ? 'Update' : 'Add' }}</button>
+          <button type="button" class="btn btn-secondary me-2" (click)="onCancel()">Cancel</button>
+          <button *ngIf="isEdit" type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
