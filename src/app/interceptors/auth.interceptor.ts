@@ -26,7 +26,9 @@ export class AuthInterceptor implements HttpInterceptor {
     }
     if (profileId) {
       setHeaders['ProfileId'] = profileId.toString();
+      setHeaders['FolderId'] = '6'; // Default FolderId, can be overridden in specific requests
     }
+    // debugger;
     if (Object.keys(setHeaders).length > 0) {
       request = req.clone({ setHeaders });
     }

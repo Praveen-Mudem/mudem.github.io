@@ -65,7 +65,7 @@ export class ProfileComponent implements OnInit {
       next: () => {
         this.showAddEdit = false;
         this.toast.show('Profile saved successfully.', 'success');
-        this.profileService.getProfileList().subscribe(); // refresh list
+        this.profileService.getProfileList().subscribe();
       },
       error: () => {
         this.toast.show('Failed to save profile.', 'error');

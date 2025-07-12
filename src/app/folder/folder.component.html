@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="col-12 col-lg-3 col-md-4 col-sm-6 col-xs-12 pb-4" *ngFor="let folder of folderList">
-      <div class="card">
+      <div class="card" (click)="onFolderCardClick(folder)" style="cursor:pointer;">
         <div class="card-img-top text-center p-2">
           <img class="profile-pic img-fluid" src="assets/images/folder_close.png" alt="Profile Image">
         </div>
@@ -24,10 +24,10 @@
           <h5 class="card-title">{{ folder.Name }}</h5>
         </div>
         <div class="card-footer text-end">
-          <a class="btn btn-primary me-2" (click)="onEditFolder(folder.FolderId)">Edit</a>
-          <a class="btn btn-danger" (click)="onDeleteFolder(folder.FolderId)">Delete</a>
-
+          <a class="btn btn-primary me-2" (click)="onEditFolder(folder); $event.stopPropagation()">Edit</a>
+          <a class="btn btn-danger" (click)="onDeleteFolder(folder.FolderId); $event.stopPropagation()">Delete</a>
         </div>
       </div>
     </div>
   </div>
+</div>
