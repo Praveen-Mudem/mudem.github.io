@@ -32,14 +32,16 @@ export class FolderService {
   }
 
   saveFolderInfo(data: { FolderId: number, Name: string, Description: string }): Observable<any> {
-    return this.http.post(`${this.baseUrl}/saveFolderInfo`, data);
+    const headers: any = { 'folderId': data.FolderId.toString() };
+    return this.http.post(`${this.baseUrl}/saveFolderInfo`, data, { headers });
   }
 
   // Document APIs
   getDocuments(folderId: number) {
     // Pass folderId in header for backend compatibility
-    const headers: any = { 'folderId': folderId.toString() };
-    return this.http.get(`${this.baseUrl}/getDocuments/${folderId}`, { headers });
+    // const headers: any = { 'folderId': folderId.toString() };
+    // debugger;
+    return this.http.get(`${this.baseUrl}/getDocuments/${folderId}`);
   }
 
   uploadDocuments(profileId: number, folderId: number, files: File[]) {

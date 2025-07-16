@@ -21,7 +21,8 @@
       <div class="col-12 col-lg-3 col-md-4 col-sm-6 col-xs-12 pb-4">
         <div class="card">
           <div class="card-img-top text-center p-2">
-            <img *ngIf="doc.FileType === 'jpg' || doc.FileType === 'jpeg' || doc.FileType === 'png'" class="profile-pic img-fluid" [src]="doc.Url || 'assets/images/file.png'" alt="File Image">
+            <img *ngIf="doc.FileType === '.jpg' || doc.FileType === '.jpeg' || doc.FileType === '.png'" 
+            class="profile-pic img-fluid" [src]="doc.Filepath || 'assets/images/file.png'" alt="File Image">
             <i *ngIf="doc.FileType === 'mp4'" class="bi bi-file-earmark-play" style="font-size: 2rem;"></i>
           </div>
           <div class="card-body text-center">
