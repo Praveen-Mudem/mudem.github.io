@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { NotFoundComponent } from './guards/not-found.component';
 
 const routes: Routes = [
   // {path:"", component:HomeComponent},
@@ -49,10 +50,10 @@ const routes: Routes = [
     loadChildren: () => import('./components/login/login.module').then(m => m.LoginModule),
     pathMatch: 'full'
    },
-  //  {
-  //   path: '**',
-  //   loadChildren: () => import('./components/not-found/not-found.module').then(m => m.NotFoundModule)
-  //  }
+  {
+    path: '**',
+    component: NotFoundComponent
+  }
 ];
 
 @NgModule({
