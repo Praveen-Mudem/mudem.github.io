@@ -1,5 +1,5 @@
 {
-    "BASE_URL": "http://localhost/MAPI/",
+    "BASE_URL": "http://185.103.120.94:9090/MAPI/",
     "UPLOAD_BASE_URL": "http://185.103.120.94:9090/",
     "GET_UPLOAD_BASE_URL": "http://185.103.120.94:9090/ReportFiles/"
 }

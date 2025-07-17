@@ -49,10 +49,10 @@ const routes: Routes = [
     loadChildren: () => import('./components/login/login.module').then(m => m.LoginModule),
     pathMatch: 'full'
    },
-  //  {
-  //   path: '**',
-  //   loadChildren: () => import('./components/not-found/not-found.module').then(m => m.NotFoundModule)
-  //  }
+  {
+    path: '**',
+    component: (await import('./guards/not-found.component')).NotFoundComponent
+  }
 ];
 
 @NgModule({

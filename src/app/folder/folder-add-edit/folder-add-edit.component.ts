@@ -3,8 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FolderInfo } from '../../model/folder.module';
 import { FolderService } from '../../service/folder.service';
-import { ConfirmDialogService } from '../../service/confirm-dialog.service';
-import { ToastService } from '../../service/toast.service';
 
 @Component({
   selector: 'app-folder-add-edit',
@@ -33,9 +31,7 @@ export class FolderAddEditComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private folderService: FolderService,
-    private confirmDialog: ConfirmDialogService,
-    private toast: ToastService
+    private folderService: FolderService
   ) {}
 
   ngOnInit() {
@@ -69,16 +65,11 @@ export class FolderAddEditComponent implements OnInit {
         Description: formValue.Description
       };
       this.folderService.saveFolderInfo(folder).subscribe({
-        next: () => {
-          this.toast.show(this.isEdit ? 'Folder updated successfully.' : 'Folder added successfully.', 'success');
-          this.router.navigate(['/folder']);
-        },
-        error: () => {
-          this.toast.show('Error while processing your request, please contact administrator!', 'error');
-        }
+        next: () => this.router.navigate(['/folder']),
+        error: () => this.errorMsg = 'Error while processing your request, please contant administrator!'
       });
     } else {
-      this.toast.show('Error while processing your request, please contact administrator!', 'error');
+      this.errorMsg = 'Error while processing your request, please contant administrator!';
     }
   }
 
@@ -86,12 +77,9 @@ export class FolderAddEditComponent implements OnInit {
     this.router.navigate(['/folder']);
   }
 
-  async onDelete() {
+  onDelete() {
     if (this.isEdit && this.folder.FolderId) {
-      const result = await this.confirmDialog.confirm(`Are you sure you want to delete the folder "${this.folder.Name}"?`);
-      if (result) {
-        this.folderService.deleteFolderInfo(this.folder.FolderId).subscribe(() => this.router.navigate(['/folder']));
-      }
+      this.folderService.deleteFolderInfo(this.folder.FolderId).subscribe(() => this.router.navigate(['/folder']));
     }
-  } 
+  }
 }
