@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { NotFoundComponent } from './guards/not-found.component';
 
 const routes: Routes = [
   // {path:"", component:HomeComponent},
@@ -51,7 +52,7 @@ const routes: Routes = [
    },
   {
     path: '**',
-    component: (await import('./guards/not-found.component')).NotFoundComponent
+    component: NotFoundComponent
   }
 ];
 
