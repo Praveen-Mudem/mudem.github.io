@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { LoginRedirectGuard } from './guards/login-redirect.guard';
 import { NotFoundComponent } from './guards/not-found.component';
 
 const routes: Routes = [
@@ -15,7 +16,8 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./components/login/login.module').then(m => m.LoginModule)
+    loadChildren: () => import('./components/login/login.module').then(m => m.LoginModule),
+    canActivate: [LoginRedirectGuard]
   },
   {
     path: 'overview',
@@ -48,7 +50,8 @@ const routes: Routes = [
   },
   { path: '', 
     loadChildren: () => import('./components/login/login.module').then(m => m.LoginModule),
-    pathMatch: 'full'
+    pathMatch: 'full',
+    canActivate: [LoginRedirectGuard]
    },
   {
     path: '**',
