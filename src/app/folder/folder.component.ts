@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FolderService } from '../service/folder.service';
 import { ConfirmDialogService } from '../service/confirm-dialog.service';
 import { ToastService } from '../service/toast.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-folder',
@@ -18,11 +19,22 @@ export class FolderComponent implements OnInit {
   selectedFolderId: number|null = null;
   selectedProfileId: number|null = null; // Set this from your auth/user context
 
+  // Modal properties
+  @ViewChild('shareModal') shareModal!: TemplateRef<any>;
+  modalRef?: BsModalRef;
+  shareData = {
+    folderId: 0,
+    name: '',
+    description: '',
+    password: ''
+  };
+
   constructor(
     private folderService: FolderService,
     private router: Router,
     private confirmDialog: ConfirmDialogService,
-    private toast: ToastService
+    private toast: ToastService,
+    private modalService: BsModalService
   ) {}
 
   ngOnInit() {
@@ -68,7 +80,52 @@ export class FolderComponent implements OnInit {
   }
 
   onShareFolder(folder: any) {
-    alert('Share Folder clicked for: ' + folder.Name);
+    this.shareData = {
+      folderId: folder.FolderId,
+      name: folder.Name,
+      description: folder.Description || '',
+      password: ''
+    };
+    this.modalRef = this.modalService.show(this.shareModal, {
+      class: 'modal-md',
+      backdrop: 'static',
+      keyboard: false
+    });
+  }
+
+  closeShareModal() {
+    this.modalRef?.hide();
+    this.shareData = {
+      folderId: 0,
+      name: '',
+      description: '',
+      password: ''
+    };
+  }
+
+  confirmShare() {
+    if (!this.shareData.password.trim()) {
+      this.toast.show('Please enter a password to share the folder.', 'error');
+      return;
+    }
+
+    const shareRequest = {
+      FolderId: this.shareData.folderId,
+      Name: this.shareData.name,
+      Description: this.shareData.description,
+      Password: this.shareData.password
+    };
+
+    this.folderService.shareFolderInfo(shareRequest).subscribe({
+      next: (response) => {
+        this.toast.show('Folder shared successfully!', 'success');
+        this.closeShareModal();
+        this.loadFolders();
+      },
+      error: (error) => {
+        this.toast.show('Failed to share folder. Please try again.', 'error');
+      }
+    });
   }
 
   removeShare(folderId: number) {

@@ -128,4 +128,20 @@ export class FolderDocumentsComponent implements OnInit {
         });
     }
   }
+
+  // Helper methods to check file types
+  isImageFile(fileType: string): boolean {
+    const imageTypes = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp'];
+    return imageTypes.includes(fileType?.toLowerCase());
+  }
+
+  isVideoFile(fileType: string): boolean {
+    const videoTypes = ['.mp4', '.avi', '.mov', '.wmv', '.flv', '.webm', 'mp4'];
+    return videoTypes.includes(fileType?.toLowerCase());
+  }
+
+  isPdfFile(fileType: string): boolean {
+    const pdfTypes = ['.pdf', 'pdf'];
+    return pdfTypes.includes(fileType?.toLowerCase());
+  }
 }

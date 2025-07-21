@@ -1,5 +1,55 @@
-<div class="container">
-    <div>
-        <h2>Welcome To Dashboard {{selectedProfileName}}</h2>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Welcome To Dashboard {{selectedProfileName}}</h2>        
+      </div>
     </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="errorMsg" class="alert alert-danger text-center">
+    <i class="bi bi-exclamation-triangle"></i>
+    {{ errorMsg }}
+  </div>
+
+  <!-- Dashboard Notes Grid -->
+  <div *ngIf="!errorMsg" class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">
+            <i class="bi bi-journal-text"></i>
+            Dashboard Notes ({{ dashboardNotes.length }})
+          </h5>
+        </div>
+        <div class="card-body p-0">
+          <!-- Empty State -->
+          <div *ngIf="dashboardNotes.length === 0" class="text-center py-5">
+            <i class="bi bi-journal-x display-4 text-muted"></i>
+            <h4 class="mt-3 text-muted">No Notes Available</h4>
+            <p class="text-muted">There are no dashboard notes to display at the moment.</p>
+          </div>
+
+          <!-- AG-Grid -->
+          <div *ngIf="dashboardNotes.length > 0" class="ag-grid-wrapper">
+            <ag-grid-angular
+              class="ag-theme-alpine"
+              [columnDefs]="columnDefs"
+              [rowData]="dashboardNotes"
+              [defaultColDef]="defaultColDef"
+              [pagination]="true"
+              [paginationPageSize]="10"
+              [animateRows]="true"
+              [suppressCellFocus]="true"
+              [rowSelection]="'single'"
+              [domLayout]="'normal'"
+              (gridReady)="onGridReady($event)"
+              (cellClicked)="onCellClicked($event)">
+            </ag-grid-angular>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

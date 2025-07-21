@@ -23,11 +23,41 @@
         <div class="card-body text-center">
           <h5 class="card-title">{{ folder.Name }}</h5>
         </div>
-        <div class="card-footer text-end">
-          <a class="btn btn-primary me-2" (click)="onEditFolder(folder); $event.stopPropagation()">Edit</a>
-          <a class="btn btn-danger" (click)="onDeleteFolder(folder.FolderId); $event.stopPropagation()">Delete</a>
+        <div class="card-footer text-end p-2">
+          <a class="btn btn-sm btn-primary me-2" (click)="onShareFolder(folder); $event.stopPropagation()">Share</a>
+          <a class="btn btn-sm btn-primary me-2" (click)="onEditFolder(folder); $event.stopPropagation()">Edit</a>
+          <a class="btn btn-sm btn-danger" (click)="onDeleteFolder(folder.FolderId); $event.stopPropagation()">Delete</a>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Share Folder Modal -->
+<ng-template #shareModal>
+  <div class="modal-header">
+    <h4 class="modal-title">Share Folder</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeShareModal()">    
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="mb-3">
+      <label for="folderName" class="form-label">Folder Name</label>
+      <input type="text" class="form-control" id="folderName" [(ngModel)]="shareData.name" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="folderDescription" class="form-label">Description</label>
+      <textarea class="form-control" id="folderDescription" rows="3" [(ngModel)]="shareData.description"></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="sharePassword" class="form-label">Password <span class="text-danger">*</span></label>
+      <input type="password" class="form-control" id="sharePassword" [(ngModel)]="shareData.password" 
+             placeholder="Enter password to share folder" required>
+      <div class="form-text">This password will be required to access the shared folder.</div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeShareModal()">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="confirmShare()">Share Folder</button>
+  </div>
+</ng-template>

@@ -1,51 +1,57 @@
 <div class="container mt-4">
-  <div *ngIf="loading" class="text-center py-5">
-    <span>Loading notes...</span>
-  </div>
+  <!-- Error State -->
   <div *ngIf="errorMsg" class="alert alert-danger text-center">
+    <i class="bi bi-exclamation-triangle"></i>
     {{ errorMsg }}
   </div>
 
-  <div class="row" *ngIf="!loading && !errorMsg && !showAddEdit">
-    <div class="col-12 mb-3 text-end">
-      <button class="btn btn-success" (click)="onAdd()">Add Note</button>
-    </div>
-    <div>
-        
-    </div>
+  <!-- Main Content -->
+  <div *ngIf="!errorMsg && !showAddEdit" class="row">
     <div class="col-12">
-      <table class="table table-bordered table-hover">
-        <thead class="table-light">
-          <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Remainder Type</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let note of noteList">
-            <td>{{ note.Title }}</td>
-            <td>{{ note.Description }}</td>
-            <td>{{ note.Date }}</td>
-            <td>{{ note.Time }}</td>
-            <td>{{ getRemainderTypeName(note.RemainderTypeId) }}</td>
-            <td>
-              <button class="btn btn-sm btn-primary me-2" (click)="onEdit(note)">
-                <i class="bi bi-pencil"></i>
-              </button>
-              <button class="btn btn-sm btn-danger" (click)="onDelete(note)">
-                <i class="bi bi-trash"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="card">
+        <div class="card-header">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0">
+              <i class="bi bi-bell"></i>
+              Notifications ({{ noteList.length }})
+            </h5>
+            <button class="btn btn-success" (click)="onAdd()">
+              <i class="bi bi-plus-circle"></i>
+              Add Note
+            </button>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <!-- Empty State -->
+          <div *ngIf="noteList.length === 0" class="text-center py-5">
+            <i class="bi bi-bell-slash display-4 text-muted"></i>
+            <h4 class="mt-3 text-muted">No Notifications Available</h4>
+            <p class="text-muted">There are no notifications to display at the moment.</p>
+          </div>
+
+          <!-- AG-Grid -->
+          <div *ngIf="noteList.length > 0" class="ag-grid-wrapper">
+            <ag-grid-angular
+              class="ag-theme-alpine"
+              [columnDefs]="columnDefs"
+              [rowData]="noteList"
+              [defaultColDef]="defaultColDef"
+              [pagination]="true"
+              [paginationPageSize]="10"
+              [animateRows]="true"
+              [suppressCellFocus]="true"
+              [rowSelection]="'single'"
+              [domLayout]="'normal'"
+              (gridReady)="onGridReady($event)"
+              (cellClicked)="onCellClicked($event)">
+            </ag-grid-angular>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
+  <!-- Add/Edit Form -->
   <div *ngIf="showAddEdit">
     <app-notification-add-edit [note]="editNote" [isEdit]="isEdit" (save)="onSave($event)" (cancel)="onCancel()"></app-notification-add-edit>
   </div>

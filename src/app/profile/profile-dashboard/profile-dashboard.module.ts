@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { ProfileDashboardComponent } from './profile-dashboard.component';
+import { AgGridModule } from 'ag-grid-angular';
 
 const routes: Routes = [
   { path: '', component: ProfileDashboardComponent }
@@ -9,6 +10,10 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [ProfileDashboardComponent],
-  imports: [CommonModule, RouterModule.forChild(routes)]
+  imports: [
+    CommonModule, 
+    RouterModule.forChild(routes),
+    AgGridModule
+  ]
 })
 export class ProfileDashboardModule { }

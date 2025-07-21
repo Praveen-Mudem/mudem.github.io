@@ -6,3 +6,59 @@
   right: 1rem;
   bottom: 1rem;
 }
+
+// Card image container styling
+.card-img-top {
+  min-height: 200px;
+  max-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+  
+  // File type icons
+  i {
+    color: #6c757d;
+    font-size: 3rem !important;
+    
+    &.pdf-icon {
+      color: #dc3545;
+    }
+    
+    &.video-icon {
+      color: #0d6efd;
+    }
+    
+    &.image-icon {
+      color: #198754;
+    }
+  }
+  
+  // Video thumbnail styling
+  video {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+}
+
+// Card styling
+.card {
+  transition: transform 0.2s ease-in-out;
+  border-radius: 8px;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+}

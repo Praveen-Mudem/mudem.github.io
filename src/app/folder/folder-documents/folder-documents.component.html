@@ -21,13 +21,41 @@
       <div class="col-12 col-lg-3 col-md-4 col-sm-6 col-xs-12 pb-4">
         <div class="card">
           <div class="card-img-top text-center p-2">
+            <!-- Image files -->
             <img *ngIf="doc.FileType === '.jpg' || doc.FileType === '.jpeg' || doc.FileType === '.png'" 
-            class="profile-pic img-fluid" [src]="doc.Filepath || 'assets/images/file.png'" alt="File Image">
-            <i *ngIf="doc.FileType === 'mp4'" class="bi bi-file-earmark-play" style="font-size: 2rem;"></i>
+                 class="profile-pic img-fluid" 
+                 [src]="doc.Filepath || 'assets/images/file.png'" 
+                 alt="File Image">
+            
+            <!-- Video files -->
+            <div *ngIf="doc.FileType === '.mp4' || doc.FileType === 'mp4'">
+              <video *ngIf="doc.Filepath; else videoIcon" 
+                     controls 
+                     preload="metadata"
+                     [src]="doc.Filepath">
+                Your browser does not support the video tag.
+              </video>
+              <ng-template #videoIcon>
+                <i class="bi bi-file-earmark-play video-icon"></i>
+                <div class="small text-muted mt-2">Video File</div>
+              </ng-template>
+            </div>
+            
+            <!-- PDF files -->
+            <div *ngIf="doc.FileType === '.pdf' || doc.FileType === 'pdf'">
+              <i class="bi bi-file-earmark-pdf pdf-icon"></i>
+              <div class="small text-muted mt-2">PDF Document</div>
+            </div>
+            
+            <!-- Other file types -->
+            <div *ngIf="!isImageFile(doc.FileType) && !isVideoFile(doc.FileType) && !isPdfFile(doc.FileType)">
+              <i class="bi bi-file-earmark" style="color: #6c757d; font-size: 3rem;"></i>
+              <div class="small text-muted mt-2">{{ doc.FileType || 'Unknown' }}</div>
+            </div>
           </div>
-          <div class="card-body text-center">
+          <!-- <div class="card-body text-center">
             <h5 class="card-title">{{ doc.FileName || doc.filename || doc.name }}</h5>
-          </div>
+          </div> -->
           <div class="card-footer text-end">
             <button class="btn btn-danger btn-sm" (click)="deleteDocument(doc)">Delete</button>
           </div>
