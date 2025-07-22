@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { LoginService } from '../../service/login.service';
 import { ProfileService } from '../../service/profile.service';
 import { CommonService } from '../../service/common.service';
@@ -9,12 +10,13 @@ import { CommonService } from '../../service/common.service';
   templateUrl: './dashboard-header.component.html',
   styleUrls: ['./dashboard-header.component.scss']
 })
-export class DashboardHeaderComponent implements OnInit {
+export class DashboardHeaderComponent implements OnInit, OnDestroy {
   userPhoto = '';
   userName = '';
   profileList: any[] = [];
   loggedInProfileId: string | null = LoginService.getLoggedInProfileId();
   selectedProfileId: string | null = LoginService.getLoggedInProfileId();
+  private subscription: Subscription = new Subscription();
 
   constructor(
     private loginService: LoginService,
@@ -35,13 +37,23 @@ export class DashboardHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.profileService.getProfileList().subscribe(); 
-    this.profileService.profileList$.subscribe(list => {
+    // Only load profile list if it's empty
+    const profileSub = this.profileService.profileList$.subscribe(list => {
       this.profileList = list;
       if (!this.selectedProfileId && this.loggedInProfileId && list.some(p => String(p.ProfileId) === this.loggedInProfileId)) {
         this.selectedProfileId = this.loggedInProfileId;
       }
+      
+      // Only fetch from API if we don't have any profiles yet
+      if (list.length === 0) {
+        this.profileService.getProfileList().subscribe();
+      }
     });
+    this.subscription.add(profileSub);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   onLogout() {

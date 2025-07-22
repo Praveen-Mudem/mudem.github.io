@@ -30,4 +30,9 @@ export class NotificationService {
   saveNoteInfo(note: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/saveNoteInfo`, note);
   }
+
+  // Get dashboard notes for profile dashboard
+  getDashBoardNoteInfo(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/getDashBoardNoteInfo`);
+  }
 }

@@ -11,6 +11,19 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.loaderService.show();
+    
+    // Skip authentication for shared folder APIs
+    const isSharedFolderAPI = req.url.includes('GetSharedFolderInfo') || 
+                              req.url.includes('ValidateSharedFolderInfo') || 
+                              req.url.includes('GetSharedFolderFilesInfo');
+    
+    if (isSharedFolderAPI) {
+      // Don't add auth headers for shared folder APIs
+      return next.handle(req).pipe(
+        finalize(() => this.loaderService.hide())
+      );
+    }
+    
     const token = getToken();
     let request = req;
     // Get ProfileId from localStorage
