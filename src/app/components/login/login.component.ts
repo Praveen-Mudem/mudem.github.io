@@ -27,7 +27,7 @@ export class LoginComponent {
         if (user && user.Token) {         
           setToken(user.Token);
           localStorage.setItem('userInfo', JSON.stringify(user));
-          this.router.navigate(['/profile']);
+          this.router.navigate(['/profile-dashboard']);
         } else {
           this.errorMsg = 'Invalid credentials';
         }

@@ -1,0 +1,78 @@
+<ng-container *ngIf="isLogedIn">
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+            <ul class="navbar-nav d-flex align-items-center">
+                 <li class="nav-item cursor-pointer" routerLink="/folder" routerLinkActive="active">
+                   <span>File</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+  <div class="container top-content-section overflow-hiden">
+  <div class="row mt-4">
+    <ng-container *ngFor="let doc of documents">
+      <div class="col-12 col-lg-3 col-md-4 col-sm-6 col-xs-12 pb-4">
+        <div class="card">
+          <div class="card-img-top text-center p-2">
+            <!-- Image files -->
+            <img *ngIf="doc.FileType === '.jpg' || doc.FileType === '.jpeg' || doc.FileType === '.png'" 
+                 class="profile-pic img-fluid" 
+                 [src]="doc.Filepath || 'assets/images/file.png'" 
+                 alt="File Image">
+            
+            <!-- Video files -->
+            <div *ngIf="doc.FileType === '.mp4' || doc.FileType === 'mp4'">
+              <video *ngIf="doc.Filepath; else videoIcon" 
+                     controls 
+                     preload="metadata"
+                     [src]="doc.Filepath">
+                Your browser does not support the video tag.
+              </video>
+              <ng-template #videoIcon>
+                <i class="bi bi-file-earmark-play video-icon"></i>
+                <div class="small text-muted mt-2">Video File</div>
+              </ng-template>
+            </div>
+            
+            <div *ngIf="doc.FileType === '.pdf' || doc.FileType === 'pdf'">
+              <i class="bi bi-file-earmark-pdf pdf-icon"></i>
+              <div class="small text-muted mt-2">PDF Document</div>
+            </div>
+            
+            <div *ngIf="!isImageFile(doc.FileType) && !isVideoFile(doc.FileType) && !isPdfFile(doc.FileType)">
+              <i class="bi bi-file-earmark" style="color: #6c757d; font-size: 3rem;"></i>
+              <div class="small text-muted mt-2">{{ doc.FileType || 'Unknown' }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+
+</ng-container>
+<ng-container *ngIf="!isLogedIn">
+<div class="container d-flex justify-content-around mt-5">
+    <div class="login-container">
+        <h2 class="text-center mb-4">Login</h2>
+        <form (ngSubmit)="validateSharedFolder()">
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" [(ngModel)]="password" name="password" placeholder="Password" required />
+            </div>            
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Get Access</button>
+            </div>
+            <div class="text-danger mt-2" *ngIf="errorMessage">{{errorMessage}}</div>
+        </form>
+    </div>
+</div>
+</ng-container>

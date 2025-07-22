@@ -18,6 +18,7 @@ import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { DashboardHeaderComponent } from './layout/dashboard-header/dashboard-header.component';
 import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
+import { SharedFolderComponent } from './shared/shared-folder-access/shared-folder.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.c
     FooterComponent,
     SidebarComponent,
     DashboardHeaderComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    SharedFolderComponent
   ],
   imports: [
     BrowserModule,
@@ -50,6 +52,6 @@ import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.c
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ConfirmDialogComponent]
+  entryComponents: [ConfirmDialogComponent, SharedFolderComponent]
 })
 export class AppModule { }

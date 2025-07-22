@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginRedirectGuard } from './guards/login-redirect.guard';
 import { NotFoundComponent } from './guards/not-found.component';
+import { SharedFolderComponent } from './shared/shared-folder-access/shared-folder.component';
+
 
 const routes: Routes = [
   // {path:"", component:HomeComponent},
@@ -47,6 +49,10 @@ const routes: Routes = [
     path: 'folder',
     loadChildren: () => import('./folder/folder.module').then(m => m.FolderModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'sharedFolder',
+    component: SharedFolderComponent
   },
   { path: '', 
     loadChildren: () => import('./components/login/login.module').then(m => m.LoginModule),

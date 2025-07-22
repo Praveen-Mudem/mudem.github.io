@@ -22,9 +22,24 @@
         </div>
         <div class="card-body text-center">
           <h5 class="card-title">{{ folder.Name }}</h5>
+          <!-- Show shared badge if folder is shared -->
+          <div *ngIf="folder.ShareUrl && folder.UniqueId" class="mt-2">
+            <div class="badge bg-success mb-2">Shared</div>
+          </div>
         </div>
         <div class="card-footer text-end p-2">
-          <a class="btn btn-sm btn-primary me-2" (click)="onShareFolder(folder); $event.stopPropagation()">Share</a>
+          <!-- Show Share button only if folder is not shared -->
+          <a *ngIf="!folder.ShareUrl || !folder.UniqueId" class="btn btn-sm btn-primary me-2" 
+             (click)="onShareFolder(folder); $event.stopPropagation()">Share</a>
+          
+          <!-- Show View Share Info button if folder is already shared -->
+          <a *ngIf="folder.ShareUrl && folder.UniqueId" class="btn btn-sm btn-info me-2" 
+             (click)="viewShareInfo(folder); $event.stopPropagation()">View Share Info</a>
+          
+          <!-- Show Remove Share button if folder is already shared -->
+          <a *ngIf="folder.ShareUrl && folder.UniqueId" class="btn btn-sm btn-warning me-2" 
+             (click)="removeShare(folder.FolderId); $event.stopPropagation()">Remove Share</a>
+          
           <a class="btn btn-sm btn-primary me-2" (click)="onEditFolder(folder); $event.stopPropagation()">Edit</a>
           <a class="btn btn-sm btn-danger" (click)="onDeleteFolder(folder.FolderId); $event.stopPropagation()">Delete</a>
         </div>
@@ -58,6 +73,51 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="closeShareModal()">Cancel</button>
-    <button type="button" class="btn btn-primary" (click)="confirmShare()">Share Folder</button>
+    <button type="button" class="btn btn-primary" 
+            [disabled]="!shareData.password || shareData.password.trim() === '' || shareData.password.trim().length < 4" 
+            (click)="confirmShare()">Share Folder</button>
+  </div>
+</ng-template>
+
+<!-- View Share Info Modal -->
+<ng-template #viewShareModal>
+  <div class="modal-header">
+    <h4 class="modal-title">Folder Share Information</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeViewShareModal()">
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="mb-3">
+      <label for="viewFolderName" class="form-label">Folder Name</label>
+      <input type="text" class="form-control" id="viewFolderName" [value]="viewShareData.name" readonly>
+    </div>
+    <div class="mb-3">
+      <label for="viewFolderDescription" class="form-label">Description</label>
+      <textarea class="form-control" id="viewFolderDescription" rows="3" [value]="viewShareData.description" readonly></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="viewShareLink" class="form-label">Share Link</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="viewShareLink" [value]="viewShareData.shareUrl" readonly>
+        <button class="btn btn-outline-secondary" type="button" (click)="copyToClipboard(viewShareData.shareUrl)">
+          <i class="bi bi-clipboard"></i> Copy
+        </button>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="viewPassword" class="form-label">Password</label>
+      <div class="input-group">
+        <input [type]="showPassword ? 'text' : 'password'" class="form-control" id="viewPassword" [value]="viewShareData.password" readonly>
+        <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility()">
+          <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+        </button>
+        <button class="btn btn-outline-secondary" type="button" (click)="copyToClipboard(viewShareData.password)">
+          <i class="bi bi-clipboard"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeViewShareModal()">Close</button>
   </div>
 </ng-template>

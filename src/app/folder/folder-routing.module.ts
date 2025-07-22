@@ -5,7 +5,11 @@ import { FolderAddEditComponent } from './folder-add-edit/folder-add-edit.compon
 import { FolderDocumentsComponent } from './folder-documents/folder-documents.component';
 
 const routes: Routes = [
-  { path: '', component: FolderComponent },
+  { 
+    path: '', 
+    component: FolderComponent,
+    // This will be used for /folder route
+  },
   { path: 'add', component: FolderAddEditComponent },
   { path: 'edit/:id', component: FolderAddEditComponent },
   { path: ':folderId/documents', component: FolderDocumentsComponent }
