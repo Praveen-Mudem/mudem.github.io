@@ -54,9 +54,6 @@ export class FolderComponent implements OnInit {
     this.folderService.getAllFolderList().subscribe({
       next: (res) => {
         this.folderList = res.FolderListInfo || [];
-         console.log("Vikas");
-        console.log(this.folderList);
-        console.log("Enddd");
         this.loading = false;
       },
       error: () => {
@@ -196,5 +193,14 @@ export class FolderComponent implements OnInit {
   shareFolder(folder: any, password: string) {
     const data = { ...folder, Password: password };
     this.folderService.shareFolderInfo(data).subscribe(() => this.loadFolders());
+  }
+
+  onFolderCardClick(folder: any) {
+    this.router.navigate(['folder', folder.FolderId, 'documents']);
+  }
+
+  closeDocuments() {
+    this.showDocuments = false;
+    this.selectedFolderId = null;
   }
 }

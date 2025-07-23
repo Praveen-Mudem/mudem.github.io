@@ -13,7 +13,7 @@
     <router-outlet></router-outlet>
   </div>
 </ng-container>
-<div class="main-body" *ngIf="loginService.isLoggedIn() && !isAccessingFolder">
+<div class="main-body" *ngIf="loginService.isLoggedIn()">
     <div>
       <app-dashboard-header></app-dashboard-header>
       <router-outlet></router-outlet>

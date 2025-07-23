@@ -6,6 +6,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { FolderComponent } from './folder.component';
 import { FolderRoutingModule } from './folder-routing.module';
 import { FolderAddEditComponent } from './folder-add-edit/folder-add-edit.component';
+import { FolderDocumentsComponent } from './folder-documents/folder-documents.component';
 
 @NgModule({
   declarations: [FolderComponent, FolderAddEditComponent, FolderDocumentsComponent],

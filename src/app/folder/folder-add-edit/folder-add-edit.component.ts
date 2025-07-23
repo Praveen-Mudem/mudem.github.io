@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FolderInfo } from '../../model/folder.module';
 import { FolderService } from '../../service/folder.service';
+import { ConfirmDialogService } from '../../service/confirm-dialog.service';
+import { ToastService } from '../../service/toast.service';
 
 @Component({
   selector: 'app-folder-add-edit',
@@ -31,7 +33,9 @@ export class FolderAddEditComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private folderService: FolderService
+    private folderService: FolderService,
+    private confirmDialog: ConfirmDialogService,
+    private toast: ToastService
   ) {}
 
   ngOnInit() {
@@ -65,11 +69,16 @@ export class FolderAddEditComponent implements OnInit {
         Description: formValue.Description
       };
       this.folderService.saveFolderInfo(folder).subscribe({
-        next: () => this.router.navigate(['/folder']),
-        error: () => this.errorMsg = 'Error while processing your request, please contant administrator!'
+        next: () => {
+          this.toast.show(this.isEdit ? 'Folder updated successfully.' : 'Folder added successfully.', 'success');
+          this.router.navigate(['/folder']);
+        },
+        error: () => {
+          this.toast.show('Error while processing your request, please contact administrator!', 'error');
+        }
       });
     } else {
-      this.errorMsg = 'Error while processing your request, please contant administrator!';
+      this.toast.show('Error while processing your request, please contact administrator!', 'error');
     }
   }
 
@@ -77,9 +86,12 @@ export class FolderAddEditComponent implements OnInit {
     this.router.navigate(['/folder']);
   }
 
-  onDelete() {
+  async onDelete() {
     if (this.isEdit && this.folder.FolderId) {
-      this.folderService.deleteFolderInfo(this.folder.FolderId).subscribe(() => this.router.navigate(['/folder']));
+      const result = await this.confirmDialog.confirm(`Are you sure you want to delete the folder "${this.folder.Name}"?`);
+      if (result) {
+        this.folderService.deleteFolderInfo(this.folder.FolderId).subscribe(() => this.router.navigate(['/folder']));
+      }
     }
-  }
+  } 
 }
