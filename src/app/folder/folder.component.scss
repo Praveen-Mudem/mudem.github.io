@@ -1,28 +1,217 @@
+@import "../../assets/variable";
 
-.folder-pic {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-  margin-bottom: 10px;
+// Folder Component - Professional Clean Design
+:host {
+  display: block;
+  min-height: 100vh;
+  background: $bg-secondary;
+  padding: $spacing-md 0;
 }
 
-.card {
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+.top-content-section {
+  background: $bg-primary;
+  border-radius: $border-radius-lg;
+  box-shadow: 0 4px 16px $shadow-light;
+  margin: $spacing-md;
+  padding: $spacing-lg;
+  border: 1px solid $border-color;
+  
+  @media (min-width: 768px) {
+    margin: $spacing-xl auto;
+    padding: $spacing-xl;
+    border-radius: $border-radius-xl;
+    max-width: 1200px;
+  }
+}
+
+// Add Folder Card
+.add-folder-card {
+  background: $bg-tertiary;
+  border: 2px dashed $secondary-light;
+  border-radius: $border-radius-lg;
+  min-height: 220px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    border-color: $border-focus;
+    background: $bg-secondary;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px $shadow-focus;
+  }
+  
+  .add-folder-content {
+    .add-icon {
+      font-size: 3rem;
+      color: $text-muted;
+      transition: color 0.3s ease;
+    }
+    
+    .add-text {
+      font-size: $font-size-lg;
+      font-weight: $font-weight-semibold;
+      color: $text-secondary;
+      transition: color 0.3s ease;
+    }
+  }
+  
+  &:hover .add-folder-content {
+    .add-icon {
+      color: $primary-color;
+    }
+    
+    .add-text {
+      color: $primary-color;
+    }
+  }
+}
+
+// Folder Card
+.folder-card {
+  background: $bg-primary;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-lg;
   overflow: hidden;
-  transition: box-shadow 0.2s;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px $shadow-dark;
+    border-color: $border-focus;
+  }
+  
+  .folder-header {
+    background: $bg-secondary;
+    border-bottom: 1px solid $border-color;
+    
+    .folder-icon {
+      width: 60px;
+      height: 60px;
+      
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+    
+    .shared-badge {
+      position: absolute;
+      top: $spacing-sm;
+      right: $spacing-sm;
+      background: $accent-color;
+      font-size: $font-size-xs;
+      padding: $spacing-xs $spacing-sm;
+      border-radius: $border-radius-lg;
+    }
+  }
+  
+  .folder-body {
+    flex: 1;
+    
+    .folder-name {
+      font-size: $font-size-lg;
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+      word-break: break-word;
+    }
+  }
+  
+  .folder-actions {
+    border-top: 1px solid $border-light;
+    background: $bg-tertiary;
+    
+    .action-btn {
+      font-size: $font-size-sm;
+      padding: $spacing-sm $spacing-md;
+      border-radius: $border-radius-sm;
+      font-weight: $font-weight-medium;
+      border: none;
+      transition: all 0.2s ease;
+      
+      &.btn-primary {
+        background: $primary-color;
+        color: $text-light;
+        
+        &:hover {
+          background: $primary-dark;
+          transform: scale(1.02);
+        }
+      }
+      
+      &.btn-info {
+        background: #06b6d4;
+        color: $text-light;
+        
+        &:hover {
+          background: #0891b2;
+          transform: scale(1.02);
+        }
+      }
+      
+      &.btn-warning {
+        background: $accent-orange;
+        color: $text-light;
+        
+        &:hover {
+          background: darken($accent-orange, 10%);
+          transform: scale(1.02);
+        }
+      }
+      
+      &.btn-danger {
+        background: $accent-red;
+        color: $text-light;
+        
+        &:hover {
+          background: darken($accent-red, 10%);
+          transform: scale(1.02);
+        }
+      }
+      
+      i {
+        font-size: $font-size-sm;
+      }
+    }
+  }
 }
-.card:hover {
-  box-shadow: 0 8px 32px rgba(0,0,0,0.16);
+
+// Modal Styles - Minimal
+.modal-header {
+  background: #f8fafc;
+  border-bottom: 1px solid #e5e7eb;
+  
+  .modal-title {
+    font-weight: 600;
+    color: #1f2937;
+    
+    i {
+      color: #3b82f6;
+    }
+  }
 }
-.card-title {
-  font-size: 1.2rem;
-  font-weight: 600;
+
+.modal-body {
+  .form-label {
+    font-weight: 600;
+    color: #374151;
+    
+    i {
+      color: #6b7280;
+    }
+  }
+  
+  .form-control:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
 }
-.card-subtitle {
-  font-size: 1rem;
-  color: #6c757d;
-}
-.card-footer .btn {
-  min-width: 60px;
+
+.modal-footer {
+  background: #f8fafc;
+  border-top: 1px solid #e5e7eb;
 }

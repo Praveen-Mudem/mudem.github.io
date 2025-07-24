@@ -40,15 +40,35 @@ export class FolderAddEditComponent implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
+    
     if (id) {
       this.isEdit = true;
-      this.folderService.getFolderById(+id).subscribe(folder => {
-        this.folder = folder || this.folder;
-        this.initForm();
-      });
+      this.loadFolderData(+id);
     } else {
       this.isEdit = false;
       this.initForm();
+    }
+  }
+
+  loadFolderData(folderId: number) {
+    // Try to get folder data from router state first
+    const folderData = window.history.state?.folderData;
+    
+    if (folderData) {
+      this.folder = folderData;
+      this.initForm();
+    } else {
+      // Fallback to API call
+      this.folderService.getFolderById(folderId).subscribe({
+        next: (folder) => {
+          this.folder = folder || this.folder;
+          this.initForm();
+        },
+        error: () => {
+          this.toast.show('Failed to load folder details', 'error');
+          this.router.navigate(['/folder']);
+        }
+      });
     }
   }
 

@@ -3,8 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SharedFolderAccessService } from './shared-folder-access.service';
 import { ToastService } from '../../service/toast.service';
 import { CookieService } from '../../service/cookie.service';
-import { FolderService } from 'src/app/service/folder.service';
 import { SharedFolderService } from 'src/app/service/shared-folder.service';
+import { DocumentInfo, FolderInfo, getSharedFolderInfoResponse, SharedFolderFilesInfoResponse, ValidationResponse } from 'src/app/model/folder.module';
 
 @Component({
   selector: 'app-shared-folder',
@@ -15,7 +15,7 @@ export class SharedFolderComponent implements OnInit {
   isLogedIn: boolean = false;
   password: string = '';
   errorMessage: string = '';
-  documents: any[] = [];
+  documents: DocumentInfo[] = [];
   folderId: string | null = null;
   constructor(
     private route: ActivatedRoute,
@@ -27,25 +27,42 @@ export class SharedFolderComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      const folderId = this.folderId = params['folderId'];
-      
-      if (folderId) {
-        const storedFolderInfo = this.cookieService.getObject('sharedFolderInfo');
-        this.password = storedFolderInfo.Password || '';
-        this.validateSharedFolder()
-        if (!storedFolderInfo || storedFolderInfo.UniqueId !== folderId) {
-          this.cookieService.setCookie('currentSharedFolderId', folderId, 1);
-          this.isLogedIn = false;
-          // this.openSharedFolderModal(folderId);
-        } else {
-          this.isLogedIn = true;
-          console.log('Folder info already stored:', storedFolderInfo);
-          this.toast.show('Shared folder info already available', 'success');
-        }
+      const folderId = this.folderId = this.folderId = params['folderId'];
+
+      if (!folderId) {
+        this.errorMessage = 'No folder ID provided in URL.';
+        return;
+      }
+      const folderInfo = this.getStoredFolderInfo();
+      if (folderInfo && folderInfo.UniqueId === folderId && !!folderInfo.Password) {
+        this.isLogedIn = true;
+        this.getSharedFolderFilesInfo(folderInfo);
+        return;
       } else {
         this.isLogedIn = false;
+        this.getSharedFolderInfo(folderId);
       }
     });
+  }
+
+  getSharedFolderInfo(folderId: string) {
+    if (folderId) {
+      this.sharedFolderService.getSharedFolderInfo(folderId)
+        .subscribe({
+          next: (res: getSharedFolderInfoResponse) => {
+            if (res && res.FolderInfo) {
+              
+              this.storeSharedFolderInfo(res.FolderInfo);
+              this.toast.show('Shared folder info retrieved successfully', 'success');
+            } else {
+              this.toast.show('Failed to retrieve shared folder info', 'error');
+            }
+          },
+          error: () => this.toast.show('Error retrieving shared folder info', 'error')
+        });
+    } else {
+      this.toast.show('No folder ID found to retrieve info', 'error');
+    }
   }
 
   // Method to store shared folder info in cookies
@@ -67,6 +84,15 @@ export class SharedFolderComponent implements OnInit {
     console.log('Stored shared folder info:', sharedFolderInfo);
   }
 
+  // storeDocumentList(documents: DocumentInfo[]) {
+  //   this.cookieService.setObject('sharedFolderDocuments', documents, 1);
+  //   console.log('Stored shared folder documents:', documents);
+  // }
+
+  // getStoredDocumentList() {
+  //   return this.cookieService.getObject('sharedFolderDocuments');
+  // }
+
   // Method to get stored shared folder info
   getStoredFolderInfo() {
     return this.cookieService.getObject('sharedFolderInfo');
@@ -76,38 +102,50 @@ export class SharedFolderComponent implements OnInit {
   clearStoredFolderInfo() {
     this.cookieService.eraseCookie('sharedFolderInfo');
     this.cookieService.eraseCookie('currentSharedFolderId');
+    
+    // Reset component state
+    this.isLogedIn = false;
+    this.password = '';
+    this.errorMessage = '';
+    this.documents = [];
+    
+    this.toast.show('Logged out successfully', 'success');
+    console.log('Cleared stored folder info and reset component state');
   }
 
   validateSharedFolder() {
-    const folderId = this.cookieService.getCookie('currentSharedFolderId');
-    if (folderId && this.password.trim()) {
-      this.sharedFolderAccessService.validateSharedFolder(folderId, this.password.trim())
-        .then((result) => {
-          if (result.isValid) {
+    if (this.folderId && this.password.trim()) {
+      const sharedFolderInfo: FolderInfo = this.cookieService.getObject('sharedFolderInfo');
+      const updatedFolderInfo: FolderInfo = {
+        ...sharedFolderInfo,
+        Password: this.password.trim()
+      };
+      this.sharedFolderAccessService.validateSharedFolder(updatedFolderInfo)
+        .subscribe((result: ValidationResponse) => {
+          if (result.IsSaved) {
             // Store the validated folder info in cookies
-            this.storeSharedFolderInfo(result.folderInfo);
+            this.storeSharedFolderInfo(result.FolderInfo);
             
             // Set login status to true
             this.isLogedIn = true;
-            this.getSharedFolderFilesInfo(result.folderInfo);
+            this.getSharedFolderFilesInfo(result.FolderInfo);
             this.toast.show('Shared folder accessed successfully', 'success');
             
             // Clear the password field
             this.password = '';
             
-            console.log('Folder validated and stored:', result.folderInfo);
-            console.log('Files available:', result.files);
+            console.log('Folder validated and stored:', result.FolderInfo);
           } else {
-            this.toast.show(result.message || 'Invalid password for shared folder', 'error');
+            this.toast.show(result.ErrorMessage || 'Invalid password for shared folder', 'error');
           }
-        })
-        .catch((error) => {
+        },
+        (error) => {
           console.error('Error accessing shared folder:', error);
           this.toast.show(error.message || 'Failed to access shared folder', 'error');
-        });
-      
+        }
+      );
     } else {
-      if (!folderId) {
+      if (!this.folderId) {
         this.toast.show('No folder ID found to access', 'error');
       } else {
         this.toast.show('Please enter a password', 'error');
@@ -115,19 +153,17 @@ export class SharedFolderComponent implements OnInit {
     }
   }
 
-  getSharedFolderFilesInfo(folderData) {
+  getSharedFolderFilesInfo(folderData: FolderInfo) {
     this.sharedFolderService.getSharedFolderFilesInfo(folderData)
       .subscribe({
-        next: (res: any) => {
+        next: (res: SharedFolderFilesInfoResponse) => {
           // If API returns an object with a property (e.g. DocumentList), use that
-          if (Array.isArray(res)) {
-            this.documents = res;
-          } else if (res && Array.isArray(res.DocumentList)) {
+          if (res?.DocumentList) {
             this.documents = res.DocumentList;
-          } else if (res && Array.isArray(res.FolderDocuments)) {
-            this.documents = res.FolderDocuments;
+            // this.storeDocumentList(this.documents);
           } else {
             this.documents = [];
+            //  this.storeDocumentList([]);
           }
         },
         error: () => this.errorMessage = 'Failed to load documents.'

@@ -1,0 +1,31 @@
+<div class="card h-100">
+  <div class="card-img-top">
+    <!-- Image files -->
+    <img *ngIf="isImageFile(document.FileType)" 
+         class="img-fluid" 
+         [src]="document.Filepath || 'assets/images/file.png'" 
+         alt="Document Image">
+    
+    <!-- Video files -->
+    <video *ngIf="isVideoFile(document.FileType)" 
+           controls 
+           preload="metadata"
+           [src]="document.Filepath">
+      Your browser does not support the video tag.
+    </video>
+    
+    <!-- PDF files -->
+    <i *ngIf="isPdfFile(document.FileType)" 
+       class="bi bi-file-earmark-pdf"></i>
+    
+    <!-- Other file types -->
+    <i *ngIf="!isImageFile(document.FileType) && !isVideoFile(document.FileType) && !isPdfFile(document.FileType)" 
+       class="bi bi-file-earmark"></i>
+  </div>
+  
+  <div class="card-footer">
+    <button class="btn btn-danger btn-sm" (click)="onDelete()">
+      <i class="bi bi-trash"></i> Delete
+    </button>
+  </div>
+</div>

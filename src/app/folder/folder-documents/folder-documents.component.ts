@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FolderService } from '../../service/folder.service';
 import { LoginService } from '../../service/login.service';
 import { ToastService } from '../../service/toast.service';
@@ -23,7 +24,8 @@ export class FolderDocumentsComponent implements OnInit {
     private folderService: FolderService,
     private loginService: LoginService,
     private toast: ToastService,
-    private confirmDialog: ConfirmDialogService
+    private confirmDialog: ConfirmDialogService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -66,9 +68,13 @@ export class FolderDocumentsComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
+    // Clear any previous error messages
+    this.errorMsg = '';
+    
     const file = event.target.files && event.target.files[0];
     this.selectedFile = file;
     this.selectedFiles = file ? [file] : [];
+    
     if (file) {
       const ext = file.name.split('.').pop()?.toLowerCase();
       if (!ext || !this.allowedTypes.includes(ext)) {
@@ -78,6 +84,8 @@ export class FolderDocumentsComponent implements OnInit {
         this.imageUrl = null;
         return;
       }
+      
+      // File is valid, set up preview for images
       const reader = new FileReader();
       reader.onload = (e: any) => {
         if (file.type.startsWith('image')) {
@@ -97,6 +105,10 @@ export class FolderDocumentsComponent implements OnInit {
       this.toast.show('No file selected.', 'error');
       return;
     }
+    
+    // Clear any error messages
+    this.errorMsg = '';
+    
     this.folderService.uploadDocuments(this.profileId, this.folderId, [this.selectedFile])
       .subscribe({
         next: () => {
@@ -105,8 +117,17 @@ export class FolderDocumentsComponent implements OnInit {
           this.selectedFiles = [];
           this.imageUrl = null;
           this.toast.show('Upload successful!', 'success');
+          
+          // Reset the file input
+          const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+          if (fileInput) {
+            fileInput.value = '';
+          }
         },
-        error: () => this.toast.show('Failed to upload files.', 'error')
+        error: (error) => {
+          console.error('Upload error:', error);
+          this.toast.show('Failed to upload files.', 'error');
+        }
       });
   }
 
@@ -143,5 +164,9 @@ export class FolderDocumentsComponent implements OnInit {
   isPdfFile(fileType: string): boolean {
     const pdfTypes = ['.pdf', 'pdf'];
     return pdfTypes.includes(fileType?.toLowerCase());
+  }
+
+  goBack() {
+    this.router.navigate(['/folder']);
   }
 }

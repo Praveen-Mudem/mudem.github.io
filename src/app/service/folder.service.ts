@@ -7,13 +7,13 @@ import CONFIG from './Const';
   providedIn: 'root'
 })
 export class FolderService {
+  private baseUrl = CONFIG.BASE_URL + 'api/Document';
+
+  constructor(private http: HttpClient) {}
   
   getFolderById(folderId: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/getFolderById/${folderId}`);
   }
-  private baseUrl = CONFIG.BASE_URL + 'api/Document';
-
-  constructor(private http: HttpClient) {}
 
   getAllFolderList(): Observable<any> {
     return this.http.get(`${this.baseUrl}/getAllFolderList`);

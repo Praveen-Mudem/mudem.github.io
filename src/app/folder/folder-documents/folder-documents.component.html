@@ -1,67 +1,40 @@
-<div class="container top-content-section overflow-hiden">
+<div class="container top-content-section overflow-hidden">
+  <!-- Back Button -->
+  <div class="d-flex align-items-center mb-3">
+    <button class="btn btn-outline-secondary me-3" (click)="goBack()">
+      <i class="bi bi-arrow-left me-2"></i>
+      Back to Folders
+    </button>
+    <h4 class="mb-0 text-muted">Documents</h4>
+  </div>
+  
   <div class="row mt-4">
-    <div class="col-12 col-lg-3 col-md-4 col-sm-6 col-xs-12 pb-4">
-      <div class="card h-100 d-flex flex-column justify-content-center align-items-center position-relative add-file-card"
-        style="min-height: 250px; border: 2px dashed #007bff; background: #f8f9fa;">
-        <label class="btn btn-outline-primary mb-0">
+    <!-- Add File Card -->
+    <div class="col-12 col-lg-3 col-md-4 col-sm-6 pb-4">
+      <div class="card h-100 d-flex flex-column justify-content-center align-items-center position-relative add-file-card">
+        <label for="fileInput" class="btn btn-outline-primary mb-0 cursor-pointer">
           <i class="bi bi-plus-circle" style="font-size: 2rem;"></i><br />
           Add File
-          <input type="file" (change)="onFileSelected($event)" accept=".mp4,.pdf,.jpg,.jpeg,.png" hidden />
         </label>
-        <div *ngIf="selectedFile" class="mt-2 w-100 px-2 ">
-          <div class="small text-secondary text-center">
+        <input id="fileInput" type="file" (change)="onFileSelected($event)" accept=".mp4,.pdf,.jpg,.jpeg,.png" hidden />
+        <div *ngIf="selectedFile" class="mt-2 w-100 px-2">
+          <div class="small text-center">
             {{ selectedFile.name }}
           </div>          
         </div>
-        <button class="btn btn-success upload-btn" (click)="uploadFiles()" [disabled]="!selectedFile">Upload</button>
-        <div *ngIf="errorMsg" class="alert alert-danger mt-2">{{ errorMsg }}</div>
-      </div>
-    </div>
-    <ng-container *ngFor="let doc of documents">
-      <div class="col-12 col-lg-3 col-md-4 col-sm-6 col-xs-12 pb-4">
-        <div class="card">
-          <div class="card-img-top text-center p-2">
-            <!-- Image files -->
-            <img *ngIf="doc.FileType === '.jpg' || doc.FileType === '.jpeg' || doc.FileType === '.png'" 
-                 class="profile-pic img-fluid" 
-                 [src]="doc.Filepath || 'assets/images/file.png'" 
-                 alt="File Image">
-            
-            <!-- Video files -->
-            <div *ngIf="doc.FileType === '.mp4' || doc.FileType === 'mp4'">
-              <video *ngIf="doc.Filepath; else videoIcon" 
-                     controls 
-                     preload="metadata"
-                     [src]="doc.Filepath">
-                Your browser does not support the video tag.
-              </video>
-              <ng-template #videoIcon>
-                <i class="bi bi-file-earmark-play video-icon"></i>
-                <div class="small text-muted mt-2">Video File</div>
-              </ng-template>
-            </div>
-            
-            <!-- PDF files -->
-            <div *ngIf="doc.FileType === '.pdf' || doc.FileType === 'pdf'">
-              <i class="bi bi-file-earmark-pdf pdf-icon"></i>
-              <div class="small text-muted mt-2">PDF Document</div>
-            </div>
-            
-            <!-- Other file types -->
-            <div *ngIf="!isImageFile(doc.FileType) && !isVideoFile(doc.FileType) && !isPdfFile(doc.FileType)">
-              <i class="bi bi-file-earmark" style="color: #6c757d; font-size: 3rem;"></i>
-              <div class="small text-muted mt-2">{{ doc.FileType || 'Unknown' }}</div>
-            </div>
-          </div>
-          <!-- <div class="card-body text-center">
-            <h5 class="card-title">{{ doc.FileName || doc.filename || doc.name }}</h5>
-          </div> -->
-          <div class="card-footer text-end">
-            <button class="btn btn-danger btn-sm" (click)="deleteDocument(doc)">Delete</button>
-          </div>
+        <button class="btn btn-success upload-btn" (click)="uploadFiles()" [disabled]="!selectedFile">
+          Upload
+        </button>
+        <div *ngIf="errorMsg" class="alert alert-danger mt-2">
+          {{ errorMsg }}
         </div>
       </div>
-    </ng-container>
+    </div>
+    
+    <!-- Document Cards -->
+    <div class="col-12 col-lg-3 col-md-4 col-sm-6 pb-4" *ngFor="let doc of documents">
+      <app-file-card [document]="doc" (delete)="deleteDocument($event)"></app-file-card>
+    </div>
   </div>
 </div>
 

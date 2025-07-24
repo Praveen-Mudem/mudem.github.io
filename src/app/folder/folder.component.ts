@@ -68,7 +68,10 @@ export class FolderComponent implements OnInit {
   }
 
   onEditFolder(folder: any) {
-    this.router.navigate(['folder/edit', folder.FolderId]);
+    // Pass folder data through router state to avoid API call
+    this.router.navigate(['folder/edit', folder.FolderId], {
+      state: { folderData: folder }
+    });
   }
 
   async onDeleteFolder(folderId: number) {

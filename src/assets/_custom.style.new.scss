@@ -1,0 +1,366 @@
+@import "variable";
+
+// ========================================
+// UTILITY CLASSES
+// ========================================
+
+// Background Classes
+.bg-primary-custom { background-color: $primary-color !important; }
+.bg-primary-dark { background-color: $primary-dark !important; }
+.bg-primary-light { background-color: $primary-light !important; }
+.bg-secondary-custom { background-color: $secondary-color !important; }
+.bg-accent { background-color: $accent-color !important; }
+.bg-accent-orange { background-color: $accent-orange !important; }
+.bg-accent-red { background-color: $accent-red !important; }
+.bg-light-custom { background-color: $bg-secondary !important; }
+.bg-tertiary { background-color: $bg-tertiary !important; }
+
+// Text Color Classes
+.text-primary-custom { color: $text-primary !important; }
+.text-secondary-custom { color: $text-secondary !important; }
+.text-muted-custom { color: $text-muted !important; }
+.text-light-custom { color: $text-light !important; }
+.text-accent { color: $accent-color !important; }
+.text-accent-orange { color: $accent-orange !important; }
+.text-accent-red { color: $accent-red !important; }
+
+// Border Classes
+.border-primary-custom { border-color: $border-focus !important; }
+.border-light-custom { border-color: $border-light !important; }
+.border-default { border-color: $border-color !important; }
+
+// Shadow Classes
+.shadow-light { box-shadow: 0 2px 4px $shadow-light !important; }
+.shadow-medium { box-shadow: 0 4px 8px $shadow-medium !important; }
+.shadow-dark { box-shadow: 0 8px 16px $shadow-dark !important; }
+.shadow-focus { box-shadow: 0 4px 12px $shadow-focus !important; }
+
+// Cursor Classes
+.cursor-pointer { cursor: pointer !important; }
+.cursor-not-allowed { cursor: not-allowed !important; }
+
+// Border Radius Classes
+.rounded-sm-custom { border-radius: $border-radius-sm !important; }
+.rounded-md-custom { border-radius: $border-radius-md !important; }
+.rounded-lg-custom { border-radius: $border-radius-lg !important; }
+.rounded-xl-custom { border-radius: $border-radius-xl !important; }
+
+// Spacing Classes
+.p-xs { padding: $spacing-xs !important; }
+.p-sm { padding: $spacing-sm !important; }
+.p-md { padding: $spacing-md !important; }
+.p-lg { padding: $spacing-lg !important; }
+.p-xl { padding: $spacing-xl !important; }
+
+.m-xs { margin: $spacing-xs !important; }
+.m-sm { margin: $spacing-sm !important; }
+.m-md { margin: $spacing-md !important; }
+.m-lg { margin: $spacing-lg !important; }
+.m-xl { margin: $spacing-xl !important; }
+
+// ========================================
+// COMPONENT STYLES
+// ========================================
+
+// Card Styles
+.card-custom {
+  background: $bg-primary;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-lg;
+  box-shadow: 0 4px 16px $shadow-light;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 8px 20px $shadow-medium;
+    transform: translateY(-2px);
+  }
+
+  .card-header-custom {
+    background: $bg-secondary;
+    border-bottom: 1px solid $border-color;
+    padding: $spacing-md $spacing-lg;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+  }
+
+  .card-body-custom {
+    padding: $spacing-lg;
+  }
+}
+
+// Button Styles
+.btn-primary-custom {
+  background-color: $primary-color;
+  border-color: $primary-color;
+  color: $text-light;
+  border-radius: $border-radius-md;
+  padding: $spacing-sm $spacing-md;
+  font-weight: $font-weight-medium;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: $primary-dark;
+    border-color: $primary-dark;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px $shadow-medium;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 3px $shadow-focus;
+  }
+
+  &:disabled {
+    background-color: $secondary-light;
+    border-color: $secondary-light;
+    cursor: not-allowed;
+  }
+}
+
+.btn-secondary-custom {
+  background-color: $secondary-color;
+  border-color: $secondary-color;
+  color: $text-light;
+  border-radius: $border-radius-md;
+  padding: $spacing-sm $spacing-md;
+  font-weight: $font-weight-medium;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: $secondary-dark;
+    border-color: $secondary-dark;
+  }
+}
+
+.btn-success-custom {
+  background-color: $accent-color;
+  border-color: $accent-color;
+  color: $text-light;
+  border-radius: $border-radius-md;
+  padding: $spacing-sm $spacing-md;
+  font-weight: $font-weight-medium;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: darken($accent-color, 10%);
+    border-color: darken($accent-color, 10%);
+  }
+}
+
+.btn-danger-custom {
+  background-color: $accent-red;
+  border-color: $accent-red;
+  color: $text-light;
+  border-radius: $border-radius-md;
+  padding: $spacing-sm $spacing-md;
+  font-weight: $font-weight-medium;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: darken($accent-red, 10%);
+    border-color: darken($accent-red, 10%);
+  }
+}
+
+// Form Styles
+.form-control-custom {
+  border: 1px solid $border-color;
+  border-radius: $border-radius-md;
+  padding: $spacing-sm $spacing-md;
+  font-size: $font-size-md;
+  transition: all 0.3s ease;
+
+  &:focus {
+    border-color: $border-focus;
+    box-shadow: 0 0 0 3px $shadow-focus;
+    outline: none;
+  }
+
+  &.is-invalid {
+    border-color: $border-error;
+  }
+}
+
+.form-label-custom {
+  font-weight: $font-weight-medium;
+  color: $text-primary;
+  margin-bottom: $spacing-sm;
+}
+
+// Modal Styles
+.modal-custom {
+  .modal-content {
+    border-radius: $border-radius-lg;
+    border: none;
+    box-shadow: 0 20px 40px $shadow-dark;
+  }
+
+  .modal-header {
+    background: $bg-secondary;
+    border-bottom: 1px solid $border-color;
+    border-radius: $border-radius-lg $border-radius-lg 0 0;
+    padding: $spacing-lg;
+
+    .modal-title {
+      font-weight: $font-weight-semibold;
+      color: $text-primary;
+    }
+  }
+
+  .modal-body {
+    padding: $spacing-lg;
+  }
+
+  .modal-footer {
+    border-top: 1px solid $border-color;
+    padding: $spacing-md $spacing-lg;
+    background: $bg-secondary;
+    border-radius: 0 0 $border-radius-lg $border-radius-lg;
+  }
+}
+
+// Loading/Upload Areas
+.upload-area {
+  background: $bg-tertiary;
+  border: 2px dashed $secondary-light;
+  border-radius: $border-radius-lg;
+  padding: $spacing-xl;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover, &.drag-over {
+    border-color: $border-focus;
+    background: $bg-secondary;
+    box-shadow: 0 4px 12px $shadow-focus;
+  }
+
+  .upload-icon {
+    font-size: 3rem;
+    color: $text-muted;
+    margin-bottom: $spacing-md;
+  }
+
+  .upload-text {
+    color: $text-secondary;
+    font-size: $font-size-lg;
+    margin-bottom: $spacing-sm;
+  }
+
+  .upload-subtext {
+    color: $text-muted;
+    font-size: $font-size-sm;
+  }
+}
+
+// List Styles
+.list-custom {
+  .list-item {
+    padding: $spacing-md;
+    border-bottom: 1px solid $border-light;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: $bg-secondary;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+// ========================================
+// LEGACY COMPATIBILITY
+// ========================================
+
+// Keep existing classes for backward compatibility
+.bg-theam-1 {
+    background-color: $color2;
+}
+
+.bg-theam-2 {
+    background-color: $color1;
+}
+
+.main {
+    background-color: $bg-tertiary;
+}
+
+.list-group-horizontal {
+    .list-group-item {
+        background: transparent;
+        color: #18c2cb;
+        cursor: pointer;
+        border: none;
+
+        &:hover {
+            color: $text-light;
+        }
+    }
+}
+
+.top-content-section {
+    color: $bg-tertiary;
+
+    ul {
+        gap: $spacing-md;
+        list-style: none;
+
+        li {
+            padding: $spacing-sm;
+            font-size: $font-size-md;
+            color: $bg-tertiary;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: $border-radius-sm;
+
+            &:hover {
+                background-color: $primary-light;
+                border-radius: 20px;
+            }
+
+            &.active {
+                background-color: $primary-color;
+                border-radius: 20px;
+            }
+        }
+    }
+}
+
+.image-gallary {
+    .card {
+        width: 100%;
+        max-width: 300px;
+        margin: $spacing-sm;
+    }
+
+    .card img {
+        width: 100%;
+        height: auto;
+    }
+
+    .overlay {
+        position: absolute;
+        background: rgba(0, 0, 0, 0.6);
+        color: $bg-tertiary;
+        top: $spacing-sm;
+        left: $spacing-sm;
+        padding: $spacing-xs;
+        border-radius: $border-radius-sm;
+    }
+
+    .card-body {
+        position: relative;
+    }
+}
+
+.main {
+    background-image: url(../assets/images/pexels-ekamelev.jpg);
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}
+
+.mt-5 {
+    margin-top: 5%;
+}

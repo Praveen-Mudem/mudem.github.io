@@ -1,0 +1,129 @@
+// Design System - Based on Folder Component Style
+// Color Palette
+:root {
+  // Primary Gradient
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --primary-color: #667eea;
+  --primary-dark: #764ba2;
+  
+  // Status Gradients
+  --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --warning-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  --danger-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  --info-gradient: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+  
+  // Neutral Colors
+  --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --border-color: #e5e7eb;
+  --border-dashed: #cbd5e0;
+  
+  // Glass Effect
+  --glass-bg: rgba(255, 255, 255, 0.95);
+  --glass-blur: blur(20px);
+  
+  // Shadows
+  --shadow-sm: 0 4px 12px rgba(102, 126, 234, 0.1);
+  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.15);
+  
+  // Border Radius
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  
+  // Transitions
+  --transition-fast: all 0.2s ease;
+  --transition-normal: all 0.3s ease;
+}
+
+// Mixins
+@mixin glass-effect {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+}
+
+@mixin card-hover {
+  transition: var(--transition-normal);
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-12px);
+    box-shadow: var(--shadow-xl);
+  }
+}
+
+@mixin button-gradient($gradient, $shadow-color) {
+  background: #{$gradient};
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  transition: var(--transition-fast);
+  
+  &:hover:not(:disabled) {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px #{$shadow-color};
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+// Utility Classes
+.page-wrapper {
+  display: block;
+  min-height: 100vh;
+  background: var(--primary-gradient);
+  padding: 2rem 0;
+}
+
+.content-section {
+  @include glass-effect;
+}
+
+.btn-gradient-primary {
+  @include button-gradient(var(--primary-gradient), rgba(102, 126, 234, 0.4));
+}
+
+.btn-gradient-success {
+  @include button-gradient(var(--success-gradient), rgba(16, 185, 129, 0.4));
+}
+
+.btn-gradient-warning {
+  @include button-gradient(var(--warning-gradient), rgba(245, 158, 11, 0.4));
+}
+
+.btn-gradient-danger {
+  @include button-gradient(var(--danger-gradient), rgba(239, 68, 68, 0.4));
+}
+
+.btn-gradient-info {
+  @include button-gradient(var(--info-gradient), rgba(6, 182, 212, 0.4));
+}
+
+.modern-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  border: none;
+  @include card-hover;
+}
+
+.badge-gradient {
+  background: var(--success-gradient);
+  border-radius: var(--radius-lg);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}

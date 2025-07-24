@@ -1,78 +1,137 @@
-<ng-container *ngIf="isLogedIn">
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
-            <ul class="navbar-nav d-flex align-items-center">
-                 <li class="nav-item cursor-pointer" routerLink="/folder" routerLinkActive="active">
-                   <span>File</span>
-                </li>
-            </ul>
+<div class="container top-content-section overflow-hidden p-4">
+  <!-- Shared Folder Access View -->
+  <ng-container *ngIf="isLogedIn">
+    <!-- Header Section -->
+    <div class="shared-folder-header mb-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="page-title mb-2">
+            <i class="bi bi-folder-check me-2"></i>
+            Shared Folder Contents
+          </h2>
+          <p class="text-muted mb-0">Access granted to shared documents</p>
         </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-danger btn-sm" (click)="clearStoredFolderInfo()">
+            <i class="bi bi-box-arrow-right me-1"></i>
+            Exit
+          </button>
+        </div>
+      </div>
     </div>
-</nav>
-  <div class="container top-content-section overflow-hiden">
-  <div class="row mt-4">
-    <ng-container *ngFor="let doc of documents">
-      <div class="col-12 col-lg-3 col-md-4 col-sm-6 col-xs-12 pb-4">
-        <div class="card">
-          <div class="card-img-top text-center p-2">
+
+    <!-- Empty State -->
+    <div *ngIf="!documents || documents.length === 0" class="text-center py-5">
+      <div class="empty-state">
+        <i class="bi bi-folder2-open empty-icon mb-3"></i>
+        <h5 class="text-muted">No documents available</h5>
+        <p class="text-muted">This shared folder appears to be empty.</p>
+      </div>
+    </div>
+
+    <!-- Documents Grid -->
+    <div *ngIf="documents && documents.length > 0" class="row">
+      <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-4" *ngFor="let doc of documents">
+        <div class="document-card h-100">
+          <div class="document-preview">
             <!-- Image files -->
-            <img *ngIf="doc.FileType === '.jpg' || doc.FileType === '.jpeg' || doc.FileType === '.png'" 
-                 class="profile-pic img-fluid" 
-                 [src]="doc.Filepath || 'assets/images/file.png'" 
-                 alt="File Image">
+            <div *ngIf="isImageFile(doc.FileType)" class="image-preview">
+              <img [src]="doc.Filepath || 'assets/images/file.png'" 
+                   alt="Document Image" 
+                   class="img-fluid">
+            </div>
             
             <!-- Video files -->
-            <div *ngIf="doc.FileType === '.mp4' || doc.FileType === 'mp4'">
+            <div *ngIf="isVideoFile(doc.FileType)" class="video-preview">
               <video *ngIf="doc.Filepath; else videoIcon" 
                      controls 
                      preload="metadata"
-                     [src]="doc.Filepath">
+                     [src]="doc.Filepath"
+                     class="w-100">
                 Your browser does not support the video tag.
               </video>
               <ng-template #videoIcon>
-                <i class="bi bi-file-earmark-play video-icon"></i>
-                <div class="small text-muted mt-2">Video File</div>
+                <div class="file-icon-container">
+                  <i class="bi bi-file-earmark-play file-icon"></i>
+                  <span class="file-type-label">Video File</span>
+                </div>
               </ng-template>
             </div>
             
-            <div *ngIf="doc.FileType === '.pdf' || doc.FileType === 'pdf'">
-              <i class="bi bi-file-earmark-pdf pdf-icon"></i>
-              <div class="small text-muted mt-2">PDF Document</div>
+            <!-- PDF files -->
+            <div *ngIf="isPdfFile(doc.FileType)" class="pdf-preview">
+              <div class="file-icon-container">
+                <i class="bi bi-file-earmark-pdf file-icon pdf-icon"></i>
+                <span class="file-type-label">PDF Document</span>
+              </div>
             </div>
             
-            <div *ngIf="!isImageFile(doc.FileType) && !isVideoFile(doc.FileType) && !isPdfFile(doc.FileType)">
-              <i class="bi bi-file-earmark" style="color: #6c757d; font-size: 3rem;"></i>
-              <div class="small text-muted mt-2">{{ doc.FileType || 'Unknown' }}</div>
+            <!-- Other file types -->
+            <div *ngIf="!isImageFile(doc.FileType) && !isVideoFile(doc.FileType) && !isPdfFile(doc.FileType)" 
+                 class="other-file-preview">
+              <div class="file-icon-container">
+                <i class="bi bi-file-earmark file-icon"></i>
+                <span class="file-type-label">{{ doc.FileType || 'Unknown' }}</span>
+              </div>
             </div>
+          </div>
+          
+          <div class="document-info p-3">
+            <h6 class="document-name mb-1" [title]="doc.FileName || 'Document'">
+              {{ doc.FileName || 'Document' }}
+            </h6>
+            <small class="text-muted">{{ doc.FileType || 'Unknown type' }}</small>
           </div>
         </div>
       </div>
-    </ng-container>
-  </div>
-</div>
-
-
-</ng-container>
-<ng-container *ngIf="!isLogedIn">
-<div class="container d-flex justify-content-around mt-5">
-    <div class="login-container">
-        <h2 class="text-center mb-4">Login</h2>
-        <form (ngSubmit)="validateSharedFolder()">
-
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" [(ngModel)]="password" name="password" placeholder="Password" required />
-            </div>            
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary">Get Access</button>
-            </div>
-            <div class="text-danger mt-2" *ngIf="errorMessage">{{errorMessage}}</div>
-        </form>
     </div>
+  </ng-container>
+
+  <!-- Login View -->
+  <ng-container *ngIf="!isLogedIn">
+    <div class="shared-folder-login">
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+          <div class="login-card">
+            <div class="login-header text-center mb-4">
+              <i class="bi bi-shield-lock login-icon mb-3"></i>
+              <h3 class="login-title">Secure Access Required</h3>
+              <p class="text-muted">Enter the password to access this shared folder</p>
+            </div>
+            
+            <form (ngSubmit)="validateSharedFolder()" class="login-form">
+              <div class="mb-3">
+                <label for="password" class="form-label">
+                  <i class="bi bi-key me-2"></i>
+                  Password
+                </label>
+                <input type="password" 
+                       class="form-control form-control-lg" 
+                       id="password" 
+                       [(ngModel)]="password" 
+                       name="password" 
+                       placeholder="Enter folder password" 
+                       required 
+                       autocomplete="current-password">
+              </div>
+              
+              <div class="d-grid">
+                <button type="submit" 
+                        class="btn btn-primary btn-lg"
+                        [disabled]="!password || password.trim().length === 0">
+                  <i class="bi bi-unlock me-2"></i>
+                  Access Folder
+                </button>
+              </div>
+              
+              <div class="alert alert-danger mt-3" *ngIf="errorMessage">
+                <i class="bi bi-exclamation-triangle me-2"></i>
+                {{ errorMessage }}
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 </div>
-</ng-container>

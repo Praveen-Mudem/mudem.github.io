@@ -1,23 +1,22 @@
-<div *ngIf="isLoading" class="preloader">
-  <div class="spinner"></div>
-</div>
-<ng-container *ngIf="isAccessingFolder && !loginService.isLoggedIn()">
-  <div class="main-body">
-  <app-shared-folder></app-shared-folder>
+<ng-container *ngIf="!isAccessingFolder">
+  <div *ngIf="isLoading" class="preloader">
+    <div class="spinner"></div>
   </div>
-</ng-container>
-
-<ng-container *ngIf="!loginService.isLoggedIn() && !isAccessingFolder">
-  <div class="main">
-    <app-header></app-header>
-    <router-outlet></router-outlet>
-  </div>
-</ng-container>
-<div class="main-body" *ngIf="loginService.isLoggedIn()">
+  <ng-container *ngIf="!loginService.isLoggedIn()">
+    <div class="main">
+      <app-header></app-header>
+      <router-outlet></router-outlet>
+    </div>
+  </ng-container>
+  <div class="main-body" *ngIf="loginService.isLoggedIn()">
     <div>
       <app-dashboard-header></app-dashboard-header>
       <router-outlet></router-outlet>
     </div>
-</div>
-<app-footer></app-footer>
-<app-confirm-dialog></app-confirm-dialog>
+  </div>
+  <app-footer></app-footer>
+  <app-confirm-dialog></app-confirm-dialog>
+</ng-container>
+<ng-container *ngIf="isAccessingFolder">
+  <router-outlet></router-outlet>
+</ng-container>

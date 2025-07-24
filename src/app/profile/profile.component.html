@@ -1,51 +1,62 @@
-<!-- <div class="profile-card">
-  <div class="profile-left">
-    <div class="avatar-container" style="position: relative;">
-      <img src="https://i.pravatar.cc/100?img=1" alt="Avatar" class="avatar" />
-    </div>
-    <h2 class="profile-name">Hembo Tingor</h2>
-    <p class="profile-role">Web Designer</p>  
+<div class="container top-content-section overflow-hidden p-4">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="text-center py-5">
+    <span class="h5 text-muted">Loading profiles...</span>
   </div>
   
-</div> -->
-
-
-<div class="container top-content-section overflow-hiden">
-  <div *ngIf="loading" class="text-center py-5">
-    <span>Loading profiles...</span>
-  </div>
-  <div *ngIf="errorMsg" class="alert alert-danger text-center">
+  <!-- Error State -->
+  <div *ngIf="errorMsg" class="alert alert-danger">
     {{ errorMsg }}
   </div>
-  <div class="row mt-4" *ngIf="!loading && !errorMsg">
-    <div class="col-12 col-lg-3 col-md-4 col-sm-6 col-xs-12 pb-4">
-      <div class="card h-100 d-flex flex-column justify-content-center align-items-center" style="min-height: 250px; border: 2px dashed #007bff; background: #f8f9fa;">
-        <button class="btn btn-outline-primary" (click)="onAddProfile()">
-          <i class="bi bi-plus-circle" style="font-size: 2rem;"></i><br />
-          Add New Profile
-        </button>
+  
+  <!-- Profiles Grid -->
+  <div *ngIf="!loading && !errorMsg" class="row">
+    <!-- Add New Profile Card -->
+    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
+      <div class="add-profile-card d-flex flex-column align-items-center justify-content-center h-100" (click)="onAddProfile()">
+        <div class="add-profile-content text-center">
+          <i class="bi bi-person-plus add-icon mb-3"></i>
+          <div class="add-text">Add New Profile</div>
+        </div>
       </div>
     </div>
-    <div class="col-12 col-lg-3 col-md-4 col-sm-6 col-xs-12 pb-4" *ngFor="let profile of profileList">
-      <div class="card">
-        <div class="card-img-top text-center p-2">
-          <img class="profile-pic" [src]="profile.image || 'https://i.pravatar.cc/100?img=1'" alt="Profile Image">
+    
+    <!-- Profile Cards -->
+    <div *ngFor="let profile of profileList" class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
+      <div class="profile-card h-100">
+        <div class="profile-header p-4 text-center position-relative">
+          <div class="profile-avatar mx-auto mb-3">
+            <img [src]="profile.image || 'https://i.pravatar.cc/100?img=1'" 
+                 alt="Profile Image" 
+                 class="profile-pic">
+          </div>
+          <div *ngIf="profile.ProfileId === loggedInProfileId" class="current-badge badge text-white">
+            Current
+          </div>
         </div>
-        <div class="card-body text-center pt-0">
-          <h5 class="card-title">{{ profile.Name }}</h5>
-          <h6 class="card-subtitle mb-2">DOB: {{ profile.DateOfBirth }}</h6>         
+        
+        <div class="profile-body p-3">
+          <h5 class="profile-name text-center mb-2">{{ profile.Name }}</h5>
+          <p class="profile-dob text-center text-muted mb-0">
+            <i class="bi bi-calendar3 me-1"></i>
+            DOB: {{ profile.DateOfBirth }}
+          </p>
         </div>
-         <div class="card-footer text-end">
-            <a class="btn btn-primary me-2" (click)="onEditProfile(profile)">Edit</a>
-            <a *ngIf="profile.ProfileId != loggedInProfileId" class="btn btn-danger" (click)="onDeleteProfile(profile)">Delete</a>
-          </div>       
+        
+        <div class="profile-actions p-3 d-flex gap-2 flex-wrap mt-auto">
+          <button class="btn action-btn btn-primary btn-sm flex-fill" (click)="onEditProfile(profile)">
+            <i class="bi bi-pencil me-1"></i>
+            Edit
+          </button>
+          
+          <button *ngIf="profile.ProfileId != loggedInProfileId" 
+                  class="btn action-btn btn-danger btn-sm flex-fill" 
+                  (click)="onDeleteProfile(profile)">
+            <i class="bi bi-trash me-1"></i>
+            Delete
+          </button>
+        </div>
       </div>
     </div>
   </div>
-
-  <!-- <div *ngIf="showAddEdit" class="row mt-4">
-    <div class="col-12 col-lg-4 col-md-6 col-sm-8 mx-auto">
-      <app-profile-info-add-edit [profile]="editProfile" [isEdit]="isEdit" (save)="onSaveProfile($event)" (cancel)="onCancelProfile()"></app-profile-info-add-edit>
-    </div>
-  </div> -->
 </div>

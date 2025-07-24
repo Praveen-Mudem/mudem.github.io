@@ -1,64 +1,172 @@
-.container { padding: 1rem; }
-.list-group-item { font-size: 1rem; }
+@import "../../../assets/variable";
 
-.upload-btn {
-  position: absolute;
-  right: 1rem;
-  bottom: 1rem;
+// Shared Folder Component - Following Folder Page Design Pattern
+:host {
+  display: block;
+  min-height: 100vh;
+  background: $bg-secondary;
+  padding: $spacing-md 0;
 }
 
-// Card image container styling
-.card-img-top {
+.top-content-section {
+  background: $bg-primary;
+  border-radius: $border-radius-lg;
+  box-shadow: 0 4px 16px $shadow-light;
+  margin: $spacing-md;
+  border: 1px solid $border-color;
+  
+  @media (min-width: 768px) {
+    margin: $spacing-xl auto;
+    border-radius: $border-radius-xl;
+    max-width: 1200px;
+  }
+}
+
+// Header Section
+.shared-folder-header {
+  border-bottom: 1px solid $border-color;
+  padding-bottom: $spacing-md;
+  
+  .page-title {
+    color: $text-primary;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+
+// Document Cards
+.document-card {
+  background: $bg-primary;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-md;
+  box-shadow: 0 2px 8px $shadow-light;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px $shadow-medium;
+    border-color: $primary-light;
+  }
+}
+
+.document-preview {
   min-height: 200px;
   max-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
+  background-color: $bg-secondary;
+  border-bottom: 1px solid $border-color;
   
   img {
     max-width: 100%;
     max-height: 100%;
     object-fit: cover;
-    border-radius: 4px;
   }
   
-  // File type icons
-  i {
-    color: #6c757d;
-    font-size: 3rem !important;
-    
-    &.pdf-icon {
-      color: #dc3545;
-    }
-    
-    &.video-icon {
-      color: #0d6efd;
-    }
-    
-    &.image-icon {
-      color: #198754;
-    }
-  }
-  
-  // Video thumbnail styling
   video {
-    max-width: 100%;
     max-height: 100%;
     object-fit: cover;
-    border-radius: 4px;
   }
 }
 
-// Card styling
-.card {
-  transition: transform 0.2s ease-in-out;
-  border-radius: 8px;
+.file-icon-container {
+  text-align: center;
   
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  .file-icon {
+    font-size: 3rem;
+    color: $text-secondary;
+    margin-bottom: $spacing-sm;
+    
+    &.pdf-icon {
+      color: $accent-red;
+    }
+  }
+  
+  .file-type-label {
+    display: block;
+    font-size: $font-size-sm;
+    color: $text-muted;
+    font-weight: 500;
+  }
+}
+
+.document-info {
+  background: $bg-primary;
+  
+  .document-name {
+    font-weight: 600;
+    color: $text-primary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+// Empty State
+.empty-state {
+  .empty-icon {
+    font-size: 4rem;
+    color: $text-muted;
+  }
+}
+
+// Login Section
+.shared-folder-login {
+  padding: $spacing-xl 0;
+}
+
+.login-card {
+  background: $bg-primary;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-lg;
+  padding: $spacing-xl;
+  box-shadow: 0 4px 16px $shadow-light;
+  
+  .login-icon {
+    font-size: 3rem;
+    color: $primary-color;
+  }
+  
+  .login-title {
+    color: $text-primary;
+    font-weight: 600;
+    margin-bottom: $spacing-sm;
+  }
+}
+
+.login-form {
+  .form-label {
+    font-weight: 600;
+    color: $text-primary;
+  }
+  
+  .form-control {
+    border: 1px solid $border-color;
+    border-radius: $border-radius-md;
+    
+    &:focus {
+      border-color: $primary-color;
+      box-shadow: 0 0 0 0.2rem rgba($primary-color, 0.25);
+    }
+  }
+  
+  .btn-primary {
+    background: $primary-color;
+    border-color: $primary-color;
+    font-weight: 600;
+    
+    &:hover {
+      background: $primary-dark;
+      border-color: $primary-dark;
+    }
+    
+    &:disabled {
+      background: $text-muted;
+      border-color: $text-muted;
+      opacity: 0.6;
+    }
   }
 }

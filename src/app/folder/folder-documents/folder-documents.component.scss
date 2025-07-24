@@ -1,64 +1,102 @@
-.container { padding: 1rem; }
-.list-group-item { font-size: 1rem; }
+@import "../../../assets/variable";
 
+// Folder Documents - Professional Clean Design
+:host {
+  display: block;
+  min-height: 100vh;
+  background: $bg-secondary;
+  padding: $spacing-md 0;
+}
+
+.top-content-section {
+  background: $bg-primary;
+  border-radius: $border-radius-lg;
+  box-shadow: 0 4px 16px $shadow-light;
+  margin: $spacing-md;
+  padding: $spacing-lg;
+  border: 1px solid $border-color;
+  
+  @media (min-width: 768px) {
+    margin: $spacing-xl auto;
+    padding: $spacing-xl;
+    border-radius: $border-radius-xl;
+    max-width: 1200px;
+  }
+}
+
+// Add File Card
+.add-file-card {
+  background: $bg-tertiary !important;
+  border: 2px dashed $secondary-light !important;
+  transition: all 0.3s ease;
+  min-height: 250px !important;
+  
+  &:hover {
+    border-color: #3b82f6 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    background: #f8fafc !important;
+  }
+  
+  .btn-outline-primary {
+    border: none !important;
+    background: transparent !important;
+    color: #6b7280 !important;
+    font-weight: 600;
+    
+    &:hover {
+      color: #3b82f6 !important;
+      transform: scale(1.05);
+    }
+    
+    i {
+      color: #9ca3af !important;
+    }
+  }
+}
+
+// Upload button
 .upload-btn {
   position: absolute;
   right: 1rem;
   bottom: 1rem;
-}
-
-// Card image container styling
-.card-img-top {
-  min-height: 200px;
-  max-height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
-  
-  img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-    border-radius: 4px;
-  }
-  
-  // File type icons
-  i {
-    color: #6c757d;
-    font-size: 3rem !important;
-    
-    &.pdf-icon {
-      color: #dc3545;
-    }
-    
-    &.video-icon {
-      color: #0d6efd;
-    }
-    
-    &.image-icon {
-      color: #198754;
-    }
-  }
-  
-  // Video thumbnail styling
-  video {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-    border-radius: 4px;
-  }
-}
-
-// Card styling
-.card {
-  transition: transform 0.2s ease-in-out;
+  background: #3b82f6;
+  border: none;
   border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s ease;
   
-  &:hover {
+  &:hover:not(:disabled) {
+    background: #2563eb;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
   }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// Alert styling
+.alert-danger {
+  background: #dc2626;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  font-weight: 500;
+  margin: 1rem;
+}
+
+// File name display
+.small {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+// Spacing utilities
+.pb-4 {
+  padding-bottom: 1.5rem !important;
 }

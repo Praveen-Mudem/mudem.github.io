@@ -1,11 +1,20 @@
 @import "variable";
 
+// ========================================
+// ESSENTIAL UTILITY CLASSES
+// ========================================
+
+// Cursor Classes (used throughout the app)
+.cursor-pointer { cursor: pointer !important; }
+.cursor-not-allowed { cursor: not-allowed !important; }
+
+// ========================================
+// LEGACY COMPATIBILITY CLASSES
+// ========================================
+
+// Keep existing classes that are actively used
 .bg-theam-1 {
     background-color: $color2;
-}
-
-.cursor-pointer {
-    cursor: pointer;
 }
 
 .bg-theam-2 {
@@ -13,7 +22,7 @@
 }
 
 .main {
-    background-color: #f1f5f9;
+    background-color: $bg-tertiary;
 }
 
 .list-group-horizontal {
@@ -24,54 +33,44 @@
         border: none;
 
         &:hover {
-            color: #fff;
-
+            color: $text-light;
         }
     }
-
 }
 
 .top-content-section {
-    // top: 50%;
-    // left: 50%;
-    // transform: translate(-50%, -50%);
-    // width: 90%;
-    color: #f1f5f9;
+    color: $bg-tertiary;
 
     ul {
-        gap: 1rem;
+        gap: $spacing-md;
         list-style: none;
 
         li {
-            padding: 6px 8px;
-            font-size: 16px;
-            color: #f1f5f9;
-            padding: 6px 8px;
+            padding: $spacing-sm;
+            font-size: $font-size-md;
+            color: $bg-tertiary;
             background-color: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: $border-radius-sm;
 
             &:hover {
-                font-size: 16px;
-                background-color: #60a5fa;
+                background-color: $primary-light;
                 border-radius: 20px;
             }
 
             &.active {
-                font-size: 16px;
-                background-color: #3b82f6;
+                background-color: $primary-color;
                 border-radius: 20px;
             }
         }
     }
 }
-
-
 
 .image-gallary {
     .card {
         width: 100%;
         max-width: 300px;
-        margin: 10px;
+        margin: $spacing-sm;
     }
 
     .card img {
@@ -82,11 +81,11 @@
     .overlay {
         position: absolute;
         background: rgba(0, 0, 0, 0.6);
-        color: #f1f5f9;
-        top: 10px;
-        left: 10px;
-        padding: 5px;
-        border-radius: 5px;
+        color: $bg-tertiary;
+        top: $spacing-sm;
+        left: $spacing-sm;
+        padding: $spacing-xs;
+        border-radius: $border-radius-sm;
     }
 
     .card-body {
@@ -94,14 +93,9 @@
     }
 }
 
-
 .main {
     background-image: url(../assets/images/pexels-ekamelev.jpg);
     background-size: cover;
     background-position: center;
     min-height: 100vh;
-}
-
-.mt-5{
-    margin-top: 5%;
 }

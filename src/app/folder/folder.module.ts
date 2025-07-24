@@ -7,9 +7,10 @@ import { FolderComponent } from './folder.component';
 import { FolderRoutingModule } from './folder-routing.module';
 import { FolderAddEditComponent } from './folder-add-edit/folder-add-edit.component';
 import { FolderDocumentsComponent } from './folder-documents/folder-documents.component';
+import { FileCardComponent } from '../shared/file-card/file-card.component';
 
 @NgModule({
-  declarations: [FolderComponent, FolderAddEditComponent, FolderDocumentsComponent],
+  declarations: [FolderComponent, FolderAddEditComponent, FolderDocumentsComponent, FileCardComponent],
   imports: [
     CommonModule, 
     FormsModule, 
