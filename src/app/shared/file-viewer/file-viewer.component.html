@@ -1,0 +1,90 @@
+<div class="file-viewer-overlay" 
+     *ngIf="isVisible" 
+     (click)="onBackdropClick($event)"
+     [@fadeInOut]>
+  
+  <div class="file-viewer-modal" (click)="$event.stopPropagation()">
+    <!-- Header -->
+    <div class="file-viewer-header">
+      <div class="file-info">
+        <h5 class="file-name">
+          <i class="bi bi-file-earmark me-2"></i>
+          {{ document?.FileName || 'File Preview' }}
+        </h5>
+        <span class="file-type-badge">{{ document?.FileType || 'Unknown' }}</span>
+      </div>
+      
+      <div class="file-actions">
+        <button class="btn btn-outline-light btn-sm me-2" 
+                (click)="downloadFile()" 
+                title="Download">
+          <i class="bi bi-download"></i>
+        </button>
+        
+        <button class="btn btn-outline-light btn-sm me-2" 
+                (click)="fullscreenMode()" 
+                title="Fullscreen">
+          <i class="bi bi-arrows-fullscreen"></i>
+        </button>
+        
+        <button class="btn btn-outline-light btn-sm" 
+                (click)="onClose()" 
+                title="Close">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="file-viewer-content">
+      <!-- Image Viewer -->
+      <div *ngIf="fileType === 'image'" class="image-viewer">
+        <img [src]="document?.Filepath" 
+             [alt]="document?.FileName"
+             class="preview-image">
+      </div>
+
+      <!-- Video Viewer -->
+      <div *ngIf="fileType === 'video'" class="video-viewer">
+        <video controls 
+               autoplay 
+               [src]="document?.Filepath"
+               class="preview-video">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+      <!-- PDF Viewer -->
+      <div *ngIf="fileType === 'pdf'" class="pdf-viewer">
+        <iframe [src]="safeUrl" 
+                class="preview-pdf"
+                frameborder="0">
+          Your browser does not support PDF viewing.
+        </iframe>
+      </div>
+
+      <!-- Unsupported File Type -->
+      <div *ngIf="fileType === 'unknown'" class="unsupported-file">
+        <div class="text-center">
+          <i class="bi bi-file-earmark-x display-1 text-muted mb-3"></i>
+          <h4 class="text-muted">Preview Not Available</h4>
+          <p class="text-muted">This file type cannot be previewed in the browser.</p>
+          <button class="btn btn-primary" (click)="downloadFile()">
+            <i class="bi bi-download me-2"></i>
+            Download File
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="!document" class="file-viewer-loading">
+      <div class="text-center">
+        <div class="spinner-border text-primary mb-3" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="text-muted">Loading file...</p>
+      </div>
+    </div>
+  </div>
+</div>

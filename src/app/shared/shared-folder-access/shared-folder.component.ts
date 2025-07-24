@@ -185,4 +185,64 @@ export class SharedFolderComponent implements OnInit {
     const pdfTypes = ['.pdf', 'pdf'];
     return pdfTypes.includes(fileType?.toLowerCase());
   }
+
+  // New properties for file viewer functionality
+  isFileViewerVisible: boolean = false;
+  selectedDocument: DocumentInfo | null = null;
+
+  // New method to open file viewer
+  viewDocument(document: DocumentInfo) {
+    this.selectedDocument = document;
+    this.isFileViewerVisible = true;
+  }
+
+  // New method to close file viewer
+  closeFileViewer() {
+    this.isFileViewerVisible = false;
+    this.selectedDocument = null;
+  }
+
+  // New method to download file
+  downloadDocument(document: DocumentInfo) {
+    if (document?.Filepath) {
+      const link = window.document.createElement('a');
+      link.href = document.Filepath;
+      link.download = document.FileName || 'download';
+      link.target = '_blank';
+      window.document.body.appendChild(link);
+      link.click();
+      window.document.body.removeChild(link);
+    }
+  }
+
+  // New method to get file extension
+  getFileExtension(fileName: string): string {
+    return fileName ? fileName.split('.').pop()?.toLowerCase() || '' : '';
+  }
+
+  // New method to get file size display
+  getFileSizeDisplay(sizeInBytes: number): string {
+    if (!sizeInBytes) return 'Unknown size';
+    
+    const units = ['B', 'KB', 'MB', 'GB'];
+    let size = sizeInBytes;
+    let unitIndex = 0;
+    
+    while (size >= 1024 && unitIndex < units.length - 1) {
+      size /= 1024;
+      unitIndex++;
+    }
+    
+    return `${size.toFixed(1)} ${units[unitIndex]}`;
+  }
+
+  // New method to check if file is viewable
+  isViewableFile(fileType: string): boolean {
+    return this.isImageFile(fileType) || this.isVideoFile(fileType) || this.isPdfFile(fileType);
+  }
+
+  // TrackBy function for better performance
+  trackByDocumentId(index: number, document: DocumentInfo): any {
+    return document.DocumentId || document.FileName || index;
+  }
 }

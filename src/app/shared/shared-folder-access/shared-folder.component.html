@@ -30,57 +30,115 @@
     </div>
 
     <!-- Documents Grid -->
-    <div *ngIf="documents && documents.length > 0" class="row">
-      <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-4" *ngFor="let doc of documents">
-        <div class="document-card h-100">
-          <div class="document-preview">
-            <!-- Image files -->
-            <div *ngIf="isImageFile(doc.FileType)" class="image-preview">
-              <img [src]="doc.Filepath || 'assets/images/file.png'" 
-                   alt="Document Image" 
-                   class="img-fluid">
-            </div>
-            
-            <!-- Video files -->
-            <div *ngIf="isVideoFile(doc.FileType)" class="video-preview">
-              <video *ngIf="doc.Filepath; else videoIcon" 
-                     controls 
-                     preload="metadata"
-                     [src]="doc.Filepath"
-                     class="w-100">
-                Your browser does not support the video tag.
-              </video>
-              <ng-template #videoIcon>
-                <div class="file-icon-container">
-                  <i class="bi bi-file-earmark-play file-icon"></i>
-                  <span class="file-type-label">Video File</span>
+    <div *ngIf="documents && documents.length > 0" class="documents-section">      
+      <!-- Grid View -->
+      <div class="row">
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-4" *ngFor="let doc of documents; trackBy: trackByDocumentId">
+          <div class="document-card h-100">
+            <div class="document-preview position-relative">
+              <!-- Image files -->
+              <div *ngIf="isImageFile(doc.FileType)" class="image-preview">
+                <img [src]="doc.Filepath || 'assets/images/file.png'" 
+                     [alt]="doc.FileName" 
+                     class="img-fluid"
+                     loading="lazy">
+                <div class="preview-overlay">
+                  <button class="btn btn-light btn-sm preview-btn" 
+                          (click)="viewDocument(doc)"
+                          title="View Image">
+                    <i class="bi bi-eye"></i>
+                  </button>
                 </div>
-              </ng-template>
-            </div>
-            
-            <!-- PDF files -->
-            <div *ngIf="isPdfFile(doc.FileType)" class="pdf-preview">
-              <div class="file-icon-container">
-                <i class="bi bi-file-earmark-pdf file-icon pdf-icon"></i>
-                <span class="file-type-label">PDF Document</span>
+              </div>
+              
+              <!-- Video files -->
+              <div *ngIf="isVideoFile(doc.FileType)" class="video-preview">
+                <div class="video-thumbnail position-relative">
+                  <video *ngIf="doc.Filepath" 
+                         preload="metadata"
+                         [src]="doc.Filepath"
+                         class="w-100"
+                         muted>
+                  </video>
+                  <div class="video-overlay">
+                    <button class="btn btn-primary btn-lg play-btn" 
+                            (click)="viewDocument(doc)"
+                            title="Play Video">
+                      <i class="bi bi-play-fill"></i>
+                    </button>
+                  </div>
+                </div>
+                <ng-container *ngIf="!doc.Filepath">
+                  <div class="file-icon-container">
+                    <i class="bi bi-file-earmark-play file-icon"></i>
+                    <span class="file-type-label">Video File</span>
+                    <button class="btn btn-outline-primary btn-sm mt-2" 
+                            (click)="downloadDocument(doc)">
+                      <i class="bi bi-download me-1"></i> Download
+                    </button>
+                  </div>
+                </ng-container>
+              </div>
+              
+              <!-- PDF files -->
+              <div *ngIf="isPdfFile(doc.FileType)" class="pdf-preview">
+                <div class="file-icon-container">
+                  <i class="bi bi-file-earmark-pdf file-icon pdf-icon"></i>
+                  <span class="file-type-label">PDF Document</span>                  
+                </div>
+              </div>
+              
+              <!-- Other file types -->
+              <div *ngIf="!isImageFile(doc.FileType) && !isVideoFile(doc.FileType) && !isPdfFile(doc.FileType)" 
+                   class="other-file-preview">
+                <div class="file-icon-container">
+                  <i class="bi bi-file-earmark file-icon"></i>
+                  <span class="file-type-label">{{ doc.FileType || 'Unknown' }}</span>
+                  <button class="btn btn-outline-primary btn-sm mt-3" 
+                          (click)="downloadDocument(doc)"
+                          title="Download File">
+                    <i class="bi bi-download me-1"></i> Download
+                  </button>
+                </div>
+              </div>
+
+              <!-- File type indicator -->
+              <div class="file-type-indicator">
+                <span class="badge bg-secondary">{{ doc.FileType || 'Unknown' }}</span>
               </div>
             </div>
             
-            <!-- Other file types -->
-            <div *ngIf="!isImageFile(doc.FileType) && !isVideoFile(doc.FileType) && !isPdfFile(doc.FileType)" 
-                 class="other-file-preview">
-              <div class="file-icon-container">
-                <i class="bi bi-file-earmark file-icon"></i>
-                <span class="file-type-label">{{ doc.FileType || 'Unknown' }}</span>
+            <div class="document-info p-3">
+              <!-- <h6 class="document-name mb-2" [title]="doc.FileName || 'Document'">
+                {{ doc.FileName || 'Document' }}
+              </h6>
+              
+              <div class="document-meta">
+                <small class="text-muted d-block mb-1">
+                  <i class="bi bi-file-earmark me-1"></i>
+                  {{ doc.FileType || 'Unknown type' }}
+                </small>
+                <small class="text-muted d-block" *ngIf="doc.FileSize">
+                  <i class="bi bi-hdd me-1"></i>
+                  {{ getFileSizeDisplay(doc.FileSize) }}
+                </small>
+              </div> -->
+
+              <!-- Action buttons -->
+              <div class="document-actions mt-3">
+                <button *ngIf="isViewableFile(doc.FileType)" 
+                        class="btn btn-primary btn-sm me-2" 
+                        (click)="viewDocument(doc)"
+                        title="Quick View">
+                  <i class="bi bi-eye me-1"></i> View
+                </button>
+                <button class="btn btn-outline-primary btn-sm" 
+                        (click)="downloadDocument(doc)"
+                        title="Download">
+                  <i class="bi bi-download me-1"></i> Download
+                </button>
               </div>
             </div>
-          </div>
-          
-          <div class="document-info p-3">
-            <h6 class="document-name mb-1" [title]="doc.FileName || 'Document'">
-              {{ doc.FileName || 'Document' }}
-            </h6>
-            <small class="text-muted">{{ doc.FileType || 'Unknown type' }}</small>
           </div>
         </div>
       </div>
@@ -134,4 +192,76 @@
       </div>
     </div>
   </ng-container>
+
+  <!-- Inline File Viewer Modal -->
+  <div class="file-viewer-modal-overlay" 
+       *ngIf="isFileViewerVisible" 
+       (click)="closeFileViewer()">
+    
+    <div class="file-viewer-modal-content" (click)="$event.stopPropagation()">
+      <!-- Modal Header -->
+      <div class="file-viewer-header">
+        <div class="file-info">
+          <h5 class="file-name">
+            <i class="bi bi-file-earmark me-2"></i>
+            {{ selectedDocument?.FileName || 'File Preview' }}
+          </h5>
+          <span class="file-type-badge">{{ selectedDocument?.FileType || 'Unknown' }}</span>
+        </div>
+        
+        <div class="file-actions">
+          <button class="btn btn-outline-light btn-sm me-2" 
+                  (click)="downloadDocument(selectedDocument!)" 
+                  title="Download">
+            <i class="bi bi-download"></i>
+          </button>
+          
+          <button class="btn btn-outline-light btn-sm" 
+                  (click)="closeFileViewer()" 
+                  title="Close">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Content -->
+      <div class="file-viewer-content">
+        <!-- Image Viewer -->
+        <div *ngIf="selectedDocument && isImageFile(selectedDocument.FileType)" class="image-viewer">
+          <img [src]="selectedDocument.Filepath" 
+               [alt]="selectedDocument.FileName"
+               class="preview-image">
+        </div>
+
+        <!-- Video Viewer -->
+        <div *ngIf="selectedDocument && isVideoFile(selectedDocument.FileType)" class="video-viewer">
+          <video controls 
+                 autoplay 
+                 [src]="selectedDocument.Filepath"
+                 class="preview-video">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <!-- PDF Viewer -->
+        <div *ngIf="selectedDocument && isPdfFile(selectedDocument.FileType)" class="pdf-viewer">
+          <iframe [src]="selectedDocument.Filepath" 
+                  class="preview-pdf"
+                  frameborder="0">
+            Your browser does not support PDF viewing.
+          </iframe>
+        </div>
+
+        <!-- Loading State -->
+        <div *ngIf="!selectedDocument" class="loading-state">
+          <div class="text-center">
+            <div class="spinner-border text-primary mb-3" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="text-muted">Loading file...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
