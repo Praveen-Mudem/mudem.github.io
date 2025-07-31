@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LoginService } from '../../service/login.service';
@@ -16,6 +16,7 @@ export class DashboardHeaderComponent implements OnInit, OnDestroy {
   profileList: any[] = [];
   loggedInProfileId: string | null = LoginService.getLoggedInProfileId();
   selectedProfileId: string | null = LoginService.getLoggedInProfileId();
+  isDropdownOpen = false;
   private subscription: Subscription = new Subscription();
 
   constructor(
@@ -76,6 +77,23 @@ export class DashboardHeaderComponent implements OnInit, OnDestroy {
       this.router.navigate(
         ['/profile-dashboard', this.selectedProfileId],
       );
+    }
+  }
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  closeDropdown() {
+    this.isDropdownOpen = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event) {
+    const target = event.target as HTMLElement;
+    const dropdown = target.closest('.dropdown');
+    if (!dropdown) {
+      this.isDropdownOpen = false;
     }
   }
 }

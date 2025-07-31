@@ -4,6 +4,9 @@
   padding: 0.75rem 0;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   border-bottom: none;
+  position: sticky;
+  top: 0;
+  z-index: 1020; // Ensure navbar is above other content
 }
 
 .navbar-nav {
@@ -171,4 +174,90 @@
       }
     }
   }
+}
+
+// Dropdown styles - Bootstrap enhanced
+.dropdown {
+  position: relative;
+  
+  .dropdown-toggle {
+    background: none !important;
+    border: none !important;
+    color: white !important;
+    text-decoration: none !important;
+    cursor: pointer;
+    
+    &:hover, 
+    &:focus, 
+    &.show {
+      background: rgba(255, 255, 255, 0.1) !important;
+      color: white !important;
+      border-radius: 8px;
+    }
+    
+    &::after {
+      margin-left: 8px;
+      color: white;
+    }
+  }
+  
+  .dropdown-menu {
+    position: absolute !important;
+    top: 100% !important;
+    right: 0 !important;
+    left: auto !important;
+    min-width: 180px;
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-radius: 0.5rem;
+    margin-top: 0.25rem;
+    z-index: 9999 !important;
+    background-color: white;
+    padding: 0.5rem 0;
+    
+    &.show {
+      display: block !important;
+    }
+    
+    .dropdown-item {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      color: var(--bs-body-color);
+      border-radius: 0.25rem;
+      margin: 0.125rem 0.5rem;
+      display: flex;
+      align-items: center;
+      width: 90% !important;
+      transition: all 0.15s ease-in-out;
+      
+      &:hover,
+      &:focus {
+        background-color: var(--bs-primary);
+        color: white;
+      }
+      
+      i {
+        width: 1rem;
+        color: var(--bs-secondary);
+        
+        &.bi-power {
+          color: var(--bs-danger);
+        }
+      }
+      
+      &:hover i,
+      &:focus i {
+        color: currentColor;
+      }
+    }
+    
+    .dropdown-divider {
+      margin: 0.5rem 0;
+      border-top: 1px solid var(--bs-border-color);
+    }
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }

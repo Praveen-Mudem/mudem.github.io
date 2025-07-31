@@ -17,8 +17,7 @@ export class FolderComponent implements OnInit {
 
   showDocuments = false;
   selectedFolderId: number|null = null;
-  selectedProfileId: number|null = null; // Set this from your auth/user context
-
+  selectedProfileId: number|null = null; 
   // Modal properties
   @ViewChild('shareModal') shareModal!: TemplateRef<any>;
   @ViewChild('viewShareModal') viewShareModal!: TemplateRef<any>;

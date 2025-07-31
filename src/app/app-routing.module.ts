@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ForgotPasswordComponent } from './components/login/forgot-password/forgot-password.component';
 import { AuthGuard } from './guards/auth.guard';
 import { LoginRedirectGuard } from './guards/login-redirect.guard';
 import { NotFoundComponent } from './guards/not-found.component';
 import { SharedFolderComponent } from './shared/shared-folder-access/shared-folder.component';
+import { ResetPasswordComponent } from './components/login/reset-password/reset-password.component';
 
 
 const routes: Routes = [
@@ -20,6 +22,15 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./components/login/login.module').then(m => m.LoginModule),
     canActivate: [LoginRedirectGuard]
+  },
+  {
+    path: 'forgotPassword',
+    component: ForgotPasswordComponent
+  },
+  {
+    path: 'user',
+    loadChildren: () => import('./user/user.module').then(m => m.UserModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'overview',

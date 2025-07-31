@@ -11,7 +11,7 @@ import { VideopopComponent } from './components/videopop/videopop.component';
 import { ImagepopupComponent } from './components/imagepopup/imagepopup.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UploadImgVideoComponent } from './components/upload-img-video/upload-img-video.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
@@ -41,6 +41,7 @@ import { SharedFolderComponent } from './shared/shared-folder-access/shared-fold
     ModalModule.forRoot(),
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-right',

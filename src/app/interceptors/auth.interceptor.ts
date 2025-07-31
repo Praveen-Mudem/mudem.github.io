@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { getToken } from '../helpers/token.helper';
+import { getToken, getResetToken } from '../helpers/token.helper';
 import { LoaderService } from '../service/loader.service';
 
 @Injectable()
@@ -16,15 +16,22 @@ export class AuthInterceptor implements HttpInterceptor {
     const isSharedFolderAPI = req.url.includes('GetSharedFolderInfo') || 
                               req.url.includes('ValidateSharedFolderInfo') || 
                               req.url.includes('GetSharedFolderFilesInfo');
-    
+
     if (isSharedFolderAPI) {
       // Don't add auth headers for shared folder APIs
       return next.handle(req).pipe(
         finalize(() => this.loaderService.hide())
       );
     }
-    
-    const token = getToken();
+
+    // Use reset token for reset password API
+    const isResetPasswordAPI = req.url.includes('resetForgotPwdInfo') || req.url.includes('resetPasswordInfo');
+    let token = null;
+    if (isResetPasswordAPI) {
+      token = getResetToken();
+    } else {
+      token = getToken();
+    }
     let request = req;
     // Get ProfileId from localStorage
     let profileId = null;

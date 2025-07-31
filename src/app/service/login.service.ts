@@ -52,6 +52,33 @@ export class LoginService {
     this.clearSubscriptions();
   }
 
+  // Forgot Password API methods
+  sendForgotPasswordInfo(payload: { Id: string }): Observable<any> {
+    return this.http.post<any>(CONFIG.BASE_URL + 'api/Login/SendForgotPasswordInfo', payload);
+  }
+
+  validateForgotPasswordInfo(email: string, code: string): Observable<any> {
+    return this.http.post<any>(CONFIG.BASE_URL + 'api/Login/ValidateForgotPasswordInfo', {
+      Id: code
+    });
+  }
+
+  resetForgotPwdInfo(token: string, newPassword: string, confirmPassword: string): Observable<any> {
+    return this.http.post<any>(CONFIG.BASE_URL + 'api/User/resetForgotPwdInfo', {
+      NewPassword: newPassword,
+      ConfirmPassword: confirmPassword
+    });
+  }
+
+  // Reset Password API method (for authenticated users)
+  resetPasswordInfo(currentPassword: string, newPassword: string, confirmPassword: string): Observable<any> {
+    return this.http.post<any>(CONFIG.BASE_URL + 'api/User/resetPasswordInfo', {
+      Password: currentPassword,
+      NewPassword: newPassword,
+      ConfirmPassword: confirmPassword
+    });
+  }
+
   /**
    * Returns the logged-in user's profile ID as a string, or null if not logged in.
    */

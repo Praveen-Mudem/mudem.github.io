@@ -23,32 +23,52 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
             <ul class="navbar-nav d-flex align-items-center">
-                 <li class="nav-item cursor-pointer" (click)="onProfileChange()">
-                   <span>Dashboard</span>
+                <li class="nav-item cursor-pointer" (click)="onProfileChange()">
+                    <span>Dashboard</span>
                 </li>
-                  <li class="nav-item cursor-pointer" routerLink="/folder" routerLinkActive="active">
-                   <span>File</span>
+                <li class="nav-item cursor-pointer" routerLink="/folder" routerLinkActive="active">
+                    <span>File</span>
                 </li>
-                  <li class="nav-item cursor-pointer" routerLink="/notification" routerLinkActive="active">
-                   <span>Notes</span>
+                <li class="nav-item cursor-pointer" routerLink="/notification" routerLinkActive="active">
+                    <span>Notes</span>
                 </li>
-                  <li class="nav-item cursor-pointer" routerLink="/profile" routerLinkActive="active">
-                   <span>Profiles</span>
+                <li class="nav-item cursor-pointer" routerLink="/profile" routerLinkActive="active">
+                    <span>Profiles</span>
                 </li>
                 <li class="nav-item">
-                    <select class="form-select" style="min-width: 180px;" [(ngModel)]="selectedProfileId" (change)="onProfileChange()">
+                    <select class="form-select" style="min-width: 180px;" [(ngModel)]="selectedProfileId"
+                        (change)="onProfileChange()">
                         <option *ngFor="let profile of profileList" [value]="profile.ProfileId + ''">
                             {{ profile.Name }}
                         </option>
                     </select>
                 </li>
-                <li class="nav-item d-flex align-items-center">
-                    <img class="profile-pic" [src]="userPhoto" alt="User Photo" /> 
-                    <span class="user-name ps-2">{{ userName }}</span>                  
-                </li>
-                
-                <li class="nav-item cursor-pointer" (click)="onLogout()" title="Logout">
-                    <i class="bi bi-power"></i>
+                <li class="nav-item dropdown position-relative">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center cursor-pointer"
+                        (click)="toggleDropdown()" [class.show]="isDropdownOpen">
+                        <img class="profile-pic" [src]="userPhoto" alt="User Photo" />
+                        <span class="user-name ps-2">{{ userName }}</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" [class.show]="isDropdownOpen">
+                        <li>
+                            <a class="dropdown-item" routerLink="/profile" (click)="closeDropdown()">
+                                <i class="bi bi-person me-2"></i>Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" routerLink="/user/reset-password" (click)="closeDropdown()">
+                                <i class="bi bi-lock me-2"></i>Reset Password
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item cursor-pointer" (click)="onLogout()">
+                                <i class="bi bi-power me-2"></i>Logout
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>
