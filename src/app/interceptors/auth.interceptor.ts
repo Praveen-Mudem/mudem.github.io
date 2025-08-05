@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { getToken, getResetToken } from '../helpers/token.helper';
+import { getForgotToken, getToken } from '../helpers/token.helper';
 import { LoaderService } from '../service/loader.service';
 
 @Injectable()
@@ -24,11 +24,11 @@ export class AuthInterceptor implements HttpInterceptor {
       );
     }
 
-    // Use reset token for reset password API
-    const isResetPasswordAPI = req.url.includes('resetForgotPwdInfo') || req.url.includes('resetPasswordInfo');
+    // Use forgot token for reset password API
+    const isForgotPasswordAPI = req.url.includes('resetForgotPwdInfo');
     let token = null;
-    if (isResetPasswordAPI) {
-      token = getResetToken();
+    if (isForgotPasswordAPI) {
+      token = getForgotToken();
     } else {
       token = getToken();
     }

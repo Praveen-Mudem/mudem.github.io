@@ -57,7 +57,7 @@ export class LoginService {
     return this.http.post<any>(CONFIG.BASE_URL + 'api/Login/SendForgotPasswordInfo', payload);
   }
 
-  validateForgotPasswordInfo(email: string, code: string): Observable<any> {
+  validateForgotPasswordInfo(code: string): Observable<any> {
     return this.http.post<any>(CONFIG.BASE_URL + 'api/Login/ValidateForgotPasswordInfo', {
       Id: code
     });

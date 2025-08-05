@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../../service/login.service';
 import { ToastrService } from 'ngx-toastr';
 import { ForgotPasswordRequest, AuthResponse } from '../../../model/auth.model';
-import { setResetToken } from '../../../helpers/token.helper';
+import { setForgotToken } from '../../../helpers/token.helper';
 
 @Component({
   selector: 'app-forgot-password',
@@ -41,13 +41,13 @@ export class ForgotPasswordComponent implements OnInit {
       if (token) {
         this.isResetFlow = true;
         this.isLoading = true;
-        this.loginService.validateForgotPasswordInfo(token, token).subscribe({
-          next: (response: AuthResponse & { IsValidUser?: boolean; Token?: string }) => {
+        this.loginService.validateForgotPasswordInfo(token).subscribe({
+          next: (response: AuthResponse) => {
             this.isLoading = false;
             if (response.IsValidUser) {
               if (response.Token) {
                 this.resetToken = response.Token;
-                setResetToken(this.resetToken);
+                setForgotToken(this.resetToken);
               }
               this.toastr.success('Link is valid. You can reset your password.');
               this.showResetForm = true;
@@ -97,9 +97,9 @@ export class ForgotPasswordComponent implements OnInit {
         next: (response: AuthResponse) => {
           this.isLoading = false;
           if (response.IsSaved) {
-            // Clear reset token from localStorage
+            // Clear forgot token from localStorage
             import('../../../helpers/token.helper').then(helper => {
-              helper.removeResetToken();
+              helper.removeForgotToken();
             });
             this.toastr.success(response.Message || response.SuccessMessage || 'Password reset successfully');
             this.router.navigate(['/login']);

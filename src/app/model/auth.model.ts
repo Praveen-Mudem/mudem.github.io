@@ -24,5 +24,6 @@ export interface AuthResponse {
   ErrorMessage?: string;
   Message?: string;
   SuccessMessage?: string;
-  token?: string;
+  Token?: string;
+  IsValidUser?: boolean;
 }
