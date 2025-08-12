@@ -14,15 +14,15 @@
       <div class="card h-100 d-flex flex-column justify-content-center align-items-center position-relative add-file-card">
         <label for="fileInput" class="btn btn-outline-primary mb-0 cursor-pointer">
           <i class="bi bi-plus-circle" style="font-size: 2rem;"></i><br />
-          Add File
+          Add Files
         </label>
-        <input id="fileInput" type="file" (change)="onFileSelected($event)" accept=".mp4,.pdf,.jpg,.jpeg,.png" hidden />
-        <div *ngIf="selectedFile" class="mt-2 w-100 px-2">
-          <div class="small text-center">
-            {{ selectedFile.name }}
-          </div>          
+        <input id="fileInput" type="file" (change)="onFileSelected($event)" accept=".mp4,.pdf,.jpg,.jpeg,.png" multiple hidden />
+        <div *ngIf="selectedFiles && selectedFiles.length" class="mt-2 w-100 px-2">
+         <div class="small text-center" *ngFor="let file of selectedFiles.slice(0,2); let i = index">
+            {{ file.name }}<span *ngIf="i === 1 && selectedFiles.length > 2"> ...</span>
+          </div>
         </div>
-        <button class="btn btn-success upload-btn" (click)="uploadFiles()" [disabled]="!selectedFile">
+        <button class="btn btn-success upload-btn" (click)="uploadFiles()" [disabled]="!selectedFiles || !selectedFiles.length">
           Upload
         </button>
         <div *ngIf="errorMsg" class="alert alert-danger mt-2">

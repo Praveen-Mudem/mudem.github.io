@@ -70,54 +70,50 @@ export class FolderDocumentsComponent implements OnInit {
   onFileSelected(event: any) {
     // Clear any previous error messages
     this.errorMsg = '';
-    
-    const file = event.target.files && event.target.files[0];
-    this.selectedFile = file;
-    this.selectedFiles = file ? [file] : [];
-    
-    if (file) {
-      const ext = file.name.split('.').pop()?.toLowerCase();
-      if (!ext || !this.allowedTypes.includes(ext)) {
-        this.errorMsg = 'Only .mp4, .pdf, .jpg, .jpeg, .png files are allowed.';
-        this.selectedFile = null;
-        this.selectedFiles = [];
-        this.imageUrl = null;
-        return;
-      }
-      
-      // File is valid, set up preview for images
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        if (file.type.startsWith('image')) {
-          this.imageUrl = e.target.result;
-        } else {
-          this.imageUrl = null;
+    this.selectedFiles = [];
+    this.selectedFile = null;
+    this.imageUrl = null;
+    const files: FileList = event.target.files;
+    if (files && files.length) {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const ext = file.name.split('.').pop()?.toLowerCase();
+        if (!ext || !this.allowedTypes.includes(ext)) {
+          this.errorMsg = 'Only .mp4, .pdf, .jpg, .jpeg, .png files are allowed.';
+          continue;
         }
-      };
-      reader.readAsDataURL(file);
-    } else {
-      this.imageUrl = null;
+        this.selectedFiles.push(file);
+        // Only preview the first image file
+        if (!this.imageUrl && file.type.startsWith('image')) {
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            this.imageUrl = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+      // For backward compatibility, set selectedFile to first valid file
+      this.selectedFile = this.selectedFiles.length ? this.selectedFiles[0] : null;
+      if (!this.selectedFiles.length) {
+        this.imageUrl = null;
+      }
     }
   }
 
   uploadFiles() {
-    if (!this.selectedFile) {
-      this.toast.show('No file selected.', 'error');
+    if (!this.selectedFiles || !this.selectedFiles.length) {
+      this.toast.show('No files selected.', 'error');
       return;
     }
-    
     // Clear any error messages
     this.errorMsg = '';
-    
-    this.folderService.uploadDocuments(this.profileId, this.folderId, [this.selectedFile])
+    this.folderService.uploadDocuments(this.profileId, this.folderId, this.selectedFiles)
       .subscribe({
         next: () => {
           this.getDocuments();
-          this.selectedFile = null;
           this.selectedFiles = [];
           this.imageUrl = null;
           this.toast.show('Upload successful!', 'success');
-          
           // Reset the file input
           const fileInput = document.getElementById('fileInput') as HTMLInputElement;
           if (fileInput) {

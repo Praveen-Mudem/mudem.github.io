@@ -4,10 +4,11 @@ import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { getForgotToken, getToken } from '../helpers/token.helper';
 import { LoaderService } from '../service/loader.service';
+import { CommonService } from '../service/common.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private loaderService: LoaderService) {}
+  constructor(private loaderService: LoaderService, private commonService: CommonService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.loaderService.show();
@@ -33,12 +34,16 @@ export class AuthInterceptor implements HttpInterceptor {
       token = getToken();
     }
     let request = req;
-    // Get ProfileId from localStorage
+    // Get selectedProfileId from CommonService, fallback to logged-in profileId
     let profileId = null;
-    const userInfo = localStorage.getItem('userInfo');
-    if (userInfo) {
-      const user = JSON.parse(userInfo);
-      profileId = user.ProfileId;
+    if (this.commonService.selectedProfileId) {
+      profileId = this.commonService.selectedProfileId;
+    } else {
+      const userInfo = localStorage.getItem('userInfo');
+      if (userInfo) {
+        const user = JSON.parse(userInfo);
+        profileId = user.ProfileId;
+      }
     }
     const setHeaders: any = {};
     if (token) {
