@@ -59,4 +59,48 @@ export class FolderService {
   deleteDocument(document: { DocumentId: number, FileName: string, FileType: string }) {
     return this.http.post(`${this.baseUrl}/deleteDocument`, document);
   }
+
+  // Chunked upload for large files (>50MB)
+  uploadDocumentInChunks(file: File, folderId: number, onProgress?: (progress: number) => void): Promise<void> {
+    const chunkSize = 1 * 1024 * 1024; // 1MB per chunk
+    const totalChunks = Math.ceil(file.size / chunkSize);
+    const uploadChunk = (part: number): Promise<void> => {
+      const start = (part - 1) * chunkSize;
+      const end = Math.min(file.size, start + chunkSize);
+      const chunk = file.slice(start, end);
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const fileContentString = (reader.result as string).split(',')[1] || '';
+          const payload = {
+            FileInfo: {
+              FilePath: file.name,
+              FileType: file.type,
+              FileContentString: fileContentString,
+              FileHeader: '',
+              Part: part,
+              IsLastPart: part === totalChunks,
+              folderId: folderId
+            },
+            IsSaved: false,
+            ErrorMessage: ''
+          };
+          this.http.post(`${this.baseUrl}/uploadChunckFileInfo`, payload, { headers: { 'X-No-Loader': 'true' } })
+            .subscribe({
+              next: () => {
+                if (onProgress) onProgress(Math.round((part / totalChunks) * 100));
+                if (part < totalChunks) {
+                  uploadChunk(part + 1).then(resolve).catch(reject);
+                } else {
+                  resolve();
+                }
+              },
+              error: reject
+            });
+        };
+        reader.readAsDataURL(chunk);
+      });
+    };
+    return uploadChunk(1);
+  }
 }

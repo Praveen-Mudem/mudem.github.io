@@ -19,6 +19,8 @@ export class FolderDocumentsComponent implements OnInit {
   imageUrl: string | null = null;
   errorMsg = '';
   allowedTypes = ['mp4', 'pdf', 'jpg', 'jpeg', 'png'];
+  progress = 0;
+  isLoading = false;
 
   constructor(
     private folderService: FolderService,
@@ -100,31 +102,48 @@ export class FolderDocumentsComponent implements OnInit {
     }
   }
 
-  uploadFiles() {
+  async uploadFiles() {
+    this.isLoading = true;
     if (!this.selectedFiles || !this.selectedFiles.length) {
       this.toast.show('No files selected.', 'error');
       return;
     }
-    // Clear any error messages
     this.errorMsg = '';
-    this.folderService.uploadDocuments(this.profileId, this.folderId, this.selectedFiles)
-      .subscribe({
-        next: () => {
+    for (const file of this.selectedFiles) {
+      if (file.size > 50 * 1024 * 1024) {
+        // Use chunked upload for large files
+        try {
+          await this.folderService.uploadDocumentInChunks(file, this.folderId, progress => {
+            this.progress = progress;
+          });
           this.getDocuments();
-          this.selectedFiles = [];
-          this.imageUrl = null;
-          this.toast.show('Upload successful!', 'success');
-          // Reset the file input
-          const fileInput = document.getElementById('fileInput') as HTMLInputElement;
-          if (fileInput) {
-            fileInput.value = '';
-          }
-        },
-        error: (error) => {
-          console.error('Upload error:', error);
-          this.toast.show('Failed to upload files.', 'error');
+          this.toast.show(`Large file uploaded successfully: ${file.name}`, 'success');
+        } catch (err) {
+          this.toast.show(`Failed to upload large file: ${file.name}`, 'error');
         }
-      });
+      } else {
+        // Use normal upload for small files
+        this.folderService.uploadDocuments(this.profileId, this.folderId, [file])
+          .subscribe({
+            next: () => {
+              this.toast.show(`Upload successful: ${file.name}`, 'success');
+              this.getDocuments();
+              this.isLoading = false;
+            },
+            error: (error) => {
+              console.error('Upload error:', error);
+              this.toast.show(`Failed to upload file: ${file.name}`, 'error');
+              this.isLoading = false;
+            }
+          });
+      }
+    }
+    this.getDocuments();
+    this.selectedFiles = [];
+    this.imageUrl = null;
+    this.progress = 0;
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
   }
 
   async deleteDocument(doc: any) {
@@ -153,7 +172,7 @@ export class FolderDocumentsComponent implements OnInit {
   }
 
   isVideoFile(fileType: string): boolean {
-    const videoTypes = ['.mp4', '.avi', '.mov', '.wmv', '.flv', '.webm', 'mp4'];
+    const videoTypes = ['.mp4', '.avi', '.mov', '.wmv', '.flv', '.webm', 'mp4', 'video/mp4'];
     return videoTypes.includes(fileType?.toLowerCase());
   }
 

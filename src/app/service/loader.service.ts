@@ -7,9 +7,9 @@ export class LoaderService {
   loading$ = this.loadingSubject.asObservable();
   private requestCount = 0;
 
-  show() {
+  show(isLoading: boolean = true) {
     this.requestCount++;
-    this.loadingSubject.next(true);
+    this.loadingSubject.next(isLoading);
   }
 
   hide() {

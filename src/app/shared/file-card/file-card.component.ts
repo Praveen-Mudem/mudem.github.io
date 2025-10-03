@@ -18,7 +18,7 @@ export class FileCardComponent {
   }
 
   isVideoFile(fileType: string): boolean {
-    return fileType === '.mp4' || fileType === 'mp4';
+    return fileType === '.mp4' || fileType === 'mp4' || fileType === 'video/mp4';
   }
 
   isPdfFile(fileType: string): boolean {

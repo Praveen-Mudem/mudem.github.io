@@ -11,7 +11,10 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private loaderService: LoaderService, private commonService: CommonService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.loaderService.show();
+    // if (req.headers.has('X-No-Loader')) {
+    //   return next.handle(req);
+    // }
+    this.loaderService.show(req.url.includes('uploadChunckFileInfo') ? false : true);
     
     // Skip authentication for shared folder APIs
     const isSharedFolderAPI = req.url.includes('GetSharedFolderInfo') || 
