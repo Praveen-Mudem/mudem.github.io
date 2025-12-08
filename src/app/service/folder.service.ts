@@ -55,6 +55,17 @@ export class FolderService {
     return this.http.post(`${this.baseUrl}/uploadDocuments`, formData, { headers });
   }
   
+  sharedUploadDocuments(folderInfo: any, fileList: File[]) {
+    const formData = new FormData();
+    // Attach files as 'fileList' for backend compatibility
+    if (fileList && fileList.length > 0) {
+      fileList.forEach(file => formData.append('fileList', file));
+    }
+    // Attach folderInfo as JSON string
+    formData.append('folderStrInfo', JSON.stringify(folderInfo));
+    
+    return this.http.post(`${CONFIG.BASE_URL}api/login/uploadDocuments`, formData);
+  }
 
   deleteDocument(document: { DocumentId: number, FileName: string, FileType: string }) {
     return this.http.post(`${this.baseUrl}/deleteDocument`, document);

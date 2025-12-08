@@ -621,3 +621,81 @@
     opacity: 1;
   }
 }
+
+
+// Add File Card
+.add-file-card {
+  background: $bg-tertiary !important;
+  border: 2px dashed $secondary-light !important;
+  transition: all 0.3s ease;
+  min-height: 250px !important;
+  
+  &:hover {
+    border-color: #3b82f6 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    background: #f8fafc !important;
+  }
+  
+  .btn-outline-primary {
+    border: none !important;
+    background: transparent !important;
+    color: #6b7280 !important;
+    font-weight: 600;
+    
+    &:hover {
+      color: #3b82f6 !important;
+      transform: scale(1.05);
+    }
+    
+    i {
+      color: #9ca3af !important;
+    }
+  }
+}
+
+// Upload button
+.upload-btn {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  background: #3b82f6;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  
+  &:hover:not(:disabled) {
+    background: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// Alert styling
+.alert-danger {
+  background: #dc2626;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  font-weight: 500;
+  margin: 1rem;
+}
+
+// File name display
+.small {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+// Spacing utilities
+.pb-4 {
+  padding-bottom: 1.5rem !important;
+}

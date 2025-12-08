@@ -9,6 +9,7 @@ export interface FolderInfo {
   ShareUrl?: string;
   ValidatedAt?: string;
   RetrievedAt?: string;
+  IsAllowUpload?: boolean;
 }
 
 export interface DocumentInfo {
@@ -28,12 +29,14 @@ export interface ValidationResponse {
   IsSaved?: boolean;
   isValid?: boolean;
   ErrorMessage?: string;
+  IsAllowUpload?: boolean;
 }
 
 export interface getSharedFolderInfoResponse {
   FolderInfo: FolderInfo;
   IsSaved?: boolean;
   ErrorMessage?: string;
+  IsAllowUpload?: boolean;
 }
 
 export interface SharedFolderResponse {
@@ -47,4 +50,5 @@ export interface SharedFolderFilesInfoResponse {
   DocumentList?: DocumentInfo[];
   IsSaved?: boolean;
   ErrorMessage?: string;
+  IsAllowUpload?: boolean;
 }

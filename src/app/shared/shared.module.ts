@@ -11,7 +11,7 @@ import { SharedFolderComponent } from './shared-folder-access/shared-folder.comp
     FileViewerComponent,
     FileCardComponent,
     ConfirmDialogComponent,
-    SharedFolderComponent
+    // SharedFolderComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +21,7 @@ import { SharedFolderComponent } from './shared-folder-access/shared-folder.comp
     FileViewerComponent,
     FileCardComponent,
     ConfirmDialogComponent,
-    SharedFolderComponent
+    // SharedFolderComponent
   ]
 })
 export class SharedModule { }

@@ -5,6 +5,7 @@ import { ToastService } from '../../service/toast.service';
 import { CookieService } from '../../service/cookie.service';
 import { SharedFolderService } from 'src/app/service/shared-folder.service';
 import { DocumentInfo, FolderInfo, getSharedFolderInfoResponse, SharedFolderFilesInfoResponse, ValidationResponse } from 'src/app/model/folder.module';
+import { FolderService } from 'src/app/service/folder.service';
 
 @Component({
   selector: 'app-shared-folder',
@@ -16,13 +17,25 @@ export class SharedFolderComponent implements OnInit {
   password: string = '';
   errorMessage: string = '';
   documents: DocumentInfo[] = [];
-  folderId: string | null = null;
+  //folderId: string | null = null;
+  IsAllowUpload: boolean = false;
+  profileId!: number;
+  folderId!: number;
+  selectedFiles: File[] = [];
+  selectedFile: File | null = null;
+  imageUrl: string | null = null;
+  errorMsg = '';
+  allowedTypes = ['mp4', 'pdf', 'jpg', 'jpeg', 'png'];
+  progress = 0;
+  isLoading = false;
+
   constructor(
     private route: ActivatedRoute,
     private sharedFolderAccessService: SharedFolderAccessService,
     private toast: ToastService,
     private cookieService: CookieService,
     private sharedFolderService: SharedFolderService,
+    private folderService: FolderService
   ) {}
 
   ngOnInit() {
@@ -36,6 +49,10 @@ export class SharedFolderComponent implements OnInit {
       const folderInfo = this.getStoredFolderInfo();
       if (folderInfo && folderInfo.UniqueId === folderId && !!folderInfo.Password) {
         this.isLogedIn = true;
+        if (!this.IsAllowUpload){
+          this.getSharedFolderInfo(folderId);
+        }
+        
         this.getSharedFolderFilesInfo(folderInfo);
         return;
       } else {
@@ -43,6 +60,7 @@ export class SharedFolderComponent implements OnInit {
         this.getSharedFolderInfo(folderId);
       }
     });
+    
   }
 
   getSharedFolderInfo(folderId: string) {
@@ -51,7 +69,7 @@ export class SharedFolderComponent implements OnInit {
         .subscribe({
           next: (res: getSharedFolderInfoResponse) => {
             if (res && res.FolderInfo) {
-              
+              this.IsAllowUpload = res.FolderInfo.IsAllowUpload;
               this.storeSharedFolderInfo(res.FolderInfo);
               this.toast.show('Shared folder info retrieved successfully', 'success');
             } else {
@@ -122,7 +140,7 @@ export class SharedFolderComponent implements OnInit {
       };
       this.sharedFolderAccessService.validateSharedFolder(updatedFolderInfo)
         .subscribe((result: ValidationResponse) => {
-          if (result.IsSaved) {
+          if (result.IsSaved) {            
             // Store the validated folder info in cookies
             this.storeSharedFolderInfo(result.FolderInfo);
             
@@ -244,5 +262,108 @@ export class SharedFolderComponent implements OnInit {
   // TrackBy function for better performance
   trackByDocumentId(index: number, document: DocumentInfo): any {
     return document.DocumentId || document.FileName || index;
+  }
+
+  getDocuments() {
+    this.folderService.getDocuments(this.folderId)
+      .subscribe({
+        next: (res: any) => {
+          // If API returns an object with a property (e.g. DocumentList), use that
+          if (Array.isArray(res)) {
+            this.documents = res;
+          } else if (res && Array.isArray(res.DocumentList)) {
+            this.documents = res.DocumentList;
+          } else if (res && Array.isArray(res.FolderDocuments)) {
+            this.documents = res.FolderDocuments;
+          } else {
+            this.documents = [];
+          }
+        },
+        error: () => this.errorMsg = 'Failed to load documents.'
+      });
+  }
+
+
+  onFileSelected(event: any) {
+    // Clear any previous error messages
+    this.errorMsg = '';
+    this.selectedFiles = [];
+    this.selectedFile = null;
+    this.imageUrl = null;
+    const files: FileList = event.target.files;
+    if (files && files.length) {
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const ext = file.name.split('.').pop()?.toLowerCase();
+        if (!ext || !this.allowedTypes.includes(ext)) {
+          this.errorMsg = 'Only .mp4, .pdf, .jpg, .jpeg, .png files are allowed.';
+          continue;
+        }
+        this.selectedFiles.push(file);
+        // Only preview the first image file
+        if (!this.imageUrl && file.type.startsWith('image')) {
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            this.imageUrl = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+      // For backward compatibility, set selectedFile to first valid file
+      this.selectedFile = this.selectedFiles.length ? this.selectedFiles[0] : null;
+      if (!this.selectedFiles.length) {
+        this.imageUrl = null;
+      }
+    }
+  }
+
+  async uploadFiles() {
+    this.isLoading = true;
+    if (!this.selectedFiles || !this.selectedFiles.length) {
+      this.toast.show('No files selected.', 'error');
+      this.isLoading = false;
+      return;
+    }
+    this.errorMsg = '';
+    const folderInfo = this.getStoredFolderInfo();
+    for (const file of this.selectedFiles) {
+      // if (file.size > 50 * 1024 * 1024) {
+      //   // Use chunked upload for large files
+      //   try {
+      //     await this.folderService.sharedUploadDocuments(file, this.folderId, progress => {
+      //       this.progress = progress;
+      //     });
+      //     this.getDocuments();
+      //     this.toast.show(`Large file uploaded successfully: ${file.name}`, 'success');
+      //   } catch (err) {
+      //     this.toast.show(`Failed to upload large file: ${file.name}`, 'error');
+      //   }
+      // } else {
+        // Use sharedUploadDocuments for small files in shared folder context
+        await new Promise<void>((resolve, reject) => {
+          this.folderService.sharedUploadDocuments(folderInfo, [file])
+            .subscribe({
+              next: () => {
+                this.toast.show(`Upload successful: ${file.name}`, 'success');
+                this.getDocuments();
+                this.isLoading = false;
+                resolve();
+              },
+              error: (error) => {
+                console.error('Upload error:', error);
+                this.toast.show(`Failed to upload file: ${file.name}`, 'error');
+                this.isLoading = false;
+                reject(error);
+              }
+            });
+        });
+      }
+    //}
+    this.getDocuments();
+    this.selectedFiles = [];
+    this.imageUrl = null;
+    this.progress = 0;
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
   }
 }

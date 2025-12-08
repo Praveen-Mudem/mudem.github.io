@@ -3,24 +3,25 @@
   <div *ngIf="loading" class="text-center py-5">
     <span class="h5 text-muted">Loading folders...</span>
   </div>
-  
+
   <!-- Error State -->
   <div *ngIf="errorMsg" class="alert alert-danger">
     {{ errorMsg }}
   </div>
-  
+
   <!-- Folders Grid -->
   <div *ngIf="!loading && !errorMsg" class="row">
     <!-- Add New Folder Card -->
     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
-      <div class="add-folder-card d-flex flex-column align-items-center justify-content-center h-100" (click)="onAddFolder()">
+      <div class="add-folder-card d-flex flex-column align-items-center justify-content-center h-100"
+        (click)="onAddFolder()">
         <div class="add-folder-content text-center">
           <i class="bi bi-plus-circle add-icon mb-3"></i>
           <div class="add-text">Add New Folder</div>
         </div>
       </div>
     </div>
-    
+
     <!-- Folder Cards -->
     <div *ngFor="let folder of folderList" class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-4">
       <div class="folder-card h-100" (click)="onFolderCardClick(folder)">
@@ -32,41 +33,38 @@
             Shared
           </div>
         </div>
-        
+
         <div class="folder-body p-3">
           <h5 class="folder-name text-center mb-0">{{ folder.Name }}</h5>
         </div>
-        
+
         <div class="folder-actions p-3 d-flex gap-2 flex-wrap mt-auto" (click)="$event.stopPropagation()">
           <!-- Share button only if folder is not shared -->
-          <button *ngIf="!folder.ShareUrl || !folder.UniqueId" 
-                  class="btn action-btn btn-primary btn-sm flex-fill" 
-                  (click)="onShareFolder(folder)">
+          <button *ngIf="!folder.ShareUrl || !folder.UniqueId" class="btn action-btn btn-primary btn-sm flex-fill"
+            (click)="onShareFolder(folder)">
             <i class="bi bi-share me-1"></i>
             Share
           </button>
-          
+
           <!-- View Share Info button if folder is already shared -->
-          <button *ngIf="folder.ShareUrl && folder.UniqueId" 
-                  class="btn action-btn btn-info btn-sm flex-fill" 
-                  (click)="viewShareInfo(folder)">
+          <button *ngIf="folder.ShareUrl && folder.UniqueId" class="btn action-btn btn-info btn-sm flex-fill"
+            (click)="viewShareInfo(folder)">
             <i class="bi bi-info-circle me-1"></i>
             Info
           </button>
-          
+
           <!-- Remove Share button if folder is already shared -->
-          <button *ngIf="folder.ShareUrl && folder.UniqueId" 
-                  class="btn action-btn btn-warning btn-sm flex-fill" 
-                  (click)="removeShare(folder.FolderId)">
+          <button *ngIf="folder.ShareUrl && folder.UniqueId" class="btn action-btn btn-warning btn-sm flex-fill"
+            (click)="removeShare(folder.FolderId)">
             <i class="bi bi-x-circle me-1"></i>
             Unshare
           </button>
-          
+
           <button class="btn action-btn btn-primary btn-sm flex-fill" (click)="onEditFolder(folder)">
             <i class="bi bi-pencil me-1"></i>
             Edit
           </button>
-          
+
           <button class="btn action-btn btn-danger btn-sm flex-fill" (click)="onDeleteFolder(folder.FolderId)">
             <i class="bi bi-trash me-1"></i>
             Delete
@@ -84,7 +82,7 @@
       <i class="bi bi-share me-2"></i>
       Share Folder
     </h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="closeShareModal()">    
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeShareModal()">
     </button>
   </div>
   <div class="modal-body">
@@ -100,19 +98,21 @@
         <i class="bi bi-file-text me-2"></i>
         Description
       </label>
-      <textarea class="form-control" id="folderDescription" rows="3" [(ngModel)]="shareData.description" 
-                placeholder="Add a description for your shared folder..."></textarea>
+      <textarea class="form-control" id="folderDescription" rows="3" [(ngModel)]="shareData.description"
+        placeholder="Add a description for your shared folder..."></textarea>
     </div>
     <div class="mb-3">
       <label for="sharePassword" class="form-label">
         <i class="bi bi-shield-lock me-2"></i>
         Password <span class="text-danger">*</span>
       </label>
-      <input type="password" class="form-control" id="sharePassword" [(ngModel)]="shareData.password" 
-             placeholder="Enter a secure password (minimum 4 characters)" required>
-      <div class="form-text">
-        <i class="bi bi-info-circle me-1"></i>
-        This password will be required to access the shared folder.
+      <input type="password" class="form-control" id="sharePassword" [(ngModel)]="shareData.password"
+        placeholder="Enter a secure password (minimum 4 characters)" required>
+    </div>
+    <div class="mb-3">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="isAllowUpload" [(ngModel)]="shareData.IsAllowUpload">
+        <label class="form-check-label" for="isAllowUpload">Allow Upload</label>
       </div>
     </div>
   </div>
@@ -121,9 +121,9 @@
       <i class="bi bi-x-lg me-2"></i>
       Cancel
     </button>
-    <button type="button" class="btn btn-primary" 
-            [disabled]="!shareData.password || shareData.password.trim() === '' || shareData.password.trim().length < 4" 
-            (click)="confirmShare()">
+    <button type="button" class="btn btn-primary"
+      [disabled]="!shareData.password || shareData.password.trim() === '' || shareData.password.trim().length < 4"
+      (click)="confirmShare()">
       <i class="bi bi-share me-2"></i>
       Share Folder
     </button>
@@ -153,7 +153,8 @@
         <i class="bi bi-file-text me-2"></i>
         Description
       </label>
-      <textarea class="form-control" id="viewFolderDescription" rows="3" [value]="viewShareData.description" readonly></textarea>
+      <textarea class="form-control" id="viewFolderDescription" rows="3" [value]="viewShareData.description"
+        readonly></textarea>
     </div>
     <div class="mb-4">
       <label for="viewShareLink" class="form-label">
@@ -163,7 +164,7 @@
       <div class="input-group">
         <input type="text" class="form-control" id="viewShareLink" [value]="viewShareData.shareUrl" readonly>
         <button class="btn btn-outline-secondary" type="button" (click)="copyToClipboard(viewShareData.shareUrl)"
-                title="Copy share link">
+          title="Copy share link">
           <i class="bi bi-clipboard"></i>
         </button>
       </div>
@@ -174,22 +175,29 @@
         Password
       </label>
       <div class="input-group">
-        <input [type]="showPassword ? 'text' : 'password'" class="form-control" id="viewPassword" [value]="viewShareData.password" readonly>
+        <input [type]="showPassword ? 'text' : 'password'" class="form-control" id="viewPassword"
+          [value]="viewShareData.password" readonly>
         <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility()"
-                [title]="showPassword ? 'Hide password' : 'Show password'">
+          [title]="showPassword ? 'Hide password' : 'Show password'">
           <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
         </button>
         <button class="btn btn-outline-secondary" type="button" (click)="copyToClipboard(viewShareData.password)"
-                title="Copy password">
+          title="Copy password">
           <i class="bi bi-clipboard"></i>
         </button>
       </div>
     </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="closeViewShareModal()">
-      <i class="bi bi-x-lg me-2"></i>
-      Close
-    </button>
+    <div class="mb-3">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="isAllowUpload" [(ngModel)]="viewShareData.IsAllowUpload" disabled>
+        <label class="form-check-label" for="isAllowUpload">Allow Upload</label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeViewShareModal()">
+        <i class="bi bi-x-lg me-2"></i>
+        Close
+      </button>
+    </div>
   </div>
 </ng-template>

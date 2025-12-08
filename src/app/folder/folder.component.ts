@@ -26,13 +26,15 @@ export class FolderComponent implements OnInit {
     folderId: 0,
     name: '',
     description: '',
-    password: ''
+    password: '',
+    IsAllowUpload: false
   };
   viewShareData = {
     name: '',
     description: '',
     shareUrl: '',
-    password: ''
+    password: '',
+    IsAllowUpload: false
   };
   showPassword = false;
 
@@ -94,7 +96,8 @@ export class FolderComponent implements OnInit {
       folderId: folder.FolderId,
       name: folder.Name,
       description: folder.Description || '',
-      password: ''
+      password: '',
+      IsAllowUpload: folder.IsAllowUpload || false
     };
     this.modalRef = this.modalService.show(this.shareModal, {
       class: 'modal-md',
@@ -109,7 +112,8 @@ export class FolderComponent implements OnInit {
       folderId: 0,
       name: '',
       description: '',
-      password: ''
+      password: '',
+      IsAllowUpload: false
     };
   }
 
@@ -118,7 +122,8 @@ export class FolderComponent implements OnInit {
       name: folder.Name,
       description: folder.Description || '',
       shareUrl: folder.ShareUrl,
-      password: folder.Password
+      password: folder.Password,
+      IsAllowUpload: folder.IsAllowUpload || false
     };
     this.showPassword = false;
     this.modalRef = this.modalService.show(this.viewShareModal, {
@@ -134,7 +139,8 @@ export class FolderComponent implements OnInit {
       name: '',
       description: '',
       shareUrl: '',
-      password: ''
+      password: '',
+      IsAllowUpload: false
     };
     this.showPassword = false;
   }
@@ -161,7 +167,8 @@ export class FolderComponent implements OnInit {
       FolderId: this.shareData.folderId,
       Name: this.shareData.name,
       Description: this.shareData.description,
-      Password: this.shareData.password
+      Password: this.shareData.password,
+      IsAllowUpload: this.shareData.IsAllowUpload
     };
 
     this.folderService.shareFolderInfo(shareRequest).subscribe({
