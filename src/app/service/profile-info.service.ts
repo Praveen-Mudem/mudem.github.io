@@ -21,7 +21,7 @@ export class ProfileInfoService {
 
     
 
-	generateNewToken(): Observable<{ Value: string, Result: string  }> {
-		return this.http.post<{ Value: string, Result: string }>(`${this.baseUrl}/generateNewToken`, {});
+	generateNewToken(payload:{ Key: string }) {
+		return this.http.post(`${this.baseUrl}/generateNewToken`, payload);
 	}
 }

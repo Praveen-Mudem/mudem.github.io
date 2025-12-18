@@ -11,10 +11,10 @@ import { ToastService } from '../../service/toast.service';
   styleUrls: ['./profile-info-add-edit.component.scss']
 })
 export class ProfileInfoAddEditComponent implements OnInit {
-    localSessionToken: string = '';
-    sourceIdToken: string = '';
-    targetIdToken: string = '';
-    applicationToken: string = '';
+  localSessionToken: string = '';
+  sourceIdToken: string = '';
+  targetIdToken: string = '';
+  applicationToken: string = '';
   @Input() profile: Profile = { ProfileId: 0, Name: '', DateOfBirth: '' };
   @Input() isEdit: boolean = false;
   @Output() save = new EventEmitter<Profile>();
@@ -24,7 +24,7 @@ export class ProfileInfoAddEditComponent implements OnInit {
     private profileService: ProfileService,
     private toast: ToastService,
     private router: Router,
-    private profileInfoService: ProfileInfoService
+    private profileInfoService: ProfileInfoService,
   ) {
     const nav = this.router.getCurrentNavigation();
     if (nav?.extras.state) {
@@ -44,7 +44,6 @@ export class ProfileInfoAddEditComponent implements OnInit {
         this.localSessionToken = res.UserInfo.LocalSession;
         this.sourceIdToken = res.UserInfo.SourceId;
         this.targetIdToken = res.UserInfo.TargetId;
-        this.toast.show('Overview info loaded.', 'success');
       },
       error: () => {
         this.toast.show('Failed to load overview info.', 'error');
@@ -63,17 +62,21 @@ export class ProfileInfoAddEditComponent implements OnInit {
   }
 
 
-  refreshToken(showToast: boolean = true) {
-    this.profileInfoService.generateNewToken().subscribe({
-      next: (res) => {
-        const token = res?.Result || '';
-        this.localSessionToken = token;
-        this.sourceIdToken = token;
-        this.targetIdToken = token;
-        if (showToast) this.toast.show(`Tokens refreshed.`, 'success');
+  refreshToken(value: string) {
+    const payload = {
+      Key: value
+    };
+
+    this.profileInfoService.generateNewToken(payload).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        if (res.Result !== '') {
+          this.toast.show(`Tokens refreshed.`, 'success');
+          this.getMyOverviewInfo()
+        }
       },
       error: () => {
-        if (showToast) this.toast.show(`Failed to refresh tokens.`, 'error');
+        this.toast.show(`Failed to refresh tokens.`, 'error');
       }
     });
   }
@@ -109,4 +112,13 @@ export class ProfileInfoAddEditComponent implements OnInit {
     this.cancel.emit();
     this.router.navigate(['/profile']);
   }
+
+  copyToken(value: string): void {
+    if (!value) return;
+
+    navigator.clipboard.writeText(value);
+    this.toast.show('Copied!');
+  }
+
+
 }
