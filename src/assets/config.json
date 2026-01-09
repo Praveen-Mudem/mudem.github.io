@@ -1,5 +1,5 @@
 {
-    "BASE_URL": "http://localhost/MAPI/",
-    "UPLOAD_BASE_URL": "http://localhost:9090/",
-    "GET_UPLOAD_BASE_URL": "http://localhost:9090/ReportFiles/"
+    "BASE_URL": "https://api.mudem.dk/",
+    "UPLOAD_BASE_URL": "https://api.mudem.dk/",
+    "GET_UPLOAD_BASE_URL": "https://api.mudem.dk/ReportFiles/"
 }
