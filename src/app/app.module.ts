@@ -19,6 +19,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { DashboardHeaderComponent } from './layout/dashboard-header/dashboard-header.component';
 import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
 import { SharedFolderComponent } from './shared/shared-folder-access/shared-folder.component';
+import { SharedModule } from "./shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -44,11 +45,12 @@ import { SharedFolderComponent } from './shared/shared-folder-access/shared-fold
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
-      positionClass: 'toast-top-right',
-      timeOut: 3000,
-      toastClass: 'ngx-toastr custom-toastr'
-    })
-  ],
+        positionClass: 'toast-top-right',
+        timeOut: 3000,
+        toastClass: 'ngx-toastr custom-toastr'
+    }),
+    SharedModule
+],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],

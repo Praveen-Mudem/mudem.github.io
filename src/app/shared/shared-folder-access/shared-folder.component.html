@@ -244,7 +244,7 @@
 
         <!-- PDF Viewer -->
         <div *ngIf="selectedDocument && isPdfFile(selectedDocument.FileType)" class="pdf-viewer">
-          <iframe [src]="selectedDocument.Filepath" class="preview-pdf" frameborder="0">
+          <iframe [src]="selectedDocument.Filepath | safeUrl" width="100%" height="500px" style="min-height:60vh;">
             Your browser does not support PDF viewing.
           </iframe>
         </div>
