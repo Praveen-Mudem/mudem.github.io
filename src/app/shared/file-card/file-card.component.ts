@@ -1,4 +1,6 @@
+  
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+
 
 @Component({
   selector: 'app-file-card',
@@ -8,6 +10,16 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class FileCardComponent {
   @Input() document: any;
   @Output() delete = new EventEmitter<any>();
+
+  showModal = false;
+
+  openModal() {
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
+  }
 
   onDelete() {
     this.delete.emit(this.document);

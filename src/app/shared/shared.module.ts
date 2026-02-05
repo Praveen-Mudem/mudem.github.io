@@ -5,13 +5,15 @@ import { FileViewerComponent } from './file-viewer/file-viewer.component';
 import { FileCardComponent } from './file-card/file-card.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { SharedFolderComponent } from './shared-folder-access/shared-folder.component';
+import { SafeUrlPipe } from '../pipes/safe-url.pipe';
 
 @NgModule({
   declarations: [
     FileViewerComponent,
     FileCardComponent,
     ConfirmDialogComponent,
-    // SharedFolderComponent
+    SafeUrlPipe,
+    SharedFolderComponent
   ],
   imports: [
     CommonModule,
@@ -21,7 +23,8 @@ import { SharedFolderComponent } from './shared-folder-access/shared-folder.comp
     FileViewerComponent,
     FileCardComponent,
     ConfirmDialogComponent,
-    // SharedFolderComponent
+    SafeUrlPipe,
+    SharedFolderComponent
   ]
 })
 export class SharedModule { }

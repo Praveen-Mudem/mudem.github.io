@@ -7,16 +7,20 @@ import { FolderComponent } from './folder.component';
 import { FolderRoutingModule } from './folder-routing.module';
 import { FolderAddEditComponent } from './folder-add-edit/folder-add-edit.component';
 import { FolderDocumentsComponent } from './folder-documents/folder-documents.component';
-import { FileCardComponent } from '../shared/file-card/file-card.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  declarations: [FolderComponent, FolderAddEditComponent, FolderDocumentsComponent, FileCardComponent],
+  declarations: [FolderComponent, FolderAddEditComponent, FolderDocumentsComponent],
   imports: [
-    CommonModule, 
-    FormsModule, 
-    ReactiveFormsModule, 
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     FolderRoutingModule,
-    ModalModule.forRoot()
-  ]
+    RouterModule,
+    ModalModule.forRoot(),
+    SharedModule
+]
 })
-export class FolderModule {}
+export class FolderModule {
+
+}

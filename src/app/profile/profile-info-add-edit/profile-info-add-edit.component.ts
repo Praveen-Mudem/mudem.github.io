@@ -44,9 +44,6 @@ export class ProfileInfoAddEditComponent implements OnInit {
         this.localSessionToken = res.UserInfo.LocalSession;
         this.sourceIdToken = res.UserInfo.SourceId;
         this.targetIdToken = res.UserInfo.TargetId;
-      },
-      error: () => {
-        this.toast.show('Failed to load overview info.', 'error');
       }
     });
   }
