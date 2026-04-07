@@ -4,6 +4,7 @@ import { FolderService } from '../../service/folder.service';
 import { LoginService } from '../../service/login.service';
 import { ToastService } from '../../service/toast.service';
 import { ConfirmDialogService } from '../../service/confirm-dialog.service';
+import { DocumentInfo } from 'src/app/model/folder.module';
 
 @Component({
   selector: 'app-folder-documents',
@@ -13,7 +14,7 @@ import { ConfirmDialogService } from '../../service/confirm-dialog.service';
 export class FolderDocumentsComponent implements OnInit {
   folderId!: number;
   profileId!: number;
-  documents: any[] = [];
+  //documents: any[] = [];
   selectedFiles: File[] = [];
   selectedFile: File | null = null;
   imageUrl: string | null = null;
@@ -21,6 +22,7 @@ export class FolderDocumentsComponent implements OnInit {
   allowedTypes = ['mp4', 'pdf', 'jpg', 'jpeg', 'png'];
   progress = 0;
   isLoading = false;
+  documents: DocumentInfo[] = [];
 
   constructor(
     private folderService: FolderService,
@@ -165,6 +167,19 @@ export class FolderDocumentsComponent implements OnInit {
     }
   }
 
+  // New method to download file
+    downloadDocument(document: DocumentInfo) {
+      if (document?.Filepath) {
+        const link = window.document.createElement('a');
+        link.href = document.Filepath;
+        link.download = document.FileName || 'download';
+        link.target = '_blank';
+        window.document.body.appendChild(link);
+        link.click();
+        window.document.body.removeChild(link);
+      }
+    }
+    
   // Helper methods to check file types
   isImageFile(fileType: string): boolean {
     const imageTypes = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp'];

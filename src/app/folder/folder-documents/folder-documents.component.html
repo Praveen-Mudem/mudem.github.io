@@ -38,7 +38,7 @@
     
     <!-- Document Cards -->
     <div class="col-12 col-lg-3 col-md-4 col-sm-6 pb-4" *ngFor="let doc of documents">
-      <app-file-card [document]="doc" (delete)="deleteDocument($event)"></app-file-card>
+      <app-file-card [document]="doc" (delete)="deleteDocument($event)" (download)="downloadDocument(doc)"></app-file-card>
     </div>
   </div>
 </div>

@@ -8,9 +8,14 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class FileCardComponent {
   @Input() document: any;
   @Output() delete = new EventEmitter<any>();
+  @Output() download = new EventEmitter<any>();
 
   onDelete() {
     this.delete.emit(this.document);
+  }
+
+  onDownload() {
+    this.download.emit(this.document);
   }
 
   isImageFile(fileType: string): boolean {

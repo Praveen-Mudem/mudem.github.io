@@ -45,9 +45,9 @@ export class ProfileInfoAddEditComponent implements OnInit {
         this.sourceIdToken = res.UserInfo.SourceId;
         this.targetIdToken = res.UserInfo.TargetId;
       },
-      error: () => {
-        this.toast.show('Failed to load overview info.', 'error');
-      }
+      // error: () => {
+      //   this.toast.show('Failed to load overview info.', 'error');
+      // }
     });
   }
   loadApplicationToken() {
@@ -55,9 +55,9 @@ export class ProfileInfoAddEditComponent implements OnInit {
       next: (res) => {
         this.applicationToken = res?.ResultInfo?.Result || '';
       },
-      error: () => {
-        this.toast.show('Failed to load application token.', 'error');
-      }
+      // error: () => {
+      //   this.toast.show('Failed to load application token.', 'error');
+      // }
     });
   }
 
@@ -75,9 +75,9 @@ export class ProfileInfoAddEditComponent implements OnInit {
           this.getMyOverviewInfo()
         }
       },
-      error: () => {
-        this.toast.show(`Failed to refresh tokens.`, 'error');
-      }
+      // error: () => {
+      //   this.toast.show(`Failed to refresh tokens.`, 'error');
+      // }
     });
   }
   onSubmit() {

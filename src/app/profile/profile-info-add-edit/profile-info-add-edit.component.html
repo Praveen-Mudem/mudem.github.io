@@ -14,43 +14,59 @@
           <label class="form-label">Date of Birth</label>
           <input type="date" class="form-control" [(ngModel)]="profile.DateOfBirth" name="dob" />
         </div>
-        <!-- Token Field 1: LocalSession -->
-        <div class="mb-3 input-group">
-          <input type="text" class="form-control" [value]="localSessionToken" readonly />
-          <button class="btn btn-outline-secondary" type="button" (click)="refreshToken('LocalSession')">
-            <i class="bi bi-arrow-clockwise"></i>
-          </button>
-          <button class="btn btn-outline-secondary" type="button" (click)="copyToken(applicationToken)">
-            <i class="bi bi-clipboard"></i>
-          </button>
+
+        <div class="mb-3">
+          <label class="form-label">LocalSession</label>
+          <!-- Token Field 1: LocalSession -->
+          <div class="input-group">
+            <input type="text" class="form-control" [value]="localSessionToken" readonly />
+            <button class="btn btn-outline-secondary" type="button" (click)="refreshToken('LocalSession')">
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+            <button class="btn btn-outline-secondary" type="button" (click)="copyToken(applicationToken)">
+              <i class="bi bi-clipboard"></i>
+            </button>
+          </div>
         </div>
-        <!-- Token Field 2: SourceId -->
-        <div class="mb-3 input-group">
-          <input type="text" class="form-control" [value]="sourceIdToken" readonly />
-          <button class="btn btn-outline-secondary" type="button" (click)="refreshToken('SourceId')">
-            <i class="bi bi-arrow-clockwise"></i>
-          </button>
-          <button class="btn btn-outline-secondary" type="button" (click)="copyToken(applicationToken)">
-            <i class="bi bi-clipboard"></i>
-          </button>
+        <div class="mb-3">
+          <label class="form-label">SourceId</label>
+          <!-- Token Field 2: SourceId -->
+          <div class="input-group">
+            <input type="text" class="form-control" [value]="sourceIdToken" readonly />
+            <button class="btn btn-outline-secondary" type="button" (click)="refreshToken('SourceId')">
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+            <button class="btn btn-outline-secondary" type="button" (click)="copyToken(applicationToken)">
+              <i class="bi bi-clipboard"></i>
+            </button>
+          </div>
         </div>
-        <!-- Token Field 3: TargetId -->
-        <div class="mb-3 input-group">
-          <input type="text" class="form-control" [value]="targetIdToken" readonly />
-          <button class="btn btn-outline-secondary" type="button" (click)="refreshToken('TargetId')">
-            <i class="bi bi-arrow-clockwise"></i>
-          </button>
-          <button class="btn btn-outline-secondary" type="button" (click)="copyToken(applicationToken)">
-            <i class="bi bi-clipboard"></i>
-          </button>
+        <div class="mb-3">
+          <label class="form-label">TargetId</label>
+          <!-- Token Field 3: TargetId -->
+          <div class="input-group">
+            <input type="text" class="form-control" [value]="targetIdToken" readonly />
+            <button class="btn btn-outline-secondary" type="button" (click)="refreshToken('TargetId')">
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+            <button class="btn btn-outline-secondary" type="button" (click)="copyToken(applicationToken)">
+              <i class="bi bi-clipboard"></i>
+            </button>
+          </div>
         </div>
-        <!-- Token Field 4: ApplicationToken (no refresh) -->
-        <div class="mb-3 input-group">
-          <input type="text" class="form-control" [value]="applicationToken" readonly />
-          <button class="btn btn-outline-secondary" type="button" (click)="copyToken(applicationToken)">
-            <i class="bi bi-clipboard"></i>
-          </button>
+        <div class="mb-3">
+          <label class="form-label">ApplicationToken</label>
+          <!-- Token Field 4: ApplicationToken (no refresh) -->
+          <div class="input-group">
+            <input type="text" class="form-control" [value]="applicationToken" readonly />
+            <button class="btn btn-outline-secondary" type="button" (click)="copyToken(applicationToken)">
+              <i class="bi bi-clipboard"></i>
+            </button>
+          </div>
         </div>
+
+
+
         <div class="text-end">
           <button type="submit" class="btn btn-success me-2" [disabled]="profileForm.invalid">{{ isEdit ? 'Update' :
             'Add'

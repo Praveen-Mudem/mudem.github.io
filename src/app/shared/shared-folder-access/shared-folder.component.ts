@@ -28,6 +28,8 @@ export class SharedFolderComponent implements OnInit {
   allowedTypes = ['mp4', 'pdf', 'jpg', 'jpeg', 'png'];
   progress = 0;
   isLoading = false;
+  folderName: string = '';
+  folderDescription: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -70,6 +72,8 @@ export class SharedFolderComponent implements OnInit {
           next: (res: getSharedFolderInfoResponse) => {
             if (res && res.FolderInfo) {
               this.IsAllowUpload = res.FolderInfo.IsAllowUpload;
+              this.folderName = res.FolderInfo.Name;
+              this.folderDescription = res.FolderInfo.Description;
               this.storeSharedFolderInfo(res.FolderInfo);
               this.toast.show('Shared folder info retrieved successfully', 'success');
             } else {
@@ -126,7 +130,7 @@ export class SharedFolderComponent implements OnInit {
     this.password = '';
     this.errorMessage = '';
     this.documents = [];
-    
+    window.location.reload();
     this.toast.show('Logged out successfully', 'success');
     console.log('Cleared stored folder info and reset component state');
   }
