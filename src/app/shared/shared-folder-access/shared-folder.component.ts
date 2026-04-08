@@ -71,7 +71,7 @@ export class SharedFolderComponent implements OnInit {
         .subscribe({
           next: (res: getSharedFolderInfoResponse) => {
             if (res && res.FolderInfo) {
-              this.IsAllowUpload = res.FolderInfo.IsAllowUpload;
+              this.IsAllowUpload = res.FolderInfo.IsAllowUpload ?? false;
               this.folderName = res.FolderInfo.Name;
               this.folderDescription = res.FolderInfo.Description;
               this.storeSharedFolderInfo(res.FolderInfo);
@@ -147,15 +147,14 @@ export class SharedFolderComponent implements OnInit {
           if (result.IsSaved) {            
             // Store the validated folder info in cookies
             this.storeSharedFolderInfo(result.FolderInfo);
-            
             // Set login status to true
             this.isLogedIn = true;
-            this.getSharedFolderFilesInfo(result.FolderInfo);
+            if (result.FolderInfo) {
+              this.getSharedFolderFilesInfo(result.FolderInfo);
+            }
             this.toast.show('Shared folder accessed successfully', 'success');
-            
             // Clear the password field
             this.password = '';
-            
             console.log('Folder validated and stored:', result.FolderInfo);
           } else {
             this.toast.show(result.ErrorMessage || 'Invalid password for shared folder', 'error');
