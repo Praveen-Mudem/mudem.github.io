@@ -11,6 +11,7 @@ import { ToastService } from '../../service/toast.service';
   styleUrls: ['./profile-info-add-edit.component.scss']
 })
 export class ProfileInfoAddEditComponent implements OnInit {
+  fileCopyToken: string = '';
   localSessionToken: string = '';
   sourceIdToken: string = '';
   targetIdToken: string = '';
@@ -36,6 +37,18 @@ export class ProfileInfoAddEditComponent implements OnInit {
   ngOnInit(): void {
     this.getMyOverviewInfo();
     this.loadApplicationToken();
+    this.getFileCopyToken();
+  }
+
+  getFileCopyToken() {
+    this.profileInfoService.getFileCopyTokenInfo().subscribe({
+      next: (res: any) => {
+        this.fileCopyToken = res?.Result || '';
+      },
+      error: () => {
+        this.fileCopyToken = 'Error fetching token';
+      }
+    });
   }
 
   getMyOverviewInfo() {
@@ -60,7 +73,6 @@ export class ProfileInfoAddEditComponent implements OnInit {
       // }
     });
   }
-
 
   refreshToken(value: string) {
     const payload = {

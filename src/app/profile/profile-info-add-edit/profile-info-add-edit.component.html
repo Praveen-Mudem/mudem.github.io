@@ -64,6 +64,16 @@
             </button>
           </div>
         </div>
+        <div class="mb-3">
+          <label class="form-label">TokenUrl</label>
+          <!-- Token Field 5: TokenUrl (fetched from API, textarea) -->
+          <div class="input-group">
+            <textarea class="form-control" rows="3" readonly>{{ fileCopyToken }}</textarea>
+            <button class="btn btn-outline-secondary" type="button" (click)="getFileCopyToken()">
+              <i class="bi bi-arrow-clockwise"></i>
+            </button>
+          </div>
+        </div>
 
 
 
