@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/259fa2ef-e289-4248-afa0-f2bd6634fdd0/resourceGroups/Angular/providers/Microsoft.Web/sites/MPKUI",
+    "appService.deploySubpath": "docs"
+}
