@@ -1,5 +1,5 @@
 {
-    "BASE_URL": "https://api.mudem.dk/",
-    "UPLOAD_BASE_URL": "https://api.mudem.dk/",
-    "GET_UPLOAD_BASE_URL": "https://api.mudem.dk/ReportFiles/"
+    "BASE_URL": "https://mpkapi-c6d0cbaqa7byf0bz.centralus-01.azurewebsites.net/",
+    "UPLOAD_BASE_URL": "https://mpkapi-c6d0cbaqa7byf0bz.centralus-01.azurewebsites.net/",
+    "GET_UPLOAD_BASE_URL": "https://mpkapi-c6d0cbaqa7byf0bz.centralus-01.azurewebsites.net/ReportFiles/"
 }
