@@ -1,0 +1,40 @@
+.container{
+    width: 100%;
+    max-width: 450px;
+    min-width: 350px;
+    // Most styling will be handled by Bootstrap classes in HTML
+}
+.form-control {
+    &:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    }
+}
+
+.btn {
+    &.btn-primary {
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        border: none;
+
+        &:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+    }
+
+    &.btn-outline-primary {
+        &:hover {
+            transform: translateY(-1px);
+        }
+    }
+
+    &.btn-success {
+        background: linear-gradient(45deg, #28a745, #1e7e34);
+        border: none;
+
+        &:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+        }
+    }
+}

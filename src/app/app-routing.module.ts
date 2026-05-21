@@ -19,6 +19,10 @@ const routes: Routes = [
     loadChildren: () => import('./components/about/about.module').then(m => m.AboutModule)
   },
   {
+    path: "contact",
+    loadChildren: () => import('./components/contactus/contactus.module').then(m => m.ContatusModule)
+  },
+  {
     path: 'login',
     loadChildren: () => import('./components/login/login.module').then(m => m.LoginModule),
     canActivate: [LoginRedirectGuard]

@@ -1,10 +1,12 @@
-<div class="container mt-5"> 
+<div class="container d-flex justify-content-around pb-4"> 
 
-    <div class="top-content-section text-center">
+    <!-- <div class="top-content-section text-center">
         <h1>Contact Us</h1>
-    </div>
+    </div> -->
 
-    <div class="overflow-hiden mt-4 mb-2">
+    <div class="container bg-light p-4 rounded shadow-sm">
+        <div>
+        <h4 class="text-center mb-4 fw-semibold">Contact me</h4>
         <form (submit)="sendMail()">
             <div class="row pb-3">
                 <div class="col-md">
@@ -14,7 +16,6 @@
                         <label for="inputName">Your Name</label>
                     </div>
                 </div>
-
                 <div class="col-md">
                     <div class="form-floating">
                         <input type="text" class="form-control" id="inputSurname" name="Surname"
@@ -34,12 +35,11 @@
                 </div>
             </div>
             <div class="row pb-3">
-
                 <div class="col-md">
                     <div class="form-floating">
                         <input type="text" class="form-control" name="CountryCode"
                             [(ngModel)]="commonSer.ContactViewInfo.ContactInfo.CountryCode" id="inputCountryCode"
-                            placeholder="+91">
+                            placeholder="+45">
                         <label for="inputCountryCode">Your CountryCode</label>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                     <div class="form-floating">
                         <input type="text" class="form-control" name="MobileNo"
                             [(ngModel)]="commonSer.ContactViewInfo.ContactInfo.MobileNo" id="inputMobileNo"
-                            placeholder="0123456789">
+                            placeholder="12345678">
                         <label for="inputEMail">Your MobileNo</label>
 
                     </div>
@@ -63,5 +63,6 @@
                 <button class="btn btn-primary w-25 h-15" type="submit">Send</button>
             </div>
         </form>
+        </div>
     </div>
 </div>
